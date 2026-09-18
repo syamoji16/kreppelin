@@ -2,917 +2,902 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>NEURO KREPELIN</title>
 
 <style>
 *{
   box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  min-height:100%;
+  user-select:none;
 }
 
 body{
+  margin:0;
   min-height:100vh;
-  overflow-x:hidden;
   color:#fff;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
-
-  background:
-    radial-gradient(circle at 15% 15%,#ff00cc55,transparent 28%),
-    radial-gradient(circle at 85% 25%,#00eaff55,transparent 30%),
-    radial-gradient(circle at 50% 100%,#7b2cff55,transparent 40%),
-    #080018;
-}
-
-body.playing{
-  animation:bgMove 5s linear infinite alternate;
-}
-
-@keyframes bgMove{
-  0%{background-position:0 0}
-  100%{background-position:100% 100%}
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-.container{
-  width:min(1100px,96%);
-  margin:auto;
-  padding:18px 0 35px;
-}
-
-/* TITLE */
-
-.title{
   text-align:center;
-  font-size:clamp(34px,7vw,70px);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(135deg,#080a14,#15102b,#071923,#190b20);
+  background-size:400% 400%;
+  animation:bg 12s ease infinite;
+  overflow-x:hidden;
+}
+
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+header{
+  padding:20px 10px 8px;
+}
+
+h1{
+  margin:0;
+  font-size:31px;
+  letter-spacing:4px;
   font-weight:1000;
-  letter-spacing:3px;
-  line-height:1;
-  background:
-    linear-gradient(
-      90deg,
-      #ff00cc,
-      #ffe600,
-      #00ffff,
-      #7b5cff,
-      #ff00cc
-    );
-  background-size:300% auto;
+  background:linear-gradient(
+    90deg,
+    #00eaff,
+    #ff4fd8,
+    #ffe600,
+    #00ff9d
+  );
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-  animation:rainbow 3s linear infinite;
-  text-shadow:none;
+  background-size:300% 100%;
+  animation:rainbow 4s linear infinite;
 }
 
 @keyframes rainbow{
   to{
-    background-position:300% center;
+    background-position:300% 0;
   }
 }
 
 .subtitle{
-  text-align:center;
-  margin-top:9px;
-  font-size:14px;
-  font-weight:900;
-  letter-spacing:3px;
-  opacity:.75;
+  color:#aeb5cc;
+  font-size:13px;
+  margin-top:3px;
 }
 
-/* TOP */
-
-.top{
+#topControls{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:20px 0 14px;
-}
-
-.time-btn{
-  border:0;
-  color:#fff;
-  font-size:17px;
-  font-weight:1000;
-  padding:11px 24px;
-  border-radius:17px;
-  background:linear-gradient(135deg,#6d35ff,#00cfff);
-  box-shadow:
-    0 0 18px #00cfff66,
-    inset 0 0 10px #ffffff22;
-}
-
-.time-btn.active{
-  transform:scale(1.08);
-  box-shadow:
-    0 0 28px #fff8,
-    0 0 50px #00cfff66;
-}
-
-.start-btn{
-  border:0;
-  color:#fff;
-  font-size:18px;
-  font-weight:1000;
-  padding:12px 27px;
-  border-radius:17px;
-  background:linear-gradient(135deg,#ff008c,#ff8a00);
-  box-shadow:
-    0 0 25px #ff008c88,
-    inset 0 0 10px #ffffff22;
-}
-
-.start-btn:active,
-.time-btn:active{
-  transform:scale(.96);
-}
-
-/* STATS */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
   gap:8px;
-  margin-bottom:14px;
+  flex-wrap:wrap;
+  margin:12px 10px;
+}
+
+button{
+  cursor:pointer;
+}
+
+.timeButton,
+.startButton,
+.shopButton{
+  border:0;
+  border-radius:15px;
+  padding:11px 18px;
+  color:#fff;
+  font-weight:1000;
+  transition:.15s;
+  box-shadow:0 8px 25px #0004;
+}
+
+.timeButton{
+  background:#20263b;
+}
+
+.timeButton.active{
+  background:linear-gradient(135deg,#00cfff,#7b2cff);
+  box-shadow:0 0 24px #7b2cff77;
+}
+
+.startButton{
+  background:linear-gradient(135deg,#ff008c,#7b2cff);
+  font-size:16px;
+}
+
+.shopButton{
+  background:linear-gradient(135deg,#ffb300,#ff4f81);
+}
+
+button:active{
+  transform:scale(.94);
+}
+
+#pointsTop{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  background:#141827;
+  border:1px solid #ffffff18;
+  border-radius:14px;
+  padding:9px 14px;
+  font-weight:1000;
+  color:#ffd84d;
+}
+
+#stats{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:10px auto;
 }
 
 .stat{
-  text-align:center;
-  padding:8px 4px;
-  border-radius:15px;
-  background:#ffffff0e;
-  border:1px solid #ffffff22;
-  backdrop-filter:blur(8px);
+  background:#141827dd;
+  border-radius:13px;
+  padding:7px 13px;
+  min-width:78px;
+  border:1px solid #ffffff0d;
 }
 
-.stat-label{
+.stat small{
+  display:block;
+  color:#8991a8;
   font-size:10px;
-  font-weight:900;
-  opacity:.6;
-  letter-spacing:1px;
 }
 
-.stat-value{
-  margin-top:2px;
-  font-size:23px;
-  font-weight:1000;
+.stat strong{
+  font-size:19px;
 }
 
-/* GAME */
-
-.game{
-  position:relative;
-  padding:18px;
-  border-radius:28px;
-  background:#00000035;
-  border:1px solid #ffffff22;
-  box-shadow:0 0 45px #0008;
+#timerBar{
+  width:min(760px,90%);
+  height:8px;
+  margin:10px auto;
+  background:#202437;
+  border-radius:10px;
   overflow:hidden;
 }
 
-.question-area{
-  min-height:210px;
+#timer{
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    #00eaff,
+    #ff3dbb,
+    #ffe600
+  );
+  transition:width .1s linear;
+}
+
+#game{
+  max-width:1000px;
+  margin:auto;
+  padding:5px 14px 25px;
   position:relative;
+}
+
+#scoreLine{
+  font-weight:1000;
+  font-size:18px;
+  color:#ffd84d;
+  margin:5px;
+}
+
+#combo{
+  min-height:45px;
+  font-size:27px;
+  font-weight:1000;
+  transition:transform .12s;
+  text-shadow:0 0 15px #fff5;
+}
+
+#streakMsg{
+  height:30px;
+  font-size:18px;
+  font-weight:1000;
+  opacity:0;
+  transition:.15s;
+}
+
+#streakMsg.show{
+  opacity:1;
+  transform:scale(1.15);
+}
+
+/* =========================
+   QUESTION
+========================= */
+
+#questionArea{
+  min-height:150px;
   display:flex;
   align-items:center;
   justify-content:center;
-}
-
-.question-track{
   position:relative;
-  width:100%;
-  height:160px;
-  overflow:hidden;
+  margin:5px auto 0;
+  max-width:850px;
 }
 
-.question{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  white-space:nowrap;
-
-  font-size:clamp(55px,12vw,110px);
-  line-height:1;
+#question{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  font-size:72px;
   font-weight:1000;
-
-  text-shadow:
-    0 0 10px #fff,
-    0 0 25px #00eaff,
-    0 0 50px #7b2cff;
+  line-height:1;
+  white-space:nowrap;
+  text-shadow:0 0 20px #ffffff22;
 }
 
-.question-slide-out{
-  animation:questionOut .28s ease-in forwards;
+.qpart{
+  display:inline-block;
 }
 
-.question-slide-in{
-  animation:questionIn .28s ease-out forwards;
+#qOperator{
+  display:inline-block;
 }
 
-@keyframes questionOut{
+.joinIn{
+  animation:joinIn .35s cubic-bezier(.2,.9,.2,1);
+}
+
+@keyframes joinIn{
   from{
-    left:50%;
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
-
-  to{
-    left:-50%;
+    transform:translateX(90px);
     opacity:0;
-    transform:translate(-50%,-50%) scale(.7);
+  }
+  to{
+    transform:translateX(0);
+    opacity:1;
   }
 }
 
-@keyframes questionIn{
-  from{
-    left:110%;
-    opacity:0;
-    transform:translate(-50%,-50%) scale(.7);
-  }
+/* =========================
+   NEXT
+========================= */
 
-  to{
-    left:50%;
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
-}
-
-/* NEXT */
-
-.next-preview{
+#nextPanel{
   position:absolute;
-  right:18px;
+  right:15px;
   top:50%;
   transform:translateY(-50%);
-  width:245px;
-  text-align:center;
-}
-
-.next-label{
-  margin-bottom:10px;
-  font-size:14px;
-  font-weight:1000;
-  letter-spacing:4px;
-  opacity:.65;
-}
-
-.next-numbers{
   display:flex;
-  justify-content:center;
-  gap:12px;
-}
-
-.next-number{
-  width:92px;
-  height:92px;
-
-  display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:center;
+  gap:8px;
+}
 
-  border-radius:24px;
-  border:2px solid #ffffff44;
-
-  font-size:42px;
+#nextPanel label{
+  font-size:12px;
   font-weight:1000;
-
-  background:
-    linear-gradient(145deg,#00d9ff,#6935ff);
-
-  box-shadow:
-    0 0 20px #00d9ff66,
-    inset 0 0 18px #ffffff22;
+  letter-spacing:3px;
+  color:#9ba3bd;
 }
 
-.next-number:nth-child(2){
-  background:
-    linear-gradient(145deg,#ff008c,#ff7900);
-
-  box-shadow:
-    0 0 20px #ff008c66,
-    inset 0 0 18px #ffffff22;
-}
-
-/* MOBILE */
-
-@media(max-width:760px){
-
-  .question-area{
-    min-height:280px;
-    display:block;
-  }
-
-  .question-track{
-    height:165px;
-  }
-
-  .next-preview{
-    position:absolute;
-    left:50%;
-    right:auto;
-    top:auto;
-    bottom:5px;
-    transform:translateX(-50%);
-    width:230px;
-  }
-
-  .next-number{
-    width:90px;
-    height:70px;
-    border-radius:20px;
-    font-size:34px;
-  }
-}
-
-/* KEYPAD */
-
-.keypad{
-  width:min(430px,100%);
-  margin:20px auto 0;
-
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.key{
-  height:78px;
-
-  border:0;
-  border-radius:21px;
-
-  color:#fff;
-  font-size:31px;
-  font-weight:1000;
-
-  background:
-    linear-gradient(145deg,#292348,#15112c);
-
-  border:2px solid #ffffff22;
-
-  box-shadow:
-    0 7px 0 #07040f,
-    0 0 17px #684cff44;
-
-  transition:
-    transform .07s,
-    filter .07s,
-    box-shadow .07s;
-}
-
-.key:nth-child(3n+1){
-  box-shadow:
-    0 7px 0 #07040f,
-    0 0 20px #ff00cc55;
-}
-
-.key:nth-child(3n+2){
-  box-shadow:
-    0 7px 0 #07040f,
-    0 0 20px #00eaff55;
-}
-
-.key:nth-child(3n){
-  box-shadow:
-    0 7px 0 #07040f,
-    0 0 20px #7bff0055;
-}
-
-.key.zero{
-  grid-column:2;
-}
-
-.key:active{
-  transform:translateY(7px) scale(.96);
-  box-shadow:0 1px 0 #07040f;
-}
-
-/* ANSWER EFFECT */
-
-.correct{
-  animation:correctFlash .28s ease;
-}
-
-@keyframes correctFlash{
-  50%{
-    transform:scale(1.06);
-    filter:brightness(1.8);
-  }
-}
-
-.miss{
-  animation:missShake .3s ease;
-}
-
-@keyframes missShake{
-  20%{transform:translateX(-9px)}
-  40%{transform:translateX(9px)}
-  60%{transform:translateX(-7px)}
-  80%{transform:translateX(5px)}
-}
-
-/* COMBO */
-
-.combo-pop{
-  position:fixed;
-  left:50%;
-  top:35%;
-
-  transform:translate(-50%,-50%) scale(.3);
-
-  z-index:1000;
-  pointer-events:none;
-
-  font-size:clamp(42px,10vw,100px);
-  font-weight:1000;
-  white-space:nowrap;
-
-  text-shadow:
-    0 0 15px #fff,
-    0 0 35px #00eaff,
-    0 0 60px #ff00cc;
-
-  animation:comboPop .8s ease-out forwards;
-}
-
-@keyframes comboPop{
-
-  0%{
-    opacity:0;
-    transform:translate(-50%,-50%) scale(.3) rotate(-8deg);
-  }
-
-  25%{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1.2) rotate(4deg);
-  }
-
-  100%{
-    opacity:0;
-    transform:translate(-50%,-75%) scale(1.5);
-  }
-}
-
-/* FEVER */
-
-.fever{
-  position:fixed;
-  inset:0;
-  z-index:900;
-
-  display:none;
-  pointer-events:none;
-
+#nextNumbers{
+  display:flex;
+  gap:8px;
   overflow:hidden;
 }
 
-.fever.active{
-  display:block;
-}
-
-.fever-ring{
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  width:190px;
-  height:190px;
-
-  border-radius:50%;
-
-  transform:translate(-50%,-50%);
-
-  border:18px solid transparent;
-  border-top-color:#ff00cc;
-  border-right-color:#00ffff;
-  border-bottom-color:#ffe600;
-  border-left-color:#7b2cff;
-
-  animation:spin .45s linear infinite;
-}
-
-@keyframes spin{
-  to{
-    transform:translate(-50%,-50%) rotate(360deg);
-  }
-}
-
-.fever-text{
-  position:absolute;
-
-  left:50%;
-  top:50%;
-
-  transform:translate(-50%,-50%);
-
-  font-size:clamp(34px,8vw,82px);
-  font-weight:1000;
-
-  text-align:center;
-  white-space:nowrap;
-
-  text-shadow:
-    0 0 20px #fff,
-    0 0 50px #00eaff,
-    0 0 80px #ff00cc;
-
-  animation:feverText .35s infinite alternate;
-}
-
-@keyframes feverText{
-  from{
-    transform:translate(-50%,-50%) scale(.9);
-  }
-
-  to{
-    transform:translate(-50%,-50%) scale(1.1);
-  }
-}
-
-.fever-particle{
-  position:absolute;
-
-  width:12px;
-  height:12px;
-
-  border-radius:50%;
-
-  animation:particleFly 1s ease-out forwards;
-}
-
-@keyframes particleFly{
-  from{
-    opacity:1;
-    transform:translate(0,0) scale(1);
-  }
-
-  to{
-    opacity:0;
-    transform:
-      translate(
-        var(--x),
-        var(--y)
-      )
-      scale(0);
-  }
-}
-
-/* RESULT */
-
-.result-overlay{
-  position:fixed;
-  inset:0;
-
-  z-index:2000;
-
-  display:none;
+.nextNumber{
+  width:66px;
+  height:66px;
+  border-radius:18px;
+  display:flex;
   align-items:center;
   justify-content:center;
-
-  background:#05000dcc;
-  backdrop-filter:blur(8px);
-}
-
-.result-overlay.show{
-  display:flex;
-}
-
-.result-card{
-  width:min(650px,92%);
-
-  padding:35px 22px;
-
-  text-align:center;
-
-  border-radius:30px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #15102eF5,
-      #09051aF5
-    );
-
-  border:2px solid #ffffff22;
-
-  box-shadow:
-    0 0 50px #7b2cff66,
-    inset 0 0 30px #ffffff08;
-}
-
-.result-title{
-  font-size:clamp(32px,8vw,65px);
+  font-size:34px;
   font-weight:1000;
-  margin-bottom:22px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff00cc,
-      #ffe600,
-      #00ffff,
-      #7b5cff
-    );
-
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  color:#fff;
+  background:linear-gradient(
+    135deg,
+    #00cfff,
+    #7b2cff
+  );
+  box-shadow:0 0 25px #00cfff44;
 }
 
-.result-stats{
+.nextNumber.slide{
+  animation:nextSlide .35s ease;
+}
+
+@keyframes nextSlide{
+  from{
+    transform:translateX(80px);
+    opacity:0;
+  }
+  to{
+    transform:translateX(0);
+    opacity:1;
+  }
+}
+
+/* =========================
+   KEYPAD
+========================= */
+
+#keypad{
+  width:min(310px,92vw);
+  margin:10px auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
 
-.result-stat{
-  padding:15px 5px;
-  border-radius:18px;
-  background:#ffffff0e;
-  border:1px solid #ffffff18;
-}
-
-.result-stat-label{
-  font-size:11px;
-  opacity:.6;
-  font-weight:900;
-}
-
-.result-stat-value{
-  font-size:30px;
-  font-weight:1000;
-}
-
-.restart-button{
-  margin-top:24px;
-
+.key{
   border:0;
-
-  padding:14px 32px;
-
-  border-radius:18px;
-
+  border-radius:20px;
+  min-height:67px;
   color:#fff;
-
-  font-size:18px;
+  font-size:28px;
   font-weight:1000;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00cfff,
-      #7b2cff
-    );
-
+  background:linear-gradient(135deg,#1c2440,#2b1b4e);
   box-shadow:
-    0 0 25px #00cfff66;
+    inset 0 1px 0 #ffffff18,
+    0 8px 20px #0005;
 }
 
-/* RESULT BOOM */
-
-.result-boom{
-  animation:
-    resultZoom .55s ease-out,
-    resultShake .6s ease-in-out;
+.key:nth-child(1),
+.key:nth-child(4),
+.key:nth-child(7){
+  background:linear-gradient(135deg,#00aeea,#3158ff);
 }
 
-@keyframes resultZoom{
-  0%{
-    transform:scale(.5);
-    opacity:0;
-  }
-
-  45%{
-    transform:scale(1.08);
-    opacity:1;
-  }
-
-  100%{
-    transform:scale(1);
-  }
+.key:nth-child(2),
+.key:nth-child(5),
+.key:nth-child(8){
+  background:linear-gradient(135deg,#7b2cff,#d92cff);
 }
 
-@keyframes resultShake{
-  0%,100%{
-    margin-left:0;
-  }
-
-  20%{
-    margin-left:-14px;
-  }
-
-  40%{
-    margin-left:14px;
-  }
-
-  60%{
-    margin-left:-9px;
-  }
-
-  80%{
-    margin-left:7px;
-  }
+.key:nth-child(3),
+.key:nth-child(6),
+.key:nth-child(9){
+  background:linear-gradient(135deg,#ff008c,#ff5b3d);
 }
 
-/* RESULT PARTICLES */
+.key:nth-child(10){
+  grid-column:2;
+  background:linear-gradient(135deg,#ffb300,#ff4f81);
+}
 
-.result-particle{
+#message{
+  color:#aeb5cc;
+  font-size:13px;
+  margin:12px;
+}
+
+/* =========================
+   FLASH
+========================= */
+
+#flash{
   position:fixed;
-
-  left:50%;
-  top:50%;
-
-  width:13px;
-  height:13px;
-
-  border-radius:50%;
-
-  z-index:2100;
+  inset:0;
   pointer-events:none;
-
-  animation:
-    resultParticle 1.5s ease-out forwards;
+  opacity:0;
+  z-index:20;
 }
 
-@keyframes resultParticle{
+body.hit #flash{
+  background:#fff;
+  animation:flash .12s ease-out;
+}
 
+@keyframes flash{
+  0%{opacity:.18}
+  100%{opacity:0}
+}
+
+/* =========================
+   FEVER
+========================= */
+
+#feverOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:12;
+  overflow:hidden;
+}
+
+#feverText{
+  position:absolute;
+  left:50%;
+  top:25%;
+  transform:translateX(-50%);
+  font-size:clamp(34px,8vw,75px);
+  font-weight:1000;
+  letter-spacing:4px;
+  color:#fff;
+  text-shadow:
+    0 0 15px #00eaff,
+    0 0 40px #ff00c8;
+  animation:feverPulse .4s infinite alternate;
+}
+
+@keyframes feverPulse{
   from{
-    opacity:1;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1);
+    transform:translateX(-50%) scale(1);
   }
-
   to{
-    opacity:0;
-
-    transform:
-      translate(
-        calc(-50% + var(--x)),
-        calc(-50% + var(--y))
-      )
-      scale(0);
+    transform:translateX(-50%) scale(1.12);
   }
 }
 
-.hidden{
-  display:none!important;
+.fParticle{
+  position:absolute;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 15px #fff;
+  animation:particle 1s linear forwards;
+}
+
+@keyframes particle{
+  from{
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    transform:
+      translate(var(--x),var(--y))
+      scale(.1);
+    opacity:0;
+  }
+}
+
+/* =========================
+   RESULT
+========================= */
+
+#resultOverlay,
+#shopOverlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:30;
+  background:#05060dcc;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.card{
+  width:min(520px,94vw);
+  background:linear-gradient(
+    145deg,
+    #141827,
+    #21153c
+  );
+  border:1px solid #ffffff18;
+  border-radius:26px;
+  padding:26px;
+  box-shadow:0 20px 80px #000b;
+}
+
+.resultTitle{
+  font-size:28px;
+  font-weight:1000;
+  margin-bottom:12px;
+}
+
+.resultBig{
+  font-size:50px;
+  font-weight:1000;
+  color:#ffd84d;
+  text-shadow:0 0 25px #ffd84d55;
+}
+
+.resultStats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:18px 0;
+}
+
+.resultStat{
+  background:#0d1020;
+  border-radius:14px;
+  padding:10px;
+}
+
+.resultStat small{
+  display:block;
+  color:#8991a8;
+}
+
+.resultStat strong{
+  font-size:22px;
+}
+
+.resultPoints{
+  font-size:21px;
+  font-weight:1000;
+  color:#7dffcb;
+  margin:12px;
+}
+
+.resultButtons{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.resultButtons button{
+  border:0;
+  border-radius:16px;
+  padding:13px 22px;
+  color:#fff;
+  font-weight:1000;
+  font-size:16px;
+}
+
+.restartButton{
+  background:linear-gradient(135deg,#00cfff,#7b2cff);
+}
+
+.titleButton{
+  background:linear-gradient(135deg,#ff008c,#7b2cff);
+}
+
+.resultBurst{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.rParticle{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#fff;
+  animation:rBurst 1.5s ease-out forwards;
+}
+
+@keyframes rBurst{
+  from{
+    left:50%;
+    top:45%;
+    transform:translate(0,0) scale(1);
+    opacity:1;
+  }
+  to{
+    left:var(--lx);
+    top:var(--ly);
+    transform:scale(.1);
+    opacity:0;
+  }
+}
+
+/* =========================
+   SHOP
+========================= */
+
+#shopOverlay .card{
+  max-height:88vh;
+  overflow:auto;
+}
+
+.shopHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.shopHead h2{
+  margin:0;
+  font-size:25px;
+}
+
+.shopPoints{
+  color:#ffd84d;
+  font-weight:1000;
+}
+
+.shopGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:16px;
+}
+
+.item{
+  background:#0e1222;
+  border:1px solid #ffffff12;
+  border-radius:17px;
+  padding:14px;
+  text-align:left;
+}
+
+.item h3{
+  margin:0 0 5px;
+  font-size:17px;
+}
+
+.item p{
+  margin:0 0 9px;
+  color:#9da5bd;
+  font-size:12px;
+  line-height:1.4;
+}
+
+.buy{
+  width:100%;
+  margin:0;
+  padding:9px;
+  border:0;
+  border-radius:12px;
+  background:#5865f2;
+  color:#fff;
+  font-weight:1000;
+}
+
+.buy.owned{
+  background:#254b3c;
+  color:#7dffcb;
+}
+
+.closeShop{
+  background:#272d42;
+  border:0;
+  color:#fff;
+  border-radius:13px;
+  padding:10px 18px;
+  font-weight:1000;
+  margin-top:15px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:720px){
+
+  #nextPanel{
+    position:relative;
+    right:auto;
+    top:auto;
+    transform:none;
+    margin:2px auto 10px;
+  }
+
+  #questionArea{
+    min-height:125px;
+  }
+
+  #question{
+    font-size:54px;
+  }
+
+  .nextNumber{
+    width:58px;
+    height:58px;
+    font-size:30px;
+  }
+}
+
+@media(max-width:480px){
+
+  #question{
+    font-size:47px;
+  }
+
+  .key{
+    min-height:61px;
+  }
+
+  .shopGrid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+  <h1>NEURO KREPELIN</h1>
+  <div class="subtitle">反射 × 計算 × コンボ</div>
+</header>
 
-  <div class="title">
-    NEURO KREPELIN
+<div id="topControls">
+
+  <button class="timeButton active" data-time="30">
+    30 SEC
+  </button>
+
+  <button class="timeButton" data-time="60">
+    60 SEC
+  </button>
+
+  <button class="startButton" id="startButton">
+    START GAME
+  </button>
+
+  <button class="shopButton" id="shopButton">
+    🛒 SHOP
+  </button>
+
+  <div id="pointsTop">
+    💰 <span id="pointsText">0</span>P
   </div>
 
-  <div class="subtitle">
-    反射 × 計算 × コンボ
+</div>
+
+<div id="stats">
+
+  <div class="stat">
+    <small>TIME</small>
+    <strong id="timeText">30</strong>
   </div>
 
-  <div class="top">
-
-    <button
-      class="time-btn active"
-      id="time30"
-      onclick="selectTime(30)"
-    >
-      30 SEC
-    </button>
-
-    <button
-      class="time-btn"
-      id="time60"
-      onclick="selectTime(60)"
-    >
-      60 SEC
-    </button>
-
-    <button
-      class="start-btn"
-      id="startButton"
-      onclick="startGame()"
-    >
-      START GAME
-    </button>
-
+  <div class="stat">
+    <small>正解</small>
+    <strong id="correctText">0</strong>
   </div>
 
-  <div class="stats">
-
-    <div class="stat">
-      <div class="stat-label">TIME</div>
-      <div class="stat-value" id="time">30</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-label">正解</div>
-      <div class="stat-value" id="correct">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-label">ミス</div>
-      <div class="stat-value" id="miss">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-label">BEST</div>
-      <div class="stat-value" id="best">0</div>
-    </div>
-
-    <div class="stat">
-      <div class="stat-label">COMBO</div>
-      <div class="stat-value" id="combo">0</div>
-    </div>
-
+  <div class="stat">
+    <small>ミス</small>
+    <strong id="wrongText">0</strong>
   </div>
 
-  <div class="game">
+  <div class="stat">
+    <small>BEST COMBO</small>
+    <strong id="bestText">0</strong>
+  </div>
 
-    <div class="question-area">
+</div>
 
-      <div class="question-track" id="questionTrack">
+<div id="timerBar">
+  <div id="timer"></div>
+</div>
 
-        <div
-          class="question"
-          id="question"
-        >
-          READY?
+<div id="game">
+
+  <div id="scoreLine">
+    SCORE <span id="scoreText">0</span>
+  </div>
+
+  <div id="combo">
+    COMBO 0
+  </div>
+
+  <div id="streakMsg"></div>
+
+  <div id="questionArea">
+
+    <div id="question">
+
+      <span id="questionA" class="qpart">
+        READY?
+      </span>
+
+      <span id="qOperator"></span>
+
+      <span id="questionB" class="qpart"></span>
+
+    </div>
+
+    <div id="nextPanel">
+
+      <label>NEXT</label>
+
+      <div id="nextNumbers">
+
+        <div class="nextNumber" id="nextNumber1">
+          -
         </div>
 
-      </div>
-
-      <div class="next-preview">
-
-        <div class="next-label">
-          NEXT
-        </div>
-
-        <div class="next-numbers">
-
-          <div
-            class="next-number"
-            id="nextNumber1"
-          >
-            -
-          </div>
-
-          <div
-            class="next-number"
-            id="nextNumber2"
-          >
-            -
-          </div>
-
+        <div class="nextNumber" id="nextNumber2">
+          -
         </div>
 
       </div>
 
     </div>
 
-    <!-- 電話キー -->
+  </div>
 
-    <div class="keypad">
+  <div id="keypad">
 
-      <button class="key" onclick="pressKey(1)">1</button>
-      <button class="key" onclick="pressKey(2)">2</button>
-      <button class="key" onclick="pressKey(3)">3</button>
+    <button class="key" data-key="1">1</button>
+    <button class="key" data-key="2">2</button>
+    <button class="key" data-key="3">3</button>
 
-      <button class="key" onclick="pressKey(4)">4</button>
-      <button class="key" onclick="pressKey(5)">5</button>
-      <button class="key" onclick="pressKey(6)">6</button>
+    <button class="key" data-key="4">4</button>
+    <button class="key" data-key="5">5</button>
+    <button class="key" data-key="6">6</button>
 
-      <button class="key" onclick="pressKey(7)">7</button>
-      <button class="key" onclick="pressKey(8)">8</button>
-      <button class="key" onclick="pressKey(9)">9</button>
+    <button class="key" data-key="7">7</button>
+    <button class="key" data-key="8">8</button>
+    <button class="key" data-key="9">9</button>
+
+    <button class="key" data-key="0">0</button>
+
+  </div>
+
+  <div id="message">
+    答えは1の位だけをタップ！
+  </div>
+
+</div>
+
+<div id="flash"></div>
+
+<div id="feverOverlay">
+  <div id="feverText">
+    FEVER!!
+  </div>
+</div>
+
+<!-- =========================
+     RESULT
+========================= -->
+
+<div id="resultOverlay">
+
+  <div class="card" id="resultCard">
+
+    <div class="resultBurst" id="resultBurst"></div>
+
+    <div class="resultTitle" id="resultTitle">
+      RESULT
+    </div>
+
+    <div class="resultBig">
+      <span id="resultScore">0</span>
+      SCORE
+    </div>
+
+    <div class="resultStats">
+
+      <div class="resultStat">
+        <small>正解</small>
+        <strong id="resultCorrect">0</strong>
+      </div>
+
+      <div class="resultStat">
+        <small>ミス</small>
+        <strong id="resultWrong">0</strong>
+      </div>
+
+      <div class="resultStat">
+        <small>BEST COMBO</small>
+        <strong id="resultCombo">0</strong>
+      </div>
+
+      <div class="resultStat">
+        <small>正答率</small>
+        <strong id="resultRate">0%</strong>
+      </div>
+
+    </div>
+
+    <div class="resultPoints">
+      💰 +<span id="earnedPoints">0</span>P
+    </div>
+
+    <div class="resultButtons">
 
       <button
-        class="key zero"
-        onclick="pressKey(0)"
-      >
-        0
+        class="restartButton"
+        id="restartButton">
+        🔄 やり直す
+      </button>
+
+      <button
+        class="titleButton"
+        id="titleButton">
+        🏠 タイトルへ
       </button>
 
     </div>
@@ -921,551 +906,1018 @@ button{
 
 </div>
 
+<!-- =========================
+     SHOP
+========================= -->
 
-<!-- FEVER -->
+<div id="shopOverlay">
 
-<div
-  class="fever"
-  id="fever"
->
+  <div class="card">
 
-  <div class="fever-ring"></div>
+    <div class="shopHead">
 
-  <div
-    class="fever-text"
-    id="feverText"
-  >
-    FEVER!!
-  </div>
+      <h2>🛒 POINT SHOP</h2>
 
-</div>
+      <div class="shopPoints">
+        💰 <span id="shopPoints">0</span>P
+      </div>
 
-
-<!-- RESULT -->
-
-<div
-  class="result-overlay"
-  id="resultOverlay"
->
-
-  <div
-    class="result-card"
-    id="resultCard"
-  >
-
-    <div
-      class="result-title"
-      id="resultTitle"
-    >
-      RESULT
     </div>
 
-    <div class="result-stats">
-
-      <div class="result-stat">
-        <div class="result-stat-label">
-          正解
-        </div>
-
-        <div
-          class="result-stat-value"
-          id="resultCorrect"
-        >
-          0
-        </div>
-      </div>
-
-      <div class="result-stat">
-        <div class="result-stat-label">
-          ミス
-        </div>
-
-        <div
-          class="result-stat-value"
-          id="resultMiss"
-        >
-          0
-        </div>
-      </div>
-
-      <div class="result-stat">
-        <div class="result-stat-label">
-          BEST COMBO
-        </div>
-
-        <div
-          class="result-stat-value"
-          id="resultBest"
-        >
-          0
-        </div>
-      </div>
-
+    <div
+      class="shopGrid"
+      id="shopGrid">
     </div>
 
     <button
-      class="restart-button"
-      id="restartButton"
-      onclick="startGame()"
-    >
-      🔄 やり直す
+      class="closeShop"
+      id="closeShop">
+      閉じる
     </button>
 
   </div>
 
 </div>
 
-
 <script>
 
 /* =========================
-   GAME VARIABLES
+   VARIABLES
 ========================= */
 
-let selectedTime = 30;
+let selectedTime=30;
+let timeLeft=30;
+let timer=null;
+let playing=false;
 
-let timeLeft = 30;
+let correctCount=0;
+let missCount=0;
+let combo=0;
 
-let timer = null;
+let bestCombo=
+  Number(
+    localStorage.getItem(
+      "neuroKreppelinBest"
+    ) || 0
+  );
 
-let playing = false;
+let score=0;
 
-let correctCount = 0;
-let missCount = 0;
-let combo = 0;
-let bestCombo = 0;
+let totalPoints=
+  Number(
+    localStorage.getItem(
+      "neuroKreppelinPoints"
+    ) || 0
+  );
 
-let currentA = 2;
-let currentB = 2;
-let currentAnswer = 0;
+let currentA=0;
+let currentB=0;
+let currentAnswer=0;
 
-let nextNumbers = [];
+let nextNumbers=[];
 
-let feverRunning = false;
+let feverTimer=null;
+let resultTimer=null;
 
+let audioCtx=null;
 
 /* =========================
-   ELEMENTS
+   DOM
 ========================= */
 
-const timeEl =
-  document.getElementById("time");
-
-const correctEl =
-  document.getElementById("correct");
-
-const missEl =
-  document.getElementById("miss");
-
-const bestEl =
-  document.getElementById("best");
-
-const comboEl =
-  document.getElementById("combo");
-
-const questionEl =
-  document.getElementById("question");
-
-const questionTrack =
-  document.getElementById("questionTrack");
-
-const nextNumber1 =
-  document.getElementById("nextNumber1");
-
-const nextNumber2 =
-  document.getElementById("nextNumber2");
-
-const startButton =
-  document.getElementById("startButton");
-
-const fever =
-  document.getElementById("fever");
-
-const feverText =
-  document.getElementById("feverText");
-
-const resultOverlay =
-  document.getElementById("resultOverlay");
-
-const resultCard =
-  document.getElementById("resultCard");
-
-const resultTitle =
-  document.getElementById("resultTitle");
-
-const resultCorrect =
-  document.getElementById("resultCorrect");
-
-const resultMiss =
-  document.getElementById("resultMiss");
-
-const resultBest =
-  document.getElementById("resultBest");
-
+const $=id=>
+  document.getElementById(id);
 
 /* =========================
-   BEST
+   SHOP ITEMS
 ========================= */
 
-bestCombo =
-  Number(localStorage.getItem("neuroKreppelinBest") || 0);
+const shopItems=[
 
-bestEl.textContent = bestCombo;
+  {
+    id:"theme_neon",
+    name:"🌈 NEONテーマ",
+    desc:"ゲーム中のネオン演出を強化。",
+    price:100
+  },
 
+  {
+    id:"theme_rainbow",
+    name:"✨ RAINBOWテーマ",
+    desc:"タイトルと演出がレインボー仕様に。",
+    price:250
+  },
+
+  {
+    id:"effect_cosmic",
+    name:"🌌 COSMIC演出",
+    desc:"30/50/80/100正解の演出を変更。",
+    price:400
+  },
+
+  {
+    id:"effect_fire",
+    name:"🔥 FIRE演出",
+    desc:"ピカピカ演出を炎系に変更。",
+    price:600
+  },
+
+  {
+    id:"title_calc",
+    name:"👑 計算神",
+    desc:"称号「計算神」を解放。",
+    price:500
+  },
+
+  {
+    id:"title_reflex",
+    name:"⚡ 反射神経MAX",
+    desc:"称号「反射神経MAX」を解放。",
+    price:800
+  },
+
+  {
+    id:"title_neuro",
+    name:"🧠 NEURO MASTER",
+    desc:"特別称号を解放。",
+    price:1500
+  }
+
+];
+
+/* =========================
+   POINT
+========================= */
+
+function updatePoints(){
+
+  $("pointsText").textContent=
+    totalPoints.toLocaleString();
+
+  $("shopPoints").textContent=
+    totalPoints.toLocaleString();
+
+}
+
+function savePoints(){
+
+  localStorage.setItem(
+    "neuroKreppelinPoints",
+    String(totalPoints)
+  );
+
+  updatePoints();
+
+}
+
+function owned(id){
+
+  return localStorage.getItem(
+    "neuroKreppelinOwned_"+id
+  )==="1";
+
+}
+
+/* =========================
+   SHOP
+========================= */
+
+function buyItem(id){
+
+  const item=
+    shopItems.find(
+      x=>x.id===id
+    );
+
+  if(!item)return;
+
+  if(owned(id))return;
+
+  if(totalPoints<item.price){
+
+    soundMiss();
+
+    return;
+
+  }
+
+  totalPoints-=item.price;
+
+  localStorage.setItem(
+    "neuroKreppelinOwned_"+id,
+    "1"
+  );
+
+  savePoints();
+
+  renderShop();
+
+  tone(
+    1000,
+    .07,
+    "sine",
+    .025
+  );
+
+}
+
+function renderShop(){
+
+  updatePoints();
+
+  $("shopGrid").innerHTML=
+    shopItems.map(item=>{
+
+      const has=
+        owned(item.id);
+
+      return `
+
+        <div class="item">
+
+          <h3>${item.name}</h3>
+
+          <p>${item.desc}</p>
+
+          <button
+            class="buy ${has?"owned":""}"
+            data-buy="${item.id}">
+
+            ${
+              has
+              ?"✓ 購入済み"
+              :item.price.toLocaleString()+"P で購入"
+            }
+
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+  document
+    .querySelectorAll("[data-buy]")
+    .forEach(button=>{
+
+      button.onclick=()=>
+        buyItem(
+          button.dataset.buy
+        );
+
+    });
+
+}
+
+$("shopButton").onclick=()=>{
+
+  renderShop();
+
+  $("shopOverlay").style.display=
+    "flex";
+
+};
+
+$("closeShop").onclick=()=>{
+
+  $("shopOverlay").style.display=
+    "none";
+
+};
 
 /* =========================
    TIME
 ========================= */
 
-function selectTime(seconds){
+document
+  .querySelectorAll(".timeButton")
+  .forEach(button=>{
 
-  if(playing) return;
+    button.onclick=()=>{
 
-  selectedTime = seconds;
+      if(playing)return;
 
-  time30.classList.toggle(
-    "active",
-    seconds === 30
-  );
+      document
+        .querySelectorAll(".timeButton")
+        .forEach(x=>
+          x.classList.remove("active")
+        );
 
-  time60.classList.toggle(
-    "active",
-    seconds === 60
-  );
+      button.classList.add("active");
 
-  timeEl.textContent = seconds;
-}
+      selectedTime=
+        Number(button.dataset.time);
 
+      timeLeft=
+        selectedTime;
 
-/* =========================
-   RANDOM
-========================= */
+      $("timeText").textContent=
+        selectedTime;
 
-function randomAddend(){
+      $("timer").style.width=
+        "100%";
 
-  /*
-    1は絶対に出さない
-    2〜9
-  */
+    };
 
-  return Math.floor(
-    Math.random() * 8
-  ) + 2;
-}
-
+  });
 
 /* =========================
-   CREATE QUESTION
+   AUDIO
 ========================= */
-
-function createFirstQuestion(){
-
-  currentA = randomAddend();
-  currentB = randomAddend();
-
-  currentAnswer =
-    (currentA + currentB) % 10;
-
-  questionEl.textContent =
-    `${currentA} + ${currentB}`;
-
-  /*
-    NEXTは
-    次の問題のB
-    さらにその次のB
-  */
-
-  const b1 = randomAddend();
-  const b2 = randomAddend();
-
-  nextNumbers = [b1,b2];
-
-  updateNext();
-}
-
-
-/* =========================
-   NEXT DISPLAY
-========================= */
-
-function updateNext(){
-
-  nextNumber1.textContent =
-    nextNumbers[0] ?? "-";
-
-  nextNumber2.textContent =
-    nextNumbers[1] ?? "-";
-}
-
-
-/* =========================
-   NEXT QUESTION
-========================= */
-
-function advanceQuestion(){
-
-  /*
-    現在
-      A + B
-
-    次
-      B + NEXT1
-
-    さらに
-      NEXT1 + NEXT2
-  */
-
-  const newA = currentB;
-
-  const newB =
-    nextNumbers[0];
-
-  const followingB =
-    randomAddend();
-
-  currentA = newA;
-  currentB = newB;
-
-  currentAnswer =
-    (currentA + currentB) % 10;
-
-  nextNumbers.shift();
-
-  nextNumbers.push(followingB);
-
-  updateNext();
-
-
-  /*
-    問題を左へ流す
-  */
-
-  questionEl.classList.remove(
-    "question-slide-out",
-    "question-slide-in"
-  );
-
-  void questionEl.offsetWidth;
-
-  questionEl.classList.add(
-    "question-slide-out"
-  );
-
-
-  setTimeout(() => {
-
-    questionEl.textContent =
-      `${currentA} + ${currentB}`;
-
-    questionEl.classList.remove(
-      "question-slide-out"
-    );
-
-    questionEl.style.left = "110%";
-    questionEl.style.opacity = "0";
-    questionEl.style.transform =
-      "translate(-50%,-50%) scale(.7)";
-
-    void questionEl.offsetWidth;
-
-    questionEl.style.left = "";
-    questionEl.style.opacity = "";
-    questionEl.style.transform = "";
-
-    questionEl.classList.add(
-      "question-slide-in"
-    );
-
-  },280);
-}
-
-
-/* =========================
-   AUDIO ENGINE
-========================= */
-
-let audioContext = null;
 
 function initAudio(){
 
-  if(!audioContext){
+  try{
 
-    const AudioCtx =
-      window.AudioContext ||
-      window.webkitAudioContext;
+    audioCtx ||=
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
 
-    if(AudioCtx){
-      audioContext = new AudioCtx();
+    if(
+      audioCtx.state===
+      "suspended"
+    ){
+
+      audioCtx.resume();
+
     }
-  }
 
-  if(
-    audioContext &&
-    audioContext.state === "suspended"
-  ){
-    audioContext.resume();
-  }
+  }catch(e){}
+
 }
 
-
-function playTone(
-  frequency,
-  duration = .08,
-  type = "sine",
-  volume = .05,
-  delay = 0
+function tone(
+  freq,
+  duration=.06,
+  type="sine",
+  gain=.035,
+  delay=0
 ){
 
-  if(!audioContext) return;
+  try{
 
-  const start =
-    audioContext.currentTime + delay;
+    initAudio();
 
-  const osc =
-    audioContext.createOscillator();
+    const oscillator=
+      audioCtx.createOscillator();
 
-  const gain =
-    audioContext.createGain();
+    const gainNode=
+      audioCtx.createGain();
 
-  osc.type = type;
+    oscillator.type=
+      type;
 
-  osc.frequency.setValueAtTime(
-    frequency,
-    start
-  );
+    oscillator.frequency.value=
+      freq;
 
-  gain.gain.setValueAtTime(
-    0.0001,
-    start
-  );
+    oscillator.connect(
+      gainNode
+    );
 
-  gain.gain.exponentialRampToValueAtTime(
-    volume,
-    start + .008
-  );
+    gainNode.connect(
+      audioCtx.destination
+    );
 
-  gain.gain.exponentialRampToValueAtTime(
-    0.0001,
-    start + duration
-  );
+    const startTime=
+      audioCtx.currentTime+
+      delay;
 
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
+    gainNode.gain.setValueAtTime(
+      gain,
+      startTime
+    );
 
-  osc.start(start);
-  osc.stop(start + duration + .02);
+    gainNode.gain
+      .exponentialRampToValueAtTime(
+        .001,
+        startTime+duration
+      );
+
+    oscillator.start(
+      startTime
+    );
+
+    oscillator.stop(
+      startTime+duration
+    );
+
+  }catch(e){}
+
 }
 
-
-/* 正解 */
+/* 静かめの正解SE */
 
 function soundCorrect(){
 
-  playTone(
-    720,
-    .07,
+  tone(
+    760,
+    .055,
     "sine",
-    .055
+    .025
   );
 
-  playTone(
-    1050,
-    .09,
-    "sine",
-    .045,
-    .045
-  );
 }
-
 
 /* ミス */
 
 function soundMiss(){
 
-  playTone(
-    150,
-    .12,
+  tone(
+    180,
+    .11,
     "square",
-    .035
+    .025
   );
 
-  playTone(
-    100,
-    .15,
-    "sawtooth",
-    .025,
-    .04
-  );
 }
-
 
 /* コンボ */
 
 function soundCombo(){
 
-  playTone(
-    500,
+  tone(
+    850,
+    .05,
+    "sine",
+    .03
+  );
+
+  tone(
+    1100,
     .07,
-    "triangle",
-    .05
-  );
-
-  playTone(
-    700,
-    .07,
-    "triangle",
-    .055,
-    .06
-  );
-
-  playTone(
-    1000,
-    .13,
-    "triangle",
-    .06,
-    .12
-  );
-}
-
-
-/* 節目 */
-
-function soundMilestone(level){
-
-  const base =
-    level >= 100
-      ? 880
-      : level >= 80
-        ? 760
-        : level >= 50
-          ? 650
-          : 560;
-
-  playTone(
-    base,
-    .12,
-    "triangle",
-    .075
-  );
-
-  playTone(
-    base * 1.25,
-    .12,
-    "triangle",
-    .07,
-    .10
-  );
-
-  playTone(
-    base * 1.5,
-    .22,
-    "triangle",
-    .075,
-    .20
+    "sine",
+    .025,
+    .055
   );
 
 }
 
+/* 30/50/80/100 */
+
+function soundMilestone(){
+
+  tone(
+    660,
+    .09,
+    "triangle",
+    .035
+  );
+
+  tone(
+    880,
+    .09,
+    "triangle",
+    .035,
+    .09
+  );
+
+  tone(
+    1320,
+    .14,
+    "triangle",
+    .035,
+    .18
+  );
+
+}
+
+/* 結果 */
+
+function soundResult(){
+
+  tone(
+    520,
+    .08,
+    "triangle",
+    .035
+  );
+
+  tone(
+    780,
+    .09,
+    "triangle",
+    .035,
+    .09
+  );
+
+  tone(
+    1040,
+    .16,
+    "triangle",
+    .035,
+    .19
+  );
+
+}
+
+/* =========================
+   NUMBER
+========================= */
+
+function randomAddend(){
+
+  return Math.floor(
+    Math.random()*8
+  )+2;
+
+}
+
+/* =========================
+   FIRST QUESTION
+========================= */
+
+function createFirstQuestion(){
+
+  currentA=
+    randomAddend();
+
+  currentB=
+    randomAddend();
+
+  currentAnswer=
+    (currentA+currentB)%10;
+
+  nextNumbers=[
+    randomAddend(),
+    randomAddend()
+  ];
+
+  renderQuestion(false);
+  renderNext(false);
+
+}
+
+/* =========================
+   QUESTION
+========================= */
+
+function renderQuestion(
+  animate=true
+){
+
+  $("questionA").textContent=
+    currentA;
+
+  $("qOperator").textContent=
+    "+";
+
+  $("questionB").textContent=
+    currentB;
+
+  if(animate){
+
+    $("qOperator")
+      .classList.remove(
+        "joinIn"
+      );
+
+    $("questionB")
+      .classList.remove(
+        "joinIn"
+      );
+
+    void $("questionB")
+      .offsetWidth;
+
+    $("qOperator")
+      .classList.add(
+        "joinIn"
+      );
+
+    $("questionB")
+      .classList.add(
+        "joinIn"
+      );
+
+  }
+
+}
+
+/* =========================
+   NEXT
+========================= */
+
+function renderNext(
+  animate=true
+){
+
+  $("nextNumber1").textContent=
+    nextNumbers[0] ?? "-";
+
+  $("nextNumber2").textContent=
+    nextNumbers[1] ?? "-";
+
+  if(animate){
+
+    $("nextNumber1")
+      .classList.remove(
+        "slide"
+      );
+
+    $("nextNumber2")
+      .classList.remove(
+        "slide"
+      );
+
+    void $("nextNumber1")
+      .offsetWidth;
+
+    $("nextNumber1")
+      .classList.add(
+        "slide"
+      );
+
+    $("nextNumber2")
+      .classList.add(
+        "slide"
+      );
+
+  }
+
+}
+
+/* =========================
+   ADVANCE
+========================= */
+
+function advanceQuestion(){
+
+  /*
+    7 + 2
+
+    ↓
+
+    2 + 8
+
+    「2」はそのまま次のAになる
+  */
+
+  currentA=
+    currentB;
+
+  currentB=
+    nextNumbers.shift();
+
+  nextNumbers.push(
+    randomAddend()
+  );
+
+  currentAnswer=
+    (currentA+currentB)%10;
+
+  renderQuestion(true);
+  renderNext(true);
+
+}
+
+/* =========================
+   COMBO
+========================= */
+
+function updateCombo(){
+
+  $("combo").textContent=
+    "COMBO "+combo;
+
+  $("combo").style.transform=
+    "scale(1.12)";
+
+  setTimeout(()=>{
+
+    $("combo").style.transform=
+      "scale(1)";
+
+  },120);
+
+  if(combo>bestCombo){
+
+    bestCombo=
+      combo;
+
+    localStorage.setItem(
+      "neuroKreppelinBest",
+      String(bestCombo)
+    );
+
+    $("bestText").textContent=
+      bestCombo;
+
+  }
+
+  if(
+    combo>=5 &&
+    combo%5===0
+  ){
+
+    soundCombo();
+
+  }
+
+}
+
+/* =========================
+   FLASH
+========================= */
+
+function hitFlash(){
+
+  document.body
+    .classList
+    .remove("hit");
+
+  void document.body
+    .offsetWidth;
+
+  document.body
+    .classList
+    .add("hit");
+
+}
+
+/* =========================
+   FEVER PARTICLES
+========================= */
+
+function createFeverParticles(){
+
+  $("feverOverlay")
+    .querySelectorAll(
+      ".fParticle"
+    )
+    .forEach(x=>x.remove());
+
+  for(
+    let i=0;
+    i<45;
+    i++
+  ){
+
+    const p=
+      document.createElement(
+        "div"
+      );
+
+    p.className=
+      "fParticle";
+
+    p.style.left=
+      "50%";
+
+    p.style.top=
+      "35%";
+
+    p.style.setProperty(
+      "--x",
+      (Math.random()*1000-500)
+      +"px"
+    );
+
+    p.style.setProperty(
+      "--y",
+      (Math.random()*700-350)
+      +"px"
+    );
+
+    p.style.animationDelay=
+      (Math.random()*.15)
+      +"s";
+
+    $("feverOverlay")
+      .appendChild(p);
+
+  }
+
+}
+
+/* =========================
+   FEVER
+========================= */
+
+function showFever(
+  text,
+  duration=3000
+){
+
+  clearTimeout(
+    feverTimer
+  );
+
+  $("feverText")
+    .textContent=text;
+
+  $("feverOverlay")
+    .style.display=
+      "block";
+
+  createFeverParticles();
+
+  feverTimer=
+    setTimeout(
+      stopFever,
+      duration
+    );
+
+}
+
+function stopFever(){
+
+  clearTimeout(
+    feverTimer
+  );
+
+  feverTimer=null;
+
+  $("feverOverlay")
+    .style.display=
+      "none";
+
+  $("feverOverlay")
+    .querySelectorAll(
+      ".fParticle"
+    )
+    .forEach(x=>x.remove());
+
+}
+
+/* =========================
+   MILESTONE
+========================= */
+
+function milestone(n){
+
+  const messages={
+
+    30:"🔥 30 CORRECT! 🔥",
+
+    50:"⚡ 50 CORRECT! ⚡",
+
+    80:"🌈 80 CORRECT! 🌈",
+
+    100:"👑 100 CORRECT! 👑"
+
+  };
+
+  const bonus={
+
+    30:100,
+
+    50:200,
+
+    80:400,
+
+    100:800
+
+  };
+
+  if(!messages[n])return;
+
+  totalPoints+=
+    bonus[n];
+
+  savePoints();
+
+  soundMilestone();
+
+  /*
+    ピカピカは必ず3秒
+  */
+
+  showFever(
+    messages[n],
+    3000
+  );
+
+}
+
+/* =========================
+   ANSWER
+========================= */
+
+function pressKey(value){
+
+  if(!playing)return;
+
+  if(
+    Number(value)===
+    currentAnswer
+  ){
+
+    /* 正解 */
+
+    correctCount++;
+
+    combo++;
+
+    /*
+      基本10点
+      5コンボ以上は少しボーナス
+    */
+
+    score+=
+      10+
+      (
+        combo>=5
+        ?Math.min(combo,20)
+        :0
+      );
+
+    /* 静かめSE */
+
+    soundCorrect();
+
+    hitFlash();
+
+    /*
+      正解数による演出
+    */
+
+    if(
+      [
+        30,
+        50,
+        80,
+        100
+      ].includes(
+        correctCount
+      )
+    ){
+
+      milestone(
+        correctCount
+      );
+
+    }
+
+  }else{
+
+    /* ミス */
+
+    missCount++;
+
+    combo=0;
+
+    soundMiss();
+
+    hitFlash();
+
+  }
+
+  $("correctText")
+    .textContent=
+      correctCount;
+
+  $("wrongText")
+    .textContent=
+      missCount;
+
+  $("scoreText")
+    .textContent=
+      score;
+
+  updateCombo();
+
+  advanceQuestion();
+
+}
+
+/* =========================
+   KEYPAD
+========================= */
+
+document
+  .querySelectorAll(".key")
+  .forEach(button=>{
+
+    button.onclick=()=>
+      pressKey(
+        button.dataset.key
+      );
+
+  });
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      /^[0-9]$/.test(
+        e.key
+      )
+    ){
+
+      pressKey(e.key);
+
+    }
+
+  }
+);
 
 /* =========================
    START
@@ -1477,479 +1929,82 @@ function startGame(){
 
   clearInterval(timer);
 
+  clearTimeout(resultTimer);
+
   stopFever();
 
-  resultOverlay.classList.remove("show");
+  $("resultOverlay")
+    .style.display=
+      "none";
 
-  playing = true;
+  playing=true;
 
-  document.body.classList.add("playing");
+  correctCount=0;
+  missCount=0;
+  combo=0;
+  score=0;
 
-  selectedTime =
-    selectedTime === 60
-      ? 60
-      : 30;
+  timeLeft=
+    selectedTime;
 
-  timeLeft = selectedTime;
+  $("correctText")
+    .textContent="0";
 
-  correctCount = 0;
-  missCount = 0;
-  combo = 0;
+  $("wrongText")
+    .textContent="0";
 
-  correctEl.textContent = "0";
-  missEl.textContent = "0";
-  comboEl.textContent = "0";
-  timeEl.textContent = timeLeft;
+  $("scoreText")
+    .textContent="0";
 
-  startButton.textContent =
-    "PLAY AGAIN";
+  $("combo")
+    .textContent="COMBO 0";
 
-  document.getElementById("time30")
-    .classList.toggle(
-      "active",
-      selectedTime === 30
-    );
+  $("timeText")
+    .textContent=
+      selectedTime;
 
-  document.getElementById("time60")
-    .classList.toggle(
-      "active",
-      selectedTime === 60
-    );
+  $("timer")
+    .style.width=
+      "100%";
+
+  $("startButton")
+    .textContent=
+      "PLAYING...";
 
   createFirstQuestion();
 
-  timer =
-    setInterval(() => {
+  timer=
+    setInterval(()=>{
 
-      timeLeft--;
+      timeLeft-=.1;
 
-      timeEl.textContent =
-        timeLeft;
+      if(
+        timeLeft<=0
+      ){
 
-      if(timeLeft <= 0){
+        timeLeft=0;
 
         endGame();
 
+        return;
+
       }
 
-    },1000);
+      $("timeText")
+        .textContent=
+          timeLeft.toFixed(1);
+
+      $("timer")
+        .style.width=
+          (
+            timeLeft/
+            selectedTime*
+            100
+          )+"%";
+
+    },100);
+
 }
-
-
-/* =========================
-   INPUT
-========================= */
-
-function pressKey(value){
-
-  if(!playing) return;
-
-  initAudio();
-
-  if(value === currentAnswer){
-
-    correctCount++;
-    combo++;
-
-    if(combo > bestCombo){
-
-      bestCombo = combo;
-
-      localStorage.setItem(
-        "neuroKreppelinBest",
-        bestCombo
-      );
-
-    }
-
-    correctEl.textContent =
-      correctCount;
-
-    comboEl.textContent =
-      combo;
-
-    bestEl.textContent =
-      bestCombo;
-
-    soundCorrect();
-
-    correctEl.classList.remove("correct");
-
-    void correctEl.offsetWidth;
-
-    correctEl.classList.add("correct");
-
-
-    /*
-      正解数で節目演出
-    */
-
-    if(
-      correctCount === 30 ||
-      correctCount === 50 ||
-      correctCount === 80 ||
-      correctCount === 100
-    ){
-
-      milestone(correctCount);
-
-    }
-    else if(
-      combo >= 5 &&
-      combo % 5 === 0
-    ){
-
-      comboEffect(combo);
-
-    }
-
-    advanceQuestion();
-
-  }
-  else{
-
-    missCount++;
-
-    combo = 0;
-
-    missEl.textContent =
-      missCount;
-
-    comboEl.textContent =
-      combo;
-
-    soundMiss();
-
-    missEl.classList.remove("miss");
-
-    void missEl.offsetWidth;
-
-    missEl.classList.add("miss");
-  }
-}
-
-
-/* =========================
-   COMBO EFFECT
-========================= */
-
-function comboEffect(number){
-
-  const pop =
-    document.createElement("div");
-
-  pop.className =
-    "combo-pop";
-
-  pop.textContent =
-    `${number} COMBO!`;
-
-  document.body.appendChild(pop);
-
-  soundCombo();
-
-  setTimeout(() => {
-    pop.remove();
-  },850);
-}
-
-
-/* =========================
-   MILESTONE
-========================= */
-
-function milestone(number){
-
-  let duration = 5000;
-
-  if(number === 30){
-    duration = 2000;
-  }
-
-  if(number === 50){
-    duration = 5000;
-  }
-
-  if(number === 80){
-    duration = 5000;
-  }
-
-  if(number === 100){
-    duration = 5000;
-  }
-
-  let message =
-    `${number} CORRECT!`;
-
-  if(number === 30){
-    message = "🔥 30 CORRECT! 🔥";
-  }
-
-  if(number === 50){
-    message = "⚡ 50 CORRECT!! ⚡";
-  }
-
-  if(number === 80){
-    message = "💥 80 CORRECT!!! 💥";
-  }
-
-  if(number === 100){
-    message = "🌈 100 CORRECT!!! 🌈";
-  }
-
-  feverText.textContent =
-    message;
-
-  soundMilestone(number);
-
-  showFever(duration);
-}
-
-
-/* =========================
-   FEVER
-========================= */
-
-function showFever(duration){
-
-  if(feverRunning){
-    stopFever();
-  }
-
-  feverRunning = true;
-
-  fever.classList.add("active");
-
-  createFeverParticles();
-
-  if(navigator.vibrate){
-
-    try{
-      navigator.vibrate(
-        duration >= 5000
-          ? [80,50,80,50,120]
-          : [60,40,80]
-      );
-    }catch(e){}
-  }
-
-  setTimeout(() => {
-
-    stopFever();
-
-  },duration);
-}
-
-
-function stopFever(){
-
-  feverRunning = false;
-
-  fever.classList.remove("active");
-
-  document
-    .querySelectorAll(".fever-particle")
-    .forEach(el => el.remove());
-}
-
-
-function createFeverParticles(){
-
-  const count = 45;
-
-  for(let i=0;i<count;i++){
-
-    const p =
-      document.createElement("div");
-
-    p.className =
-      "fever-particle";
-
-    p.style.left =
-      "50%";
-
-    p.style.top =
-      "50%";
-
-    const angle =
-      Math.random() * Math.PI * 2;
-
-    const distance =
-      100 + Math.random() * 500;
-
-    p.style.setProperty(
-      "--x",
-      `${Math.cos(angle)*distance}px`
-    );
-
-    p.style.setProperty(
-      "--y",
-      `${Math.sin(angle)*distance}px`
-    );
-
-    const colors = [
-      "#ff00cc",
-      "#00ffff",
-      "#ffe600",
-      "#7b5cff",
-      "#ff7b00",
-      "#00ff88"
-    ];
-
-    p.style.background =
-      colors[
-        Math.floor(
-          Math.random()*colors.length
-        )
-      ];
-
-    document
-      .getElementById("fever")
-      .appendChild(p);
-
-    setTimeout(() => {
-      p.remove();
-    },1200);
-  }
-}
-
-
-/* =========================
-   END
-========================= */
-
-function endGame(){
-
-  if(!playing) return;
-
-  playing = false;
-
-  clearInterval(timer);
-
-  timer = null;
-
-  stopFever();
-
-  document.body.classList.remove("playing");
-
-  timeLeft = 0;
-
-  timeEl.textContent = "0";
-
-
-  /*
-    結果タイトル
-  */
-
-  let title = "RESULT";
-
-  if(bestCombo >= 20){
-    title = "🔥 LEGENDARY!!! 🔥";
-  }
-  else if(bestCombo >= 15){
-    title = "⚡ AMAZING!! ⚡";
-  }
-  else if(correctCount >= 30){
-    title = "🌈 GREAT!! 🌈";
-  }
-  else if(
-    correctCount >= 20 &&
-    missCount <= 5
-  ){
-    title = "✨ NICE PLAY! ✨";
-  }
-  else if(missCount <= 3){
-    title = "🎯 ACCURATE!";
-  }
-
-
-  resultTitle.textContent =
-    title;
-
-  resultCorrect.textContent =
-    correctCount;
-
-  resultMiss.textContent =
-    missCount;
-
-  resultBest.textContent =
-    bestCombo;
-
-
-  resultOverlay.classList.add("show");
-
-  resultCard.classList.remove(
-    "result-boom"
-  );
-
-  void resultCard.offsetWidth;
-
-  resultCard.classList.add(
-    "result-boom"
-  );
-
-
-  soundResult();
-
-  createResultParticles();
-
-
-  /*
-    結果演出は3秒で停止
-  */
-
-  setTimeout(() => {
-
-    resultCard.classList.remove(
-      "result-boom"
-    );
-
-    document
-      .querySelectorAll(".result-particle")
-      .forEach(el => el.remove());
-
-  },3000);
-}
-
-
-/* =========================
-   RESULT SOUND
-========================= */
-
-function soundResult(){
-
-  playTone(
-    523,
-    .12,
-    "triangle",
-    .06
-  );
-
-  playTone(
-    659,
-    .12,
-    "triangle",
-    .06,
-    .10
-  );
-
-  playTone(
-    784,
-    .18,
-    "triangle",
-    .07,
-    .20
-  );
-
-  playTone(
-    1046,
-    .30,
-    "triangle",
-    .07,
-    .34
-  );
-}
-
 
 /* =========================
    RESULT PARTICLES
@@ -1957,83 +2012,269 @@ function soundResult(){
 
 function createResultParticles(){
 
-  for(let i=0;i<70;i++){
+  $("resultBurst")
+    .innerHTML="";
 
-    const p =
-      document.createElement("div");
+  for(
+    let i=0;
+    i<45;
+    i++
+  ){
 
-    p.className =
-      "result-particle";
-
-    const angle =
-      Math.random() * Math.PI * 2;
-
-    const distance =
-      120 + Math.random() * 500;
-
-    p.style.setProperty(
-      "--x",
-      `${Math.cos(angle)*distance}px`
-    );
-
-    p.style.setProperty(
-      "--y",
-      `${Math.sin(angle)*distance}px`
-    );
-
-    const colors = [
-      "#ff00cc",
-      "#00ffff",
-      "#ffe600",
-      "#7b5cff",
-      "#ff7b00",
-      "#00ff88"
-    ];
-
-    p.style.background =
-      colors[
-        Math.floor(
-          Math.random()*colors.length
-        )
-      ];
-
-    document.body.appendChild(p);
-
-    setTimeout(() => {
-      p.remove();
-    },1600);
-  }
-}
-
-
-/* =========================
-   KEYBOARD SUPPORT
-========================= */
-
-document.addEventListener(
-  "keydown",
-  e => {
-
-    if(
-      e.key >= "0" &&
-      e.key <= "9"
-    ){
-
-      pressKey(
-        Number(e.key)
+    const p=
+      document.createElement(
+        "div"
       );
 
-    }
+    p.className=
+      "rParticle";
+
+    p.style.setProperty(
+      "--lx",
+      Math.random()*100+"%"
+    );
+
+    p.style.setProperty(
+      "--ly",
+      Math.random()*100+"%"
+    );
+
+    p.style.animationDelay=
+      Math.random()*.25+"s";
+
+    $("resultBurst")
+      .appendChild(p);
 
   }
-);
 
+}
 
 /* =========================
-   INITIAL
+   END GAME
 ========================= */
 
-selectTime(30);
+function endGame(){
+
+  clearInterval(timer);
+
+  timer=null;
+
+  playing=false;
+
+  stopFever();
+
+  $("startButton")
+    .textContent=
+      "START GAME";
+
+  const rate=
+    (
+      correctCount+
+      missCount
+    )
+    ?
+    Math.round(
+      correctCount/
+      (
+        correctCount+
+        missCount
+      )*
+      100
+    )
+    :
+    0;
+
+  /*
+    ゲーム終了時のスコアを
+    そのままポイントに変換
+  */
+
+  const earned=
+    score;
+
+  totalPoints+=
+    earned;
+
+  savePoints();
+
+  let title=
+    "RESULT";
+
+  if(
+    bestCombo>=20
+  ){
+
+    title=
+      "🔥 LEGENDARY!!! 🔥";
+
+  }else if(
+    bestCombo>=15
+  ){
+
+    title=
+      "⚡ AMAZING!! ⚡";
+
+  }else if(
+    correctCount>=30
+  ){
+
+    title=
+      "🌈 GREAT!! 🌈";
+
+  }else if(
+    correctCount>=20 &&
+    missCount<=5
+  ){
+
+    title=
+      "✨ NICE PLAY! ✨";
+
+  }else if(
+    missCount<=3
+  ){
+
+    title=
+      "🎯 ACCURATE!";
+
+  }
+
+  $("resultTitle")
+    .textContent=
+      title;
+
+  $("resultScore")
+    .textContent=
+      score;
+
+  $("resultCorrect")
+    .textContent=
+      correctCount;
+
+  $("resultWrong")
+    .textContent=
+      missCount;
+
+  $("resultCombo")
+    .textContent=
+      bestCombo;
+
+  $("resultRate")
+    .textContent=
+      rate+"%";
+
+  $("earnedPoints")
+    .textContent=
+      earned;
+
+  $("resultOverlay")
+    .style.display=
+      "flex";
+
+  createResultParticles();
+
+  soundResult();
+
+  /*
+    結果画面の粒子演出は
+    3秒で完全停止
+  */
+
+  resultTimer=
+    setTimeout(()=>{
+
+      $("resultBurst")
+        .innerHTML="";
+
+    },3000);
+
+}
+
+/* =========================
+   RESTART
+========================= */
+
+$("restartButton")
+  .onclick=()=>{
+
+    startGame();
+
+  };
+
+/* =========================
+   TITLE
+========================= */
+
+$("titleButton")
+  .onclick=()=>{
+
+    clearInterval(timer);
+
+    timer=null;
+
+    clearTimeout(
+      resultTimer
+    );
+
+    stopFever();
+
+    playing=false;
+
+    $("resultOverlay")
+      .style.display=
+        "none";
+
+    $("questionA")
+      .textContent=
+        "READY?";
+
+    $("qOperator")
+      .textContent="";
+
+    $("questionB")
+      .textContent="";
+
+    $("nextNumber1")
+      .textContent="-";
+
+    $("nextNumber2")
+      .textContent="-";
+
+    $("correctText")
+      .textContent="0";
+
+    $("wrongText")
+      .textContent="0";
+
+    $("scoreText")
+      .textContent="0";
+
+    $("combo")
+      .textContent=
+        "COMBO 0";
+
+    $("timeText")
+      .textContent=
+        selectedTime;
+
+    $("timer")
+      .style.width=
+        "100%";
+
+    $("startButton")
+      .textContent=
+        "START GAME";
+
+  };
+
+/* =========================
+   INITIALIZE
+========================= */
+
+$("bestText")
+  .textContent=
+    bestCombo;
+
+updatePoints();
 
 </script>
 
