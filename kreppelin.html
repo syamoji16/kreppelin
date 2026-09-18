@@ -78,18 +78,39 @@ h1{
 }
 
 .question{
-  font-size:clamp(38px,11vw,68px);
+  font-size:clamp(42px,12vw,72px);
   font-weight:900;
   letter-spacing:4px;
-  min-height:80px;
+  min-height:85px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-.answer{
-  height:48px;
-  font-size:32px;
+.time-select{
+  display:flex;
+  gap:10px;
+  margin:0 auto 18px;
+  width:min(100%,390px);
+}
+
+.time-button{
+  flex:1;
+  height:52px;
+  border-radius:13px;
+  border:1px solid #34476c;
+  background:#111b30;
+  color:#aebbd5;
+  font-size:18px;
   font-weight:900;
-  margin-bottom:14px;
-  letter-spacing:3px;
+  cursor:pointer;
+}
+
+.time-button.selected{
+  background:#426ee8;
+  color:white;
+  border-color:#6d91ff;
+  box-shadow:0 0 18px rgba(66,110,232,.4);
 }
 
 .keypad{
@@ -101,29 +122,25 @@ h1{
 }
 
 .key{
-  height:65px;
+  height:68px;
   border:0;
   border-radius:13px;
   background:#18243b;
   border:1px solid #34476c;
   color:white;
-  font-size:26px;
+  font-size:28px;
   font-weight:800;
   cursor:pointer;
   touch-action:manipulation;
 }
 
 .key:active{
-  transform:scale(.94);
+  transform:scale(.93);
   background:#304b7d;
 }
 
-.delete{
-  background:#2b2030;
-}
-
-.submit{
-  background:#315ec8;
+.zero{
+  grid-column:2;
 }
 
 .start{
@@ -155,7 +172,58 @@ h1{
   display:none;
 }
 
+/* COMBO演出 */
+
+.combo-pop{
+  animation:comboPop .28s cubic-bezier(.2,1.6,.4,1);
+}
+
+@keyframes comboPop{
+  0%{transform:scale(1);}
+  45%{transform:scale(1.55);}
+  100%{transform:scale(1);}
+}
+
+.combo-fire{
+  position:fixed;
+  left:50%;
+  top:42%;
+  transform:translate(-50%,-50%) scale(.5);
+  font-size:clamp(42px,12vw,80px);
+  font-weight:1000;
+  letter-spacing:2px;
+  pointer-events:none;
+  z-index:100;
+  animation:firePop .55s cubic-bezier(.15,1.5,.3,1) forwards;
+}
+
+@keyframes firePop{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.3);
+  }
+  25%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.2);
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-65%) scale(1);
+  }
+}
+
+.combo-flash{
+  animation:flash .18s ease-out;
+}
+
+@keyframes flash{
+  0%{filter:brightness(1);}
+  50%{filter:brightness(2);}
+  100%{filter:brightness(1);}
+}
+
 @media(max-height:700px){
+
   .stats{
     margin:10px 0;
   }
@@ -165,11 +233,15 @@ h1{
   }
 
   .question{
-    min-height:55px;
+    min-height:60px;
   }
 
   .key{
-    height:54px;
+    height:55px;
+  }
+
+  .time-button{
+    height:45px;
   }
 }
 </style>
@@ -213,9 +285,23 @@ h1{
 
 <div class="problem">
 
-<div id="question" class="question">START</div>
+<!-- 時間選択 -->
 
-<div id="answer" class="answer"></div>
+<div id="timeSelect" class="time-select">
+
+<button class="time-button selected" data-time="30">
+30秒
+</button>
+
+<button class="time-button" data-time="60">
+60秒
+</button>
+
+</div>
+
+<div id="question" class="question">
+START
+</div>
 
 <div id="keypad" class="keypad hidden">
 
@@ -231,13 +317,13 @@ h1{
 <button class="key" data-num="8">8</button>
 <button class="key" data-num="9">9</button>
 
-<button class="key delete" id="delete">←</button>
-<button class="key" data-num="0">0</button>
-<button class="key submit" id="submit">✓</button>
+<button class="key zero" data-num="0">0</button>
 
 </div>
 
-<button id="startButton" class="start">START</button>
+<button id="startButton" class="start">
+START
+</button>
 
 <div id="message" class="message"></div>
 
@@ -247,38 +333,96 @@ h1{
 
 <script>
 
-const question=document.getElementById("question");
-const answer=document.getElementById("answer");
-const keypad=document.getElementById("keypad");
-const startButton=document.getElementById("startButton");
+const question =
+  document.getElementById("question");
 
-const timeDisplay=document.getElementById("time");
-const correctDisplay=document.getElementById("correct");
-const wrongDisplay=document.getElementById("wrong");
-const bestDisplay=document.getElementById("best");
-const comboDisplay=document.getElementById("combo");
-const message=document.getElementById("message");
+const keypad =
+  document.getElementById("keypad");
+
+const startButton =
+  document.getElementById("startButton");
+
+const timeSelect =
+  document.getElementById("timeSelect");
+
+const timeDisplay =
+  document.getElementById("time");
+
+const correctDisplay =
+  document.getElementById("correct");
+
+const wrongDisplay =
+  document.getElementById("wrong");
+
+const bestDisplay =
+  document.getElementById("best");
+
+const comboDisplay =
+  document.getElementById("combo");
+
+const message =
+  document.getElementById("message");
+
 
 let correct=0;
 let wrong=0;
 let combo=0;
 
-let best=Number(
-  localStorage.getItem("neuroKrepelinBest") || 0
-);
+let best=
+  Number(
+    localStorage.getItem("neuroKrepelinBest") || 0
+  );
 
 let running=false;
+
 let currentAnswer=0;
-let playerAnswer="";
+
+let selectedTime=30;
 
 let endTime=0;
 let timer=null;
 
+
 bestDisplay.textContent=best;
 
+
+/* 時間選択 */
+
+document
+  .querySelectorAll(".time-button")
+  .forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+      if(running)return;
+
+      selectedTime=
+        Number(button.dataset.time);
+
+      document
+        .querySelectorAll(".time-button")
+        .forEach(b=>{
+          b.classList.remove("selected");
+        });
+
+      button.classList.add("selected");
+
+      timeDisplay.textContent=
+        selectedTime.toFixed(1);
+
+    });
+
+  });
+
+
 function randomInt(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
+
+  return Math.floor(
+    Math.random()*(max-min+1)
+  )+min;
+
 }
+
 
 function makeQuestion(){
 
@@ -287,11 +431,11 @@ function makeQuestion(){
 
   currentAnswer=a+b;
 
-  question.textContent=`${a} + ${b}`;
+  question.textContent=
+    `${a} + ${b}`;
 
-  playerAnswer="";
-  answer.textContent="";
 }
+
 
 function updateStats(){
 
@@ -302,6 +446,7 @@ function updateStats(){
 
 }
 
+
 function startGame(){
 
   correct=0;
@@ -310,33 +455,42 @@ function startGame(){
 
   running=true;
 
+  timeSelect.classList.add("hidden");
+
   startButton.classList.add("hidden");
+
   keypad.classList.remove("hidden");
 
   message.textContent="";
   message.className="message";
 
-  endTime=performance.now()+30000;
+  endTime=
+    performance.now()+
+    selectedTime*1000;
 
   updateStats();
+
   makeQuestion();
 
   clearInterval(timer);
 
-  timer=setInterval(updateTime,50);
+  timer=
+    setInterval(updateTime,50);
 
   updateTime();
 
 }
 
+
 function updateTime(){
 
   if(!running)return;
 
-  const remaining=Math.max(
-    0,
-    endTime-performance.now()
-  );
+  const remaining=
+    Math.max(
+      0,
+      endTime-performance.now()
+    );
 
   timeDisplay.textContent=
     (remaining/1000).toFixed(1);
@@ -349,39 +503,96 @@ function updateTime(){
 
 }
 
-function addNumber(num){
 
-  if(!running)return;
+function comboEffect(){
 
-  // 最大3桁
-  if(playerAnswer.length>=3)return;
+  const comboValue=
+    document.getElementById("combo");
 
-  playerAnswer+=num;
+  comboValue.classList.remove("combo-pop");
 
-  answer.textContent=playerAnswer;
+  void comboValue.offsetWidth;
+
+  comboValue.classList.add("combo-pop");
+
+
+  if(combo>=3){
+
+    const effect=
+      document.createElement("div");
+
+    effect.className="combo-fire";
+
+    if(combo>=20){
+      effect.textContent=
+        `${combo} COMBO!!!`;
+    }else if(combo>=15){
+      effect.textContent=
+        `${combo} COMBO!!`;
+    }else if(combo>=10){
+      effect.textContent=
+        `${combo} COMBO!`;
+    }else if(combo>=5){
+      effect.textContent=
+        `${combo} COMBO!`;
+    }else{
+      effect.textContent="NICE!";
+    }
+
+    document.body.appendChild(effect);
+
+    setTimeout(()=>{
+      effect.remove();
+    },600);
+
+  }
+
+
+  if(combo>=10){
+
+    document.body.classList.remove(
+      "combo-flash"
+    );
+
+    void document.body.offsetWidth;
+
+    document.body.classList.add(
+      "combo-flash"
+    );
+
+  }
+
+
+  if(navigator.vibrate){
+
+    if(combo>=20){
+
+      navigator.vibrate([30,30,60]);
+
+    }else if(combo>=10){
+
+      navigator.vibrate(25);
+
+    }else if(combo>=5){
+
+      navigator.vibrate(15);
+
+    }
+
+  }
 
 }
 
-function deleteNumber(){
+
+function answerQuestion(num){
 
   if(!running)return;
 
-  playerAnswer=
-    playerAnswer.slice(0,-1);
+  const correctDigit=
+    currentAnswer%10;
 
-  answer.textContent=playerAnswer;
 
-}
-
-function submitAnswer(){
-
-  if(!running)return;
-
-  if(playerAnswer==="")return;
-
-  const value=Number(playerAnswer);
-
-  if(value===currentAnswer){
+  if(Number(num)===correctDigit){
 
     correct++;
     combo++;
@@ -397,24 +608,34 @@ function submitAnswer(){
 
     }
 
-    message.textContent="CORRECT!";
-    message.className="message correct";
+    message.textContent=
+      "CORRECT!";
+
+    message.className=
+      "message correct";
+
+    comboEffect();
 
   }else{
 
     wrong++;
     combo=0;
 
-    message.textContent="MISS!";
-    message.className="message wrong";
+    message.textContent=
+      "MISS!";
+
+    message.className=
+      "message wrong";
 
   }
+
 
   updateStats();
 
   makeQuestion();
 
 }
+
 
 function finishGame(){
 
@@ -428,40 +649,42 @@ function finishGame(){
 
   question.textContent="TIME UP!";
 
-  answer.textContent="";
-
   message.textContent=
     `正解 ${correct}　ミス ${wrong}　BEST COMBO ${best}`;
 
   message.className="message";
 
-  startButton.textContent="もう一度";
+  startButton.textContent=
+    "もう一度";
 
   startButton.classList.remove("hidden");
 
+  timeSelect.classList.remove("hidden");
+
 }
 
-document.querySelectorAll("[data-num]")
-.forEach(button=>{
 
-  button.addEventListener("click",()=>{
+document
+  .querySelectorAll("[data-num]")
+  .forEach(button=>{
 
-    addNumber(button.dataset.num);
+    button.addEventListener(
+      "click",
+      ()=>{
+        answerQuestion(
+          button.dataset.num
+        );
+      }
+    );
 
   });
 
-});
-
-document.getElementById("delete")
-.addEventListener("click",deleteNumber);
-
-document.getElementById("submit")
-.addEventListener("click",submitAnswer);
 
 startButton.addEventListener(
   "click",
   startGame
 );
+
 
 updateStats();
 
