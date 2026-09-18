@@ -2,246 +2,456 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NEURO KREPELIN</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-body{
-  margin:0;
-  min-height:100vh;
+html, body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: Arial, sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background:
-    radial-gradient(circle at top,#18243d 0%,#090d18 45%,#05070d 100%);
-  color:white;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+    radial-gradient(circle at 20% 20%, #ff00cc55, transparent 30%),
+    radial-gradient(circle at 80% 30%, #00eaff55, transparent 30%),
+    radial-gradient(circle at 50% 90%, #7b2cff55, transparent 35%),
+    linear-gradient(135deg, #080018, #001b35, #18002b);
+  background-size: 200% 200%;
+  animation: bgMove 8s ease-in-out infinite alternate;
 }
 
-.game{
-  width:min(94vw,620px);
-  text-align:center;
+@keyframes bgMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 
-h1{
-  margin:0;
-  font-size:clamp(30px,8vw,55px);
-  letter-spacing:4px;
-  font-weight:900;
+.game {
+  width: min(520px, 94vw);
+  padding: 20px 14px 30px;
+  text-align: center;
 }
 
-.subtitle{
-  color:#8fa7d8;
-  margin-top:4px;
-  font-size:14px;
-  letter-spacing:2px;
+h1 {
+  margin: 0;
+  font-size: clamp(32px, 9vw, 58px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(
+    90deg,
+    #ff00cc,
+    #ffea00,
+    #00ff9d,
+    #00eaff,
+    #7b2cff,
+    #ff00cc
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: rainbow 3s linear infinite;
+  filter: drop-shadow(0 0 12px #ffffff66);
 }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:6px;
-  margin:20px 0 14px;
+@keyframes rainbow {
+  to { background-position: 300% center; }
 }
 
-.stat{
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;
-  padding:8px 2px;
+.subtitle {
+  margin-top: 4px;
+  margin-bottom: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  color: #ddd;
 }
 
-.label{
-  font-size:9px;
-  color:#8d9bb8;
-  letter-spacing:1px;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-bottom: 18px;
 }
 
-.value{
-  font-size:19px;
-  font-weight:800;
-  margin-top:2px;
+.stat {
+  padding: 8px 3px;
+  border-radius: 12px;
+  background: #ffffff12;
+  border: 1px solid #ffffff2c;
+  box-shadow: 0 0 12px #00eaff22;
 }
 
-.problem{
-  border-radius:22px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  padding:20px 15px 18px;
-  box-shadow:0 15px 50px rgba(0,0,0,.3);
+.stat-label {
+  font-size: 10px;
+  opacity: .7;
 }
 
-.question{
-  font-size:clamp(42px,12vw,72px);
-  font-weight:900;
-  letter-spacing:4px;
-  min-height:85px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.stat-value {
+  font-size: 17px;
+  font-weight: 900;
+  margin-top: 2px;
 }
 
-.time-select{
-  display:flex;
-  gap:10px;
-  margin:0 auto 18px;
-  width:min(100%,390px);
+#time {
+  color: #00eaff;
 }
 
-.time-button{
-  flex:1;
-  height:52px;
-  border-radius:13px;
-  border:1px solid #34476c;
-  background:#111b30;
-  color:#aebbd5;
-  font-size:18px;
-  font-weight:900;
-  cursor:pointer;
+#correct {
+  color: #00ff9d;
 }
 
-.time-button.selected{
-  background:#426ee8;
-  color:white;
-  border-color:#6d91ff;
-  box-shadow:0 0 18px rgba(66,110,232,.4);
+#miss {
+  color: #ff477e;
 }
 
-.keypad{
-  width:min(100%,390px);
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
+#best {
+  color: #ffe600;
 }
 
-.key{
-  height:68px;
-  border:0;
-  border-radius:13px;
-  background:#18243b;
-  border:1px solid #34476c;
-  color:white;
-  font-size:28px;
-  font-weight:800;
-  cursor:pointer;
-  touch-action:manipulation;
+#combo {
+  color: #ff00cc;
 }
 
-.key:active{
-  transform:scale(.93);
-  background:#304b7d;
+.time-select {
+  margin-bottom: 18px;
 }
 
-.zero{
-  grid-column:2;
+.time-title {
+  font-size: 13px;
+  margin-bottom: 8px;
+  opacity: .75;
 }
 
-.start{
-  width:100%;
-  height:60px;
-  border:0;
-  border-radius:14px;
-  background:#426ee8;
-  color:white;
-  font-size:20px;
-  font-weight:900;
+.time-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-.message{
-  height:25px;
-  margin-top:8px;
-  font-weight:800;
+.time-button {
+  border: none;
+  color: white;
+  font-size: 17px;
+  font-weight: 900;
+  padding: 11px 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #7b2cff, #ff00cc);
+  box-shadow: 0 0 15px #ff00cc55;
 }
 
-.correct{
-  color:#65ffb0;
+.time-button:nth-child(2) {
+  background: linear-gradient(135deg, #00eaff, #0066ff);
 }
 
-.wrong{
-  color:#ff667d;
+.time-button.selected {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 10px white,
+    0 0 25px currentColor;
+  outline: 3px solid white;
 }
 
-.hidden{
-  display:none;
+.start-button,
+.restart-button {
+  border: none;
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  padding: 13px 30px;
+  border-radius: 30px;
+  background: linear-gradient(
+    90deg,
+    #ff00cc,
+    #7b2cff,
+    #00eaff,
+    #00ff9d,
+    #ffea00,
+    #ff00cc
+  );
+  background-size: 300% 100%;
+  animation: rainbowButton 2s linear infinite;
+  box-shadow:
+    0 0 15px #ff00cc88,
+    0 0 35px #00eaff44;
+  cursor: pointer;
 }
 
-/* COMBO演出 */
-
-.combo-pop{
-  animation:comboPop .28s cubic-bezier(.2,1.6,.4,1);
+@keyframes rainbowButton {
+  to { background-position: 300% 0; }
 }
 
-@keyframes comboPop{
-  0%{transform:scale(1);}
-  45%{transform:scale(1.55);}
-  100%{transform:scale(1);}
+.start-button:active,
+.restart-button:active,
+.time-button:active,
+.key:active {
+  transform: scale(.92);
 }
 
-.combo-fire{
-  position:fixed;
-  left:50%;
-  top:42%;
-  transform:translate(-50%,-50%) scale(.5);
-  font-size:clamp(42px,12vw,80px);
-  font-weight:1000;
-  letter-spacing:2px;
-  pointer-events:none;
-  z-index:100;
-  animation:firePop .55s cubic-bezier(.15,1.5,.3,1) forwards;
+.question-box {
+  min-height: 145px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes firePop{
-  0%{
-    opacity:0;
-    transform:translate(-50%,-50%) scale(.3);
+.question {
+  font-size: clamp(48px, 15vw, 82px);
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #00eaff,
+    0 0 50px #7b2cff;
+}
+
+.question-pop {
+  animation: questionPop .16s ease-out;
+}
+
+@keyframes questionPop {
+  0% {
+    transform: scale(.55) rotate(-5deg);
+    opacity: .2;
   }
-  25%{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1.2);
+  70% {
+    transform: scale(1.12) rotate(2deg);
   }
-  100%{
-    opacity:0;
-    transform:translate(-50%,-65%) scale(1);
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
   }
 }
 
-.combo-flash{
-  animation:flash .18s ease-out;
+.question.correct {
+  animation: correctFlash .28s ease-out;
 }
 
-@keyframes flash{
-  0%{filter:brightness(1);}
-  50%{filter:brightness(2);}
-  100%{filter:brightness(1);}
+@keyframes correctFlash {
+  0% {
+    color: #00ff9d;
+    transform: scale(1);
+    text-shadow: 0 0 10px #00ff9d;
+  }
+  50% {
+    color: white;
+    transform: scale(1.25);
+    text-shadow:
+      0 0 20px #00ff9d,
+      0 0 50px #00ff9d;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-@media(max-height:700px){
+.question.miss {
+  animation: missShake .28s ease-out;
+}
 
-  .stats{
-    margin:10px 0;
+@keyframes missShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-12px); }
+  40% { transform: translateX(12px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+
+.message {
+  min-height: 32px;
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 380px;
+  margin: auto;
+}
+
+.key {
+  border: none;
+  min-height: 72px;
+  border-radius: 20px;
+  color: white;
+  font-size: 30px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow:
+    inset 0 -5px 0 #00000033,
+    0 7px 15px #00000055;
+  transition: transform .08s;
+}
+
+.key:nth-child(1) { background: linear-gradient(135deg,#ff3864,#ff00cc); }
+.key:nth-child(2) { background: linear-gradient(135deg,#ff7a00,#ff3864); }
+.key:nth-child(3) { background: linear-gradient(135deg,#ffe600,#ff7a00); }
+.key:nth-child(4) { background: linear-gradient(135deg,#00ff9d,#00c853); }
+.key:nth-child(5) { background: linear-gradient(135deg,#00eaff,#008cff); }
+.key:nth-child(6) { background: linear-gradient(135deg,#007bff,#7b2cff); }
+.key:nth-child(7) { background: linear-gradient(135deg,#7b2cff,#c000ff); }
+.key:nth-child(8) { background: linear-gradient(135deg,#ff00cc,#ff3864); }
+.key:nth-child(9) { background: linear-gradient(135deg,#ff3864,#ff7a00); }
+.key:nth-child(10) {
+  grid-column: 2;
+  background: linear-gradient(135deg,#333,#111);
+}
+
+.combo-pop {
+  position: fixed;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  pointer-events: none;
+  font-size: clamp(45px, 14vw, 85px);
+  font-weight: 900;
+  color: #ffe600;
+  text-shadow:
+    0 0 10px #ff00cc,
+    0 0 30px #00eaff,
+    0 0 60px #ffe600;
+  animation: comboPop 1s ease-out forwards;
+}
+
+@keyframes comboPop {
+  0% {
+    transform: translate(-50%, -50%) scale(.2) rotate(-15deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.3) rotate(5deg);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1) rotate(-2deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.7) rotate(0);
+    opacity: 0;
+  }
+}
+
+.combo-fire {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background: radial-gradient(circle, #ff00cc55, transparent 55%);
+  animation: fireFlash .5s ease-out forwards;
+}
+
+@keyframes fireFlash {
+  0% { opacity: 0; }
+  30% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.combo-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  border: 8px solid #ffe600;
+  animation: flashBorder .5s ease-out forwards;
+}
+
+@keyframes flashBorder {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* 結果画面 */
+
+.result-boom {
+  animation: resultBoom 1.1s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes resultBoom {
+  0% { transform: scale(1) rotate(0deg); }
+  8% { transform: scale(1.08) rotate(-1.5deg); }
+  16% { transform: scale(.94) rotate(1.8deg); }
+  25% { transform: scale(1.12) rotate(-1.2deg); }
+  35% { transform: scale(.97) rotate(1deg); }
+  48% { transform: scale(1.06) rotate(-.6deg); }
+  65% { transform: scale(1.01) rotate(.3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.result-color-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.result-color-flash.active {
+  animation: colorFlash .9s steps(1, end);
+}
+
+@keyframes colorFlash {
+  0% { opacity: 0; background:#ff00cc; }
+  8% { opacity:.75; background:#ff00cc; }
+  16% { opacity:0; }
+  24% { opacity:.8; background:#00eaff; }
+  32% { opacity:0; }
+  40% { opacity:.8; background:#ffe600; }
+  48% { opacity:0; }
+  56% { opacity:.8; background:#7b2cff; }
+  64% { opacity:0; }
+  72% { opacity:.8; background:#00ff9d; }
+  80% { opacity:0; }
+  88% { opacity:.9; background:#ff3864; }
+  100% { opacity:0; }
+}
+
+.result-restart {
+  margin-top: 15px;
+}
+
+/* スマホ */
+
+@media (max-width: 420px) {
+  .game {
+    padding-top: 12px;
   }
 
-  .problem{
-    padding:12px;
+  .stats {
+    gap: 3px;
   }
 
-  .question{
-    min-height:60px;
+  .stat {
+    padding: 7px 2px;
   }
 
-  .key{
-    height:55px;
+  .stat-value {
+    font-size: 15px;
   }
 
-  .time-button{
-    height:45px;
+  .key {
+    min-height: 65px;
+    font-size: 27px;
+  }
+
+  .question-box {
+    min-height: 125px;
   }
 }
 </style>
@@ -251,440 +461,733 @@ h1{
 
 <div class="game">
 
-<h1>NEURO KREPELIN</h1>
-<div class="subtitle">反射 × 計算 × コンボ</div>
+  <h1>NEURO KREPELIN</h1>
+  <div class="subtitle">反射 × 計算 × コンボ</div>
 
-<div class="stats">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">TIME</div>
+      <div class="stat-value" id="time">30.0</div>
+    </div>
 
-<div class="stat">
-<div class="label">TIME</div>
-<div class="value" id="time">30.0</div>
-</div>
+    <div class="stat">
+      <div class="stat-label">正解</div>
+      <div class="stat-value" id="correct">0</div>
+    </div>
 
-<div class="stat">
-<div class="label">正解</div>
-<div class="value" id="correct">0</div>
-</div>
+    <div class="stat">
+      <div class="stat-label">ミス</div>
+      <div class="stat-value" id="miss">0</div>
+    </div>
 
-<div class="stat">
-<div class="label">ミス</div>
-<div class="value" id="wrong">0</div>
-</div>
+    <div class="stat">
+      <div class="stat-label">BEST</div>
+      <div class="stat-value" id="best">0</div>
+    </div>
 
-<div class="stat">
-<div class="label">BEST</div>
-<div class="value" id="best">0</div>
-</div>
+    <div class="stat">
+      <div class="stat-label">COMBO</div>
+      <div class="stat-value" id="combo">0</div>
+    </div>
+  </div>
 
-<div class="stat">
-<div class="label">COMBO</div>
-<div class="value" id="combo">0</div>
-</div>
+  <div class="time-select" id="timeSelect">
 
-</div>
+    <div class="time-title">PLAY TIME</div>
 
-<div class="problem">
+    <div class="time-buttons">
+      <button class="time-button selected" data-time="30">
+        30 SEC
+      </button>
 
-<!-- 時間選択 -->
+      <button class="time-button" data-time="60">
+        60 SEC
+      </button>
+    </div>
 
-<div id="timeSelect" class="time-select">
+  </div>
 
-<button class="time-button selected" data-time="30">
-30秒
-</button>
+  <button class="start-button" id="startButton">
+    START GAME
+  </button>
 
-<button class="time-button" data-time="60">
-60秒
-</button>
+  <div class="question-box">
 
-</div>
+    <div class="question" id="question">
+      READY?
+    </div>
 
-<div id="question" class="question">
-START
-</div>
+    <div class="message" id="message"></div>
 
-<div id="keypad" class="keypad hidden">
+  </div>
 
-<button class="key" data-num="1">1</button>
-<button class="key" data-num="2">2</button>
-<button class="key" data-num="3">3</button>
+  <div class="keypad">
 
-<button class="key" data-num="4">4</button>
-<button class="key" data-num="5">5</button>
-<button class="key" data-num="6">6</button>
+    <button class="key" data-number="1">1</button>
+    <button class="key" data-number="2">2</button>
+    <button class="key" data-number="3">3</button>
 
-<button class="key" data-num="7">7</button>
-<button class="key" data-num="8">8</button>
-<button class="key" data-num="9">9</button>
+    <button class="key" data-number="4">4</button>
+    <button class="key" data-number="5">5</button>
+    <button class="key" data-number="6">6</button>
 
-<button class="key zero" data-num="0">0</button>
+    <button class="key" data-number="7">7</button>
+    <button class="key" data-number="8">8</button>
+    <button class="key" data-number="9">9</button>
 
-</div>
+    <button class="key zero" data-number="0">0</button>
 
-<button id="startButton" class="start">
-START
-</button>
+  </div>
 
-<div id="message" class="message"></div>
-
-</div>
+  <div class="result-restart" id="resultRestart" style="display:none;">
+    <button class="restart-button" id="restartButton">
+      🔄 やり直す
+    </button>
+  </div>
 
 </div>
 
 <script>
 
-const question =
-  document.getElementById("question");
+let selectedTime = 30;
 
-const keypad =
-  document.getElementById("keypad");
+let gameRunning = false;
+let endTime = 0;
+let timerInterval = null;
 
-const startButton =
-  document.getElementById("startButton");
+let correct = 0;
+let miss = 0;
+let combo = 0;
 
-const timeSelect =
-  document.getElementById("timeSelect");
+let currentAnswer = 0;
 
-const timeDisplay =
-  document.getElementById("time");
+let best = Number(
+  localStorage.getItem("neuroKreppelinBest") || 0
+);
 
-const correctDisplay =
-  document.getElementById("correct");
+let nextNumber = null;
 
-const wrongDisplay =
-  document.getElementById("wrong");
+const timeEl = document.getElementById("time");
+const correctEl = document.getElementById("correct");
+const missEl = document.getElementById("miss");
+const bestEl = document.getElementById("best");
+const comboEl = document.getElementById("combo");
 
-const bestDisplay =
-  document.getElementById("best");
+const questionEl = document.getElementById("question");
+const messageEl = document.getElementById("message");
 
-const comboDisplay =
-  document.getElementById("combo");
+const timeSelect = document.getElementById("timeSelect");
+const startButton = document.getElementById("startButton");
 
-const message =
-  document.getElementById("message");
+const resultRestart =
+  document.getElementById("resultRestart");
 
-
-let correct=0;
-let wrong=0;
-let combo=0;
-
-let best=
-  Number(
-    localStorage.getItem("neuroKrepelinBest") || 0
-  );
-
-let running=false;
-
-let currentAnswer=0;
-
-let selectedTime=30;
-
-let endTime=0;
-let timer=null;
+const restartButton =
+  document.getElementById("restartButton");
 
 
-bestDisplay.textContent=best;
+/* -------------------------
+   ランダム
+------------------------- */
 
-
-/* 時間選択 */
-
-document
-  .querySelectorAll(".time-button")
-  .forEach(button=>{
-
-    button.addEventListener("click",()=>{
-
-      if(running)return;
-
-      selectedTime=
-        Number(button.dataset.time);
-
-      document
-        .querySelectorAll(".time-button")
-        .forEach(b=>{
-          b.classList.remove("selected");
-        });
-
-      button.classList.add("selected");
-
-      timeDisplay.textContent=
-        selectedTime.toFixed(1);
-
-    });
-
-  });
-
-
-function randomInt(min,max){
-
+function randomInt(min, max) {
   return Math.floor(
-    Math.random()*(max-min+1)
-  )+min;
-
+    Math.random() * (max - min + 1)
+  ) + min;
 }
 
 
-function makeQuestion(){
+/* -------------------------
+   問題生成
+------------------------- */
 
-  const a=randomInt(1,9);
-  const b=randomInt(1,9);
+function makeQuestion() {
 
-  currentAnswer=a+b;
+  let a;
 
-  question.textContent=
+  /*
+    最初だけランダム。
+
+    2〜9だけを使用するので
+    1は絶対に出ない。
+  */
+
+  if (nextNumber === null) {
+    a = randomInt(2, 9);
+  } else {
+    /*
+      前の問題の右側を
+      次の問題の左側にする
+    */
+    a = nextNumber;
+  }
+
+  const b = randomInt(2, 9);
+
+  /*
+    次の問題の左側へ引き継ぐ
+  */
+  nextNumber = b;
+
+  /*
+    答えは1の位だけ
+  */
+  currentAnswer = (a + b) % 10;
+
+  questionEl.textContent =
     `${a} + ${b}`;
 
+  questionEl.classList.remove("question-pop");
+
+  void questionEl.offsetWidth;
+
+  questionEl.classList.add("question-pop");
 }
 
 
-function updateStats(){
+/* -------------------------
+   スタート
+------------------------- */
 
-  correctDisplay.textContent=correct;
-  wrongDisplay.textContent=wrong;
-  comboDisplay.textContent=combo;
-  bestDisplay.textContent=best;
+function startGame() {
 
-}
+  gameRunning = true;
 
+  correct = 0;
+  miss = 0;
+  combo = 0;
 
-function startGame(){
-
-  correct=0;
-  wrong=0;
-  combo=0;
-
-  running=true;
-
-  timeSelect.classList.add("hidden");
-
-  startButton.classList.add("hidden");
-
-  keypad.classList.remove("hidden");
-
-  message.textContent="";
-  message.className="message";
-
-  endTime=
-    performance.now()+
-    selectedTime*1000;
+  /*
+    新しいゲームでは
+    問題の連鎖もリセット
+  */
+  nextNumber = null;
 
   updateStats();
 
+  timeSelect.style.display = "none";
+
+  startButton.style.display = "none";
+
+  resultRestart.style.display = "none";
+
+  messageEl.textContent = "";
+  messageEl.style.color = "";
+
+  questionEl.style.color = "";
+  questionEl.style.textShadow = "";
+
+  endTime =
+    performance.now() +
+    selectedTime * 1000;
+
   makeQuestion();
 
-  clearInterval(timer);
+  clearInterval(timerInterval);
 
-  timer=
-    setInterval(updateTime,50);
-
-  updateTime();
-
+  timerInterval =
+    setInterval(updateTime, 40);
 }
 
 
-function updateTime(){
+/* -------------------------
+   時間更新
+------------------------- */
 
-  if(!running)return;
+function updateTime() {
 
-  const remaining=
+  if (!gameRunning) return;
+
+  const remaining =
     Math.max(
       0,
-      endTime-performance.now()
+      endTime - performance.now()
     );
 
-  timeDisplay.textContent=
-    (remaining/1000).toFixed(1);
+  timeEl.textContent =
+    (remaining / 1000).toFixed(1);
 
-  if(remaining<=0){
-
+  if (remaining <= 0) {
     finishGame();
-
   }
-
 }
 
 
-function comboEffect(){
+/* -------------------------
+   ステータス
+------------------------- */
 
-  const comboValue=
-    document.getElementById("combo");
+function updateStats() {
 
-  comboValue.classList.remove("combo-pop");
-
-  void comboValue.offsetWidth;
-
-  comboValue.classList.add("combo-pop");
-
-
-  if(combo>=3){
-
-    const effect=
-      document.createElement("div");
-
-    effect.className="combo-fire";
-
-    if(combo>=20){
-      effect.textContent=
-        `${combo} COMBO!!!`;
-    }else if(combo>=15){
-      effect.textContent=
-        `${combo} COMBO!!`;
-    }else if(combo>=10){
-      effect.textContent=
-        `${combo} COMBO!`;
-    }else if(combo>=5){
-      effect.textContent=
-        `${combo} COMBO!`;
-    }else{
-      effect.textContent="NICE!";
-    }
-
-    document.body.appendChild(effect);
-
-    setTimeout(()=>{
-      effect.remove();
-    },600);
-
-  }
-
-
-  if(combo>=10){
-
-    document.body.classList.remove(
-      "combo-flash"
-    );
-
-    void document.body.offsetWidth;
-
-    document.body.classList.add(
-      "combo-flash"
-    );
-
-  }
-
-
-  if(navigator.vibrate){
-
-    if(combo>=20){
-
-      navigator.vibrate([30,30,60]);
-
-    }else if(combo>=10){
-
-      navigator.vibrate(25);
-
-    }else if(combo>=5){
-
-      navigator.vibrate(15);
-
-    }
-
-  }
-
+  correctEl.textContent = correct;
+  missEl.textContent = miss;
+  bestEl.textContent = best;
+  comboEl.textContent = combo;
 }
 
 
-function answerQuestion(num){
+/* -------------------------
+   数字を押す
+------------------------- */
 
-  if(!running)return;
+function answerQuestion(number) {
 
-  const correctDigit=
-    currentAnswer%10;
+  if (!gameRunning) return;
 
-
-  if(Number(num)===correctDigit){
+  if (number === currentAnswer) {
 
     correct++;
     combo++;
 
-    if(combo>best){
+    /*
+      BEST COMBO更新
+    */
+    if (combo > best) {
 
-      best=combo;
+      best = combo;
 
       localStorage.setItem(
-        "neuroKrepelinBest",
+        "neuroKreppelinBest",
         best
       );
-
     }
 
-    message.textContent=
-      "CORRECT!";
+    messageEl.textContent = "NICE!";
+    messageEl.style.color = "#00ff9d";
 
-    message.className=
-      "message correct";
+    questionEl.classList.remove("correct");
+
+    void questionEl.offsetWidth;
+
+    questionEl.classList.add("correct");
 
     comboEffect();
 
-  }else{
+  } else {
 
-    wrong++;
-    combo=0;
+    miss++;
+    combo = 0;
 
-    message.textContent=
-      "MISS!";
+    messageEl.textContent = "MISS!";
+    messageEl.style.color = "#ff477e";
 
-    message.className=
-      "message wrong";
+    questionEl.classList.remove("miss");
 
+    void questionEl.offsetWidth;
+
+    questionEl.classList.add("miss");
+
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
   }
-
 
   updateStats();
 
+  /*
+    即座に次の問題へ
+  */
   makeQuestion();
-
 }
 
 
-function finishGame(){
+/* -------------------------
+   コンボ演出
+------------------------- */
 
-  running=false;
+function comboEffect() {
 
-  clearInterval(timer);
+  /*
+    5コンボごとに派手な演出
+  */
+  if (
+    combo < 5 ||
+    combo % 5 !== 0
+  ) {
+    return;
+  }
 
-  timeDisplay.textContent="0.0";
+  const pop =
+    document.createElement("div");
 
-  keypad.classList.add("hidden");
+  pop.className = "combo-pop";
 
-  question.textContent="TIME UP!";
+  pop.textContent =
+    `${combo} COMBO!`;
 
-  message.textContent=
-    `正解 ${correct}　ミス ${wrong}　BEST COMBO ${best}`;
+  document.body.appendChild(pop);
 
-  message.className="message";
+  setTimeout(() => {
+    pop.remove();
+  }, 1000);
 
-  startButton.textContent=
-    "もう一度";
 
-  startButton.classList.remove("hidden");
+  const fire =
+    document.createElement("div");
 
-  timeSelect.classList.remove("hidden");
+  fire.className = "combo-fire";
 
+  document.body.appendChild(fire);
+
+  setTimeout(() => {
+    fire.remove();
+  }, 500);
+
+
+  const flash =
+    document.createElement("div");
+
+  flash.className = "combo-flash";
+
+  document.body.appendChild(flash);
+
+  setTimeout(() => {
+    flash.remove();
+  }, 500);
+
+
+  if (navigator.vibrate) {
+
+    navigator.vibrate([
+      40,
+      30,
+      70,
+      30,
+      100
+    ]);
+  }
 }
 
 
-document
-  .querySelectorAll("[data-num]")
-  .forEach(button=>{
+/* -------------------------
+   ゲーム終了
+------------------------- */
 
-    button.addEventListener(
-      "click",
-      ()=>{
-        answerQuestion(
-          button.dataset.num
-        );
+function finishGame() {
+
+  gameRunning = false;
+
+  clearInterval(timerInterval);
+
+  timeEl.textContent = "0.0";
+
+  timeSelect.style.display = "block";
+
+  startButton.style.display = "block";
+
+  startButton.textContent =
+    "PLAY AGAIN";
+
+  /*
+    やり直しボタンを表示
+  */
+  resultRestart.style.display = "block";
+
+
+  let title = "";
+  let color = "";
+  let effect = "";
+
+
+  if (best >= 20) {
+
+    title = "🔥 LEGENDARY!!! 🔥";
+    color = "#ff00cc";
+    effect = "legend";
+
+  } else if (best >= 15) {
+
+    title = "⚡ AMAZING!! ⚡";
+    color = "#00eaff";
+    effect = "amazing";
+
+  } else if (correct >= 30) {
+
+    title = "🌈 GREAT!! 🌈";
+    color = "#ffe600";
+    effect = "great";
+
+  } else if (
+    correct >= 20 &&
+    miss <= 5
+  ) {
+
+    title = "✨ NICE PLAY! ✨";
+    color = "#00ff9d";
+    effect = "nice";
+
+  } else if (miss <= 3) {
+
+    title = "🎯 ACCURATE!";
+    color = "#7b7cff";
+    effect = "accurate";
+
+  } else {
+
+    title = "RESULT";
+    color = "#ffffff";
+    effect = "normal";
+  }
+
+
+  questionEl.textContent = title;
+
+  questionEl.style.color = color;
+
+  questionEl.style.textShadow =
+    `0 0 10px ${color},
+     0 0 25px ${color},
+     0 0 50px ${color}`;
+
+
+  messageEl.innerHTML =
+    `正解 <strong>${correct}</strong>　
+     ミス <strong>${miss}</strong><br>
+     BEST COMBO <strong>${best}</strong>`;
+
+  messageEl.style.color = color;
+
+
+  resultExplosion(color);
+}
+
+
+/* -------------------------
+   結果演出
+------------------------- */
+
+function resultExplosion(color) {
+
+  /*
+    画面全体ブォンブォン
+  */
+  document.body.classList.remove(
+    "result-boom"
+  );
+
+  void document.body.offsetWidth;
+
+  document.body.classList.add(
+    "result-boom"
+  );
+
+
+  /*
+    全画面カラー点滅
+  */
+  const colorFlash =
+    document.createElement("div");
+
+  colorFlash.className =
+    "result-color-flash";
+
+  document.body.appendChild(colorFlash);
+
+  void colorFlash.offsetWidth;
+
+  colorFlash.classList.add("active");
+
+  setTimeout(() => {
+    colorFlash.remove();
+  }, 1000);
+
+
+  /*
+    大量のパーティクル
+  */
+  const symbols = [
+    "★",
+    "✦",
+    "◆",
+    "●"
+  ];
+
+  for (let i = 0; i < 35; i++) {
+
+    const particle =
+      document.createElement("div");
+
+    particle.textContent =
+      symbols[
+        randomInt(0, symbols.length - 1)
+      ];
+
+    particle.style.position = "fixed";
+
+    particle.style.left = "50%";
+    particle.style.top = "50%";
+
+    particle.style.zIndex = "200";
+
+    particle.style.pointerEvents =
+      "none";
+
+    particle.style.color = color;
+
+    particle.style.fontSize =
+      randomInt(15, 35) + "px";
+
+    particle.style.textShadow =
+      `0 0 10px ${color},
+       0 0 25px ${color}`;
+
+    document.body.appendChild(
+      particle
+    );
+
+
+    const angle =
+      Math.random() *
+      Math.PI * 2;
+
+    const distance =
+      randomInt(180, 500);
+
+    const x =
+      Math.cos(angle) *
+      distance;
+
+    const y =
+      Math.sin(angle) *
+      distance;
+
+
+    particle.animate(
+      [
+        {
+          transform:
+            "translate(-50%, -50%) scale(.2)",
+          opacity: 1
+        },
+        {
+          transform:
+            `translate(
+              calc(-50% + ${x}px),
+              calc(-50% + ${y}px)
+            )
+            rotate(${randomInt(-720,720)}deg)
+            scale(1.5)`,
+          opacity: 0
+        }
+      ],
+      {
+        duration:
+          randomInt(700, 1200),
+
+        easing:
+          "cubic-bezier(.1,.8,.2,1)",
+
+        fill: "forwards"
       }
     );
 
+    setTimeout(() => {
+      particle.remove();
+    }, 1300);
+  }
+
+
+  if (navigator.vibrate) {
+
+    navigator.vibrate([
+      80,
+      40,
+      120,
+      40,
+      180
+    ]);
+  }
+}
+
+
+/* -------------------------
+   時間選択
+------------------------- */
+
+document
+  .querySelectorAll(".time-button")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        if (gameRunning) return;
+
+        selectedTime =
+          Number(button.dataset.time);
+
+        document
+          .querySelectorAll(".time-button")
+          .forEach(b => {
+            b.classList.remove(
+              "selected"
+            );
+          });
+
+        button.classList.add(
+          "selected"
+        );
+
+        timeEl.textContent =
+          selectedTime.toFixed(1);
+      }
+    );
   });
 
+
+/* -------------------------
+   スタートボタン
+------------------------- */
 
 startButton.addEventListener(
   "click",
   startGame
 );
 
+
+/* -------------------------
+   やり直しボタン
+------------------------- */
+
+restartButton.addEventListener(
+  "click",
+  () => {
+
+    /*
+      現在選択されている
+      30秒 / 60秒のまま
+      もう一度スタート
+    */
+    startGame();
+  }
+);
+
+
+/* -------------------------
+   数字ボタン
+------------------------- */
+
+document
+  .querySelectorAll(".key")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        const number =
+          Number(button.dataset.number);
+
+        answerQuestion(number);
+      }
+    );
+  });
+
+
+/* -------------------------
+   初期表示
+------------------------- */
 
 updateStats();
 
