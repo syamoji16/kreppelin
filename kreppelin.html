@@ -2,1268 +2,787 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <title>NEURO KREPELIN</title>
 
 <style>
-
-/* =========================
-   BASE
-========================= */
-
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  min-height: 100%;
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  color:#fff;
   font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
+    Arial,
     sans-serif;
-}
-
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-  color: white;
 
   background:
-    radial-gradient(
-      circle at 20% 20%,
-      #7b2cff55,
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 80% 30%,
-      #00eaff44,
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      #ff008844,
-      transparent 40%
-    ),
-    linear-gradient(
-      135deg,
-      #09001a,
-      #02020a,
-      #10001f
-    );
-
-  background-size: 200% 200%;
-  animation: bgMove 8s ease-in-out infinite alternate;
+    radial-gradient(circle at 15% 15%,#ff00cc55,transparent 28%),
+    radial-gradient(circle at 85% 25%,#00eaff55,transparent 30%),
+    radial-gradient(circle at 50% 100%,#7b2cff55,transparent 40%),
+    #080018;
 }
 
-@keyframes bgMove {
-  0% {
-    background-position: 0% 0%;
-  }
-
-  100% {
-    background-position: 100% 100%;
-  }
+body.playing{
+  animation:bgMove 5s linear infinite alternate;
 }
 
-body.fever-shake {
-  animation:
-    bgMove 8s ease-in-out infinite alternate,
-    feverShake .08s infinite;
+@keyframes bgMove{
+  0%{background-position:0 0}
+  100%{background-position:100% 100%}
 }
 
-
-/* =========================
-   MAIN
-========================= */
-
-.game {
-  width: 100%;
-  max-width: 720px;
-  min-height: 100vh;
-  margin: auto;
-  padding:
-    18px
-    14px
-    35px;
-
-  display: flex;
-  flex-direction: column;
+button{
+  font-family:inherit;
+  cursor:pointer;
 }
 
+.container{
+  width:min(1100px,96%);
+  margin:auto;
+  padding:18px 0 35px;
+}
 
-/* =========================
-   TITLE
-========================= */
+/* TITLE */
 
-.title {
-  text-align: center;
-  font-size: clamp(30px, 9vw, 58px);
-  font-weight: 1000;
-  letter-spacing: 3px;
-  line-height: 1;
-
+.title{
+  text-align:center;
+  font-size:clamp(34px,7vw,70px);
+  font-weight:1000;
+  letter-spacing:3px;
+  line-height:1;
   background:
     linear-gradient(
       90deg,
-      #ff006a,
-      #ffea00,
-      #00ffcc,
-      #00aaff,
-      #a855ff,
-      #ff006a
+      #ff00cc,
+      #ffe600,
+      #00ffff,
+      #7b5cff,
+      #ff00cc
     );
-
-  background-size: 300% auto;
-
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-
-  animation:
-    rainbowTitle 2.5s linear infinite;
-
-  filter:
-    drop-shadow(0 0 12px #00eaff88);
+  background-size:300% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:rainbow 3s linear infinite;
+  text-shadow:none;
 }
 
-@keyframes rainbowTitle {
-  to {
-    background-position: 300% center;
+@keyframes rainbow{
+  to{
+    background-position:300% center;
   }
 }
 
-.subtitle {
-  text-align: center;
-  margin-top: 7px;
-
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 5px;
-
-  color: #bdefff;
-  opacity: .85;
+.subtitle{
+  text-align:center;
+  margin-top:9px;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:3px;
+  opacity:.75;
 }
 
+/* TOP */
 
-/* =========================
-   STATS
-========================= */
-
-.stats {
-  display: grid;
-  grid-template-columns:
-    repeat(5, 1fr);
-
-  gap: 6px;
-  margin-top: 22px;
+.top{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:20px 0 14px;
 }
 
-.stat {
-  min-width: 0;
-  padding: 9px 3px;
-
-  text-align: center;
-
-  border:
-    1px solid
-    rgba(255,255,255,.18);
-
-  border-radius: 12px;
-
-  background:
-    rgba(255,255,255,.06);
-
+.time-btn{
+  border:0;
+  color:#fff;
+  font-size:17px;
+  font-weight:1000;
+  padding:11px 24px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#6d35ff,#00cfff);
   box-shadow:
-    inset 0 0 15px rgba(255,255,255,.03),
-    0 0 15px rgba(0,234,255,.06);
-
-  backdrop-filter: blur(8px);
+    0 0 18px #00cfff66,
+    inset 0 0 10px #ffffff22;
 }
 
-.stat-label {
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  opacity: .65;
-}
-
-.stat-value {
-  margin-top: 3px;
-
-  font-size: clamp(15px, 4.5vw, 24px);
-  font-weight: 1000;
-}
-
-#combo {
-  color: #ffe600;
-  text-shadow:
-    0 0 8px #ffe600,
-    0 0 20px #ff7b00;
-}
-
-
-/* =========================
-   TIME SELECT
-========================= */
-
-.time-select {
-  margin-top: 17px;
-  text-align: center;
-}
-
-.time-title {
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  opacity: .65;
-  margin-bottom: 7px;
-}
-
-.time-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-.time-button {
-  flex: 1;
-  max-width: 150px;
-
-  padding: 10px 8px;
-
-  border: 2px solid transparent;
-  border-radius: 14px;
-
-  color: white;
-  font-size: 15px;
-  font-weight: 1000;
-
-  background:
-    linear-gradient(#120c25,#120c25)
-    padding-box,
-    linear-gradient(
-      90deg,
-      #00eaff,
-      #7b2cff
-    )
-    border-box;
-
+.time-btn.active{
+  transform:scale(1.08);
   box-shadow:
-    0 0 15px #00eaff22;
-
-  cursor: pointer;
+    0 0 28px #fff8,
+    0 0 50px #00cfff66;
 }
 
-.time-button.selected {
-  background:
-    linear-gradient(
-      90deg,
-      #00eaff,
-      #7b2cff
-    );
-
+.start-btn{
+  border:0;
+  color:#fff;
+  font-size:18px;
+  font-weight:1000;
+  padding:12px 27px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#ff008c,#ff8a00);
   box-shadow:
-    0 0 18px #00eaff99,
-    0 0 35px #7b2cff66;
+    0 0 25px #ff008c88,
+    inset 0 0 10px #ffffff22;
 }
 
-
-/* =========================
-   START BUTTON
-========================= */
-
-.start-button,
-.restart-button {
-  width: 100%;
-  margin-top: 15px;
-
-  border: none;
-  border-radius: 16px;
-
-  padding: 15px 10px;
-
-  color: white;
-
-  font-size: 18px;
-  font-weight: 1000;
-  letter-spacing: 2px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #ff006a,
-      #7b2cff,
-      #00eaff
-    );
-
-  background-size: 200% auto;
-
-  animation:
-    buttonGradient 2s linear infinite;
-
-  box-shadow:
-    0 0 20px #7b2cff77,
-    0 0 45px #00eaff33;
-
-  cursor: pointer;
+.start-btn:active,
+.time-btn:active{
+  transform:scale(.96);
 }
 
-@keyframes buttonGradient {
-  to {
-    background-position: 200% center;
-  }
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.start-button:active,
-.restart-button:active,
-.time-button:active,
-.key:active {
-  transform: scale(.94);
+.stat{
+  text-align:center;
+  padding:8px 4px;
+  border-radius:15px;
+  background:#ffffff0e;
+  border:1px solid #ffffff22;
+  backdrop-filter:blur(8px);
 }
 
-
-/* =========================
-   QUESTION AREA
-========================= */
-
-.question-area {
-  width: 100%;
-  margin-top: 15px;
+.stat-label{
+  font-size:10px;
+  font-weight:900;
+  opacity:.6;
+  letter-spacing:1px;
 }
 
-.question-track {
-  position: relative;
-
-  width: 100%;
-  height: 155px;
-
-  overflow: hidden;
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.025),
-      rgba(0,234,255,.035)
-    );
-
-  border:
-    1px solid
-    rgba(255,255,255,.08);
-
-  box-shadow:
-    inset 0 0 30px rgba(0,234,255,.025);
+.stat-value{
+  margin-top:2px;
+  font-size:23px;
+  font-weight:1000;
 }
 
-.question {
-  position: absolute;
+/* GAME */
 
-  top: 50%;
-
-  white-space: nowrap;
-
-  font-size:
-    clamp(42px, 13vw, 75px);
-
-  font-weight: 1000;
-  letter-spacing: 3px;
+.game{
+  position:relative;
+  padding:18px;
+  border-radius:28px;
+  background:#00000035;
+  border:1px solid #ffffff22;
+  box-shadow:0 0 45px #0008;
+  overflow:hidden;
 }
 
-.current-question {
-  left: 50%;
+.question-area{
+  min-height:210px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-  transform:
-    translate(-50%, -50%);
+.question-track{
+  position:relative;
+  width:100%;
+  height:160px;
+  overflow:hidden;
+}
 
-  z-index: 2;
+.question{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  white-space:nowrap;
+
+  font-size:clamp(55px,12vw,110px);
+  line-height:1;
+  font-weight:1000;
 
   text-shadow:
-    0 0 10px #00eaff,
+    0 0 10px #fff,
     0 0 25px #00eaff,
     0 0 50px #7b2cff;
-
-  animation:
-    questionReady .35s ease-out;
 }
 
-.next-question {
-  left: 110%;
-
-  transform:
-    translate(-50%, -50%)
-    scale(.62);
-
-  opacity: .3;
-
-  color: #00eaff;
-
-  text-shadow:
-    0 0 10px #00eaff,
-    0 0 25px #00eaff;
+.question-slide-out{
+  animation:questionOut .28s ease-in forwards;
 }
 
-@keyframes questionReady {
-  from {
-    opacity: 0;
-    transform:
-      translate(-50%, -50%)
-      scale(.7);
+.question-slide-in{
+  animation:questionIn .28s ease-out forwards;
+}
+
+@keyframes questionOut{
+  from{
+    left:50%;
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
   }
 
-  to {
-    opacity: 1;
-    transform:
-      translate(-50%, -50%)
-      scale(1);
+  to{
+    left:-50%;
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.7);
   }
 }
 
-
-/* =========================
-   NEXT NUMBERS
-========================= */
-
-.next-preview {
-  position: absolute;
-
-  top: 50%;
-  right: 5px;
-
-  transform:
-    translateY(-50%);
-
-  z-index: 5;
-
-  width: 31%;
-
-  text-align: center;
-
-  pointer-events: none;
-}
-
-.next-label {
-  font-size: 8px;
-  font-weight: 1000;
-
-  letter-spacing: 3px;
-
-  color: #00eaff;
-  opacity: .7;
-
-  margin-bottom: 7px;
-}
-
-.next-numbers {
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  gap: 3px;
-}
-
-.next-number {
-  width: 100%;
-
-  font-size:
-    clamp(13px, 4vw, 22px);
-
-  line-height: 1.05;
-
-  font-weight: 1000;
-
-  color: #aef7ff;
-
-  opacity: .65;
-
-  text-shadow:
-    0 0 8px #00eaff;
-}
-
-.next-number:nth-child(1) {
-  color: white;
-  opacity: .9;
-
-  font-size:
-    clamp(17px, 5vw, 27px);
-}
-
-.next-number:nth-child(2) {
-  opacity: .7;
-}
-
-.next-number:nth-child(3) {
-  opacity: .55;
-}
-
-.next-number:nth-child(4) {
-  opacity: .4;
-}
-
-.next-number:nth-child(5) {
-  opacity: .28;
-}
-
-
-/* =========================
-   QUESTION SLIDE
-========================= */
-
-.slide-next .current-question {
-  animation:
-    questionOut .28s ease-in forwards;
-}
-
-.slide-next .next-question {
-  animation:
-    questionIn .28s ease-out forwards;
-}
-
-@keyframes questionOut {
-  from {
-    left: 50%;
-    opacity: 1;
-
-    transform:
-      translate(-50%, -50%)
-      scale(1);
+@keyframes questionIn{
+  from{
+    left:110%;
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.7);
   }
 
-  to {
-    left: -50%;
-    opacity: 0;
-
-    transform:
-      translate(-50%, -50%)
-      scale(.7);
+  to{
+    left:50%;
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
   }
 }
 
-@keyframes questionIn {
-  from {
-    left: 110%;
-    opacity: .3;
+/* NEXT */
 
-    transform:
-      translate(-50%, -50%)
-      scale(.62);
-  }
-
-  to {
-    left: 50%;
-    opacity: 1;
-
-    transform:
-      translate(-50%, -50%)
-      scale(1);
-  }
+.next-preview{
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  width:245px;
+  text-align:center;
 }
 
-
-/* =========================
-   KEYPAD
-========================= */
-
-.keypad {
-  display: grid;
-
-  grid-template-columns:
-    repeat(5, 1fr);
-
-  gap: 9px;
-
-  margin-top: 12px;
+.next-label{
+  margin-bottom:10px;
+  font-size:14px;
+  font-weight:1000;
+  letter-spacing:4px;
+  opacity:.65;
 }
 
-.key {
-  min-height: 62px;
-
-  border: none;
-  border-radius: 17px;
-
-  color: white;
-
-  font-size:
-    clamp(21px, 7vw, 34px);
-
-  font-weight: 1000;
-
-  cursor: pointer;
-
-  box-shadow:
-    inset 0 0 10px rgba(255,255,255,.18),
-    0 5px 15px rgba(0,0,0,.3);
-
-  transition:
-    transform .08s,
-    filter .08s;
+.next-numbers{
+  display:flex;
+  justify-content:center;
+  gap:12px;
 }
 
-.key:nth-child(1) {
-  background: linear-gradient(
-    135deg,
-    #ff006a,
-    #ff3b3b
-  );
-}
+.next-number{
+  width:92px;
+  height:92px;
 
-.key:nth-child(2) {
-  background: linear-gradient(
-    135deg,
-    #ff7b00,
-    #ffc400
-  );
-}
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-.key:nth-child(3) {
-  background: linear-gradient(
-    135deg,
-    #00c853,
-    #00e676
-  );
-}
+  border-radius:24px;
+  border:2px solid #ffffff44;
 
-.key:nth-child(4) {
-  background: linear-gradient(
-    135deg,
-    #00b8ff,
-    #00eaff
-  );
-}
-
-.key:nth-child(5) {
-  background: linear-gradient(
-    135deg,
-    #7b2cff,
-    #d000ff
-  );
-}
-
-.key:nth-child(6) {
-  background: linear-gradient(
-    135deg,
-    #ff1493,
-    #ff00c8
-  );
-}
-
-.key:nth-child(7) {
-  background: linear-gradient(
-    135deg,
-    #ff4d00,
-    #ff9d00
-  );
-}
-
-.key:nth-child(8) {
-  background: linear-gradient(
-    135deg,
-    #00c8a0,
-    #00ffcc
-  );
-}
-
-.key:nth-child(9) {
-  background: linear-gradient(
-    135deg,
-    #008cff,
-    #4d5cff
-  );
-}
-
-.key:nth-child(10) {
-  background: linear-gradient(
-    135deg,
-    #8a2be2,
-    #ff00aa
-  );
-}
-
-
-/* =========================
-   CORRECT / MISS
-========================= */
-
-.correct-flash {
-  animation:
-    correctFlash .25s ease-out;
-}
-
-@keyframes correctFlash {
-  0% {
-    box-shadow:
-      0 0 0 rgba(0,255,150,0);
-  }
-
-  50% {
-    box-shadow:
-      0 0 50px #00ff99;
-  }
-
-  100% {
-    box-shadow:
-      0 0 0 rgba(0,255,150,0);
-  }
-}
-
-.miss-flash {
-  animation:
-    missFlash .25s ease-out;
-}
-
-@keyframes missFlash {
-  0% {
-    box-shadow:
-      0 0 0 rgba(255,0,60,0);
-  }
-
-  50% {
-    box-shadow:
-      0 0 50px #ff003c;
-  }
-
-  100% {
-    box-shadow:
-      0 0 0 rgba(255,0,60,0);
-  }
-}
-
-
-/* =========================
-   COMBO EFFECT
-========================= */
-
-.combo-pop {
-  position: fixed;
-
-  left: 50%;
-  top: 42%;
-
-  z-index: 8000;
-
-  pointer-events: none;
-
-  transform:
-    translate(-50%, -50%)
-    scale(.4);
-
-  font-size:
-    clamp(42px, 14vw, 90px);
-
-  font-weight: 1000;
-
-  color: #ffe600;
-
-  text-shadow:
-    0 0 10px white,
-    0 0 25px #ffe600,
-    0 0 55px #ff5e00,
-    0 0 90px #ff00c8;
-
-  animation:
-    comboPop .65s ease-out forwards;
-}
-
-@keyframes comboPop {
-  0% {
-    opacity: 0;
-    transform:
-      translate(-50%, -50%)
-      scale(.3)
-      rotate(-8deg);
-  }
-
-  30% {
-    opacity: 1;
-    transform:
-      translate(-50%, -50%)
-      scale(1.25)
-      rotate(5deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform:
-      translate(-50%, -100%)
-      scale(1)
-      rotate(0deg);
-  }
-}
-
-
-/* =========================
-   FEVER OVERLAY
-========================= */
-
-#feverOverlay {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 9999;
-
-  display: none;
-
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
-
-  pointer-events: none;
-}
-
-#feverOverlay.active {
-  display: flex;
-
-  animation:
-    feverFlash .16s infinite alternate;
-}
-
-.fever-bg {
-  position: absolute;
-
-  inset: -60%;
+  font-size:42px;
+  font-weight:1000;
 
   background:
-    conic-gradient(
-      from 0deg,
-      #ff0055,
-      #ffea00,
-      #00ff88,
-      #00eaff,
-      #7b2cff,
-      #ff00c8,
-      #ff0055
-    );
+    linear-gradient(145deg,#00d9ff,#6935ff);
 
-  animation:
-    feverSpin .9s linear infinite;
-
-  opacity: .78;
+  box-shadow:
+    0 0 20px #00d9ff66,
+    inset 0 0 18px #ffffff22;
 }
 
-.fever-content {
-  position: relative;
+.next-number:nth-child(2){
+  background:
+    linear-gradient(145deg,#ff008c,#ff7900);
 
-  z-index: 2;
-
-  text-align: center;
-
-  animation:
-    feverZoom .55s
-    ease-in-out
-    infinite alternate;
+  box-shadow:
+    0 0 20px #ff008c66,
+    inset 0 0 18px #ffffff22;
 }
 
-.fever-small {
-  font-size:
-    clamp(16px, 5vw, 32px);
+/* MOBILE */
 
-  font-weight: 1000;
+@media(max-width:760px){
 
-  letter-spacing: 7px;
+  .question-area{
+    min-height:280px;
+    display:block;
+  }
 
-  color: white;
+  .question-track{
+    height:165px;
+  }
+
+  .next-preview{
+    position:absolute;
+    left:50%;
+    right:auto;
+    top:auto;
+    bottom:5px;
+    transform:translateX(-50%);
+    width:230px;
+  }
+
+  .next-number{
+    width:90px;
+    height:70px;
+    border-radius:20px;
+    font-size:34px;
+  }
+}
+
+/* KEYPAD */
+
+.keypad{
+  width:min(430px,100%);
+  margin:20px auto 0;
+
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.key{
+  height:78px;
+
+  border:0;
+  border-radius:21px;
+
+  color:#fff;
+  font-size:31px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(145deg,#292348,#15112c);
+
+  border:2px solid #ffffff22;
+
+  box-shadow:
+    0 7px 0 #07040f,
+    0 0 17px #684cff44;
+
+  transition:
+    transform .07s,
+    filter .07s,
+    box-shadow .07s;
+}
+
+.key:nth-child(3n+1){
+  box-shadow:
+    0 7px 0 #07040f,
+    0 0 20px #ff00cc55;
+}
+
+.key:nth-child(3n+2){
+  box-shadow:
+    0 7px 0 #07040f,
+    0 0 20px #00eaff55;
+}
+
+.key:nth-child(3n){
+  box-shadow:
+    0 7px 0 #07040f,
+    0 0 20px #7bff0055;
+}
+
+.key.zero{
+  grid-column:2;
+}
+
+.key:active{
+  transform:translateY(7px) scale(.96);
+  box-shadow:0 1px 0 #07040f;
+}
+
+/* ANSWER EFFECT */
+
+.correct{
+  animation:correctFlash .28s ease;
+}
+
+@keyframes correctFlash{
+  50%{
+    transform:scale(1.06);
+    filter:brightness(1.8);
+  }
+}
+
+.miss{
+  animation:missShake .3s ease;
+}
+
+@keyframes missShake{
+  20%{transform:translateX(-9px)}
+  40%{transform:translateX(9px)}
+  60%{transform:translateX(-7px)}
+  80%{transform:translateX(5px)}
+}
+
+/* COMBO */
+
+.combo-pop{
+  position:fixed;
+  left:50%;
+  top:35%;
+
+  transform:translate(-50%,-50%) scale(.3);
+
+  z-index:1000;
+  pointer-events:none;
+
+  font-size:clamp(42px,10vw,100px);
+  font-weight:1000;
+  white-space:nowrap;
 
   text-shadow:
-    0 0 10px white,
-    0 0 30px #00eaff;
+    0 0 15px #fff,
+    0 0 35px #00eaff,
+    0 0 60px #ff00cc;
+
+  animation:comboPop .8s ease-out forwards;
 }
 
-.fever-combo {
-  font-size:
-    clamp(80px, 25vw, 190px);
+@keyframes comboPop{
 
-  line-height: .9;
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.3) rotate(-8deg);
+  }
 
-  font-weight: 1000;
+  25%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.2) rotate(4deg);
+  }
 
-  color: white;
+  100%{
+    opacity:0;
+    transform:translate(-50%,-75%) scale(1.5);
+  }
+}
+
+/* FEVER */
+
+.fever{
+  position:fixed;
+  inset:0;
+  z-index:900;
+
+  display:none;
+  pointer-events:none;
+
+  overflow:hidden;
+}
+
+.fever.active{
+  display:block;
+}
+
+.fever-ring{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:190px;
+  height:190px;
+
+  border-radius:50%;
+
+  transform:translate(-50%,-50%);
+
+  border:18px solid transparent;
+  border-top-color:#ff00cc;
+  border-right-color:#00ffff;
+  border-bottom-color:#ffe600;
+  border-left-color:#7b2cff;
+
+  animation:spin .45s linear infinite;
+}
+
+@keyframes spin{
+  to{
+    transform:translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+.fever-text{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  font-size:clamp(34px,8vw,82px);
+  font-weight:1000;
+
+  text-align:center;
+  white-space:nowrap;
 
   text-shadow:
-    0 0 10px white,
-    0 0 30px #ff00c8,
-    0 0 60px #00eaff,
-    0 0 100px #ffe600,
-    0 0 150px #ff0055;
+    0 0 20px #fff,
+    0 0 50px #00eaff,
+    0 0 80px #ff00cc;
 
-  animation:
-    feverText .25s infinite alternate;
+  animation:feverText .35s infinite alternate;
 }
 
-.fever-message {
-  margin-top: 18px;
+@keyframes feverText{
+  from{
+    transform:translate(-50%,-50%) scale(.9);
+  }
 
-  font-size:
-    clamp(24px, 8vw, 60px);
-
-  font-weight: 1000;
-
-  letter-spacing: 4px;
-
-  color: white;
-
-  text-shadow:
-    0 0 15px white,
-    0 0 35px #ff00c8,
-    0 0 60px #00eaff;
-}
-
-@keyframes feverSpin {
-  to {
-    transform: rotate(360deg);
+  to{
+    transform:translate(-50%,-50%) scale(1.1);
   }
 }
 
-@keyframes feverZoom {
-  from {
-    transform:
-      scale(.82)
-      rotate(-2deg);
-  }
+.fever-particle{
+  position:absolute;
 
-  to {
-    transform:
-      scale(1.12)
-      rotate(2deg);
-  }
+  width:12px;
+  height:12px;
+
+  border-radius:50%;
+
+  animation:particleFly 1s ease-out forwards;
 }
 
-@keyframes feverText {
-  from {
-    transform: scale(1);
+@keyframes particleFly{
+  from{
+    opacity:1;
+    transform:translate(0,0) scale(1);
   }
 
-  to {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes feverFlash {
-  from {
-    background:
-      rgba(255,0,100,.05);
-  }
-
-  to {
-    background:
-      rgba(0,230,255,.25);
-  }
-}
-
-.fever-particle {
-  position: absolute;
-
-  font-size: 30px;
-
-  animation:
-    particleFly 1.5s
-    linear
-    forwards;
-}
-
-@keyframes particleFly {
-  from {
-    transform:
-      translate(0,0)
-      scale(.3)
-      rotate(0deg);
-
-    opacity: 1;
-  }
-
-  to {
+  to{
+    opacity:0;
     transform:
       translate(
         var(--x),
         var(--y)
       )
-      scale(1.8)
-      rotate(720deg);
-
-    opacity: 0;
+      scale(0);
   }
 }
 
-@keyframes feverShake {
-  0% {
-    transform:
-      translate(0,0);
-  }
+/* RESULT */
 
-  25% {
-    transform:
-      translate(4px,-3px);
-  }
+.result-overlay{
+  position:fixed;
+  inset:0;
 
-  50% {
-    transform:
-      translate(-4px,3px);
-  }
+  z-index:2000;
 
-  75% {
-    transform:
-      translate(3px,4px);
-  }
+  display:none;
+  align-items:center;
+  justify-content:center;
 
-  100% {
-    transform:
-      translate(-3px,-4px);
-  }
+  background:#05000dcc;
+  backdrop-filter:blur(8px);
 }
 
+.result-overlay.show{
+  display:flex;
+}
 
-/* =========================
-   RESULT
-========================= */
+.result-card{
+  width:min(650px,92%);
 
-#result {
-  display: none;
+  padding:35px 22px;
 
-  position: fixed;
+  text-align:center;
 
-  inset: 0;
-
-  z-index: 7000;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
+  border-radius:30px;
 
   background:
-    rgba(3,0,15,.92);
+    linear-gradient(
+      145deg,
+      #15102eF5,
+      #09051aF5
+    );
 
-  backdrop-filter:
-    blur(12px);
-}
-
-.result-box {
-  width: 100%;
-  max-width: 500px;
-
-  text-align: center;
-
-  padding: 30px 20px;
-
-  border-radius: 25px;
-
-  background:
-    rgba(255,255,255,.07);
-
-  border:
-    1px solid
-    rgba(255,255,255,.2);
+  border:2px solid #ffffff22;
 
   box-shadow:
-    0 0 50px #7b2cff66;
+    0 0 50px #7b2cff66,
+    inset 0 0 30px #ffffff08;
 }
 
-.result-title {
-  font-size:
-    clamp(30px, 9vw, 55px);
-
-  font-weight: 1000;
-
-  margin-bottom: 25px;
-
-  text-shadow:
-    0 0 15px #00eaff,
-    0 0 40px #ff00c8;
-}
-
-.result-stats {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap: 10px;
-}
-
-.result-stat {
-  padding: 15px;
-
-  border-radius: 15px;
+.result-title{
+  font-size:clamp(32px,8vw,65px);
+  font-weight:1000;
+  margin-bottom:22px;
 
   background:
-    rgba(255,255,255,.07);
+    linear-gradient(
+      90deg,
+      #ff00cc,
+      #ffe600,
+      #00ffff,
+      #7b5cff
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
-.result-stat-label {
-  font-size: 10px;
-  opacity: .6;
+.result-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
 }
 
-.result-stat-value {
-  margin-top: 4px;
-
-  font-size: 28px;
-  font-weight: 1000;
+.result-stat{
+  padding:15px 5px;
+  border-radius:18px;
+  background:#ffffff0e;
+  border:1px solid #ffffff18;
 }
 
-.result-restart {
-  margin-top: 15px;
+.result-stat-label{
+  font-size:11px;
+  opacity:.6;
+  font-weight:900;
 }
 
+.result-stat-value{
+  font-size:30px;
+  font-weight:1000;
+}
 
-/* =========================
-   RESULT BOOM
-========================= */
+.restart-button{
+  margin-top:24px;
 
-#result.result-boom {
+  border:0;
+
+  padding:14px 32px;
+
+  border-radius:18px;
+
+  color:#fff;
+
+  font-size:18px;
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00cfff,
+      #7b2cff
+    );
+
+  box-shadow:
+    0 0 25px #00cfff66;
+}
+
+/* RESULT BOOM */
+
+.result-boom{
   animation:
-    resultBoom .7s
-    ease-out;
+    resultZoom .55s ease-out,
+    resultShake .6s ease-in-out;
 }
 
-@keyframes resultBoom {
-  0% {
-    transform: scale(.6);
-    opacity: 0;
+@keyframes resultZoom{
+  0%{
+    transform:scale(.5);
+    opacity:0;
   }
 
-  30% {
-    transform: scale(1.12);
-    opacity: 1;
+  45%{
+    transform:scale(1.08);
+    opacity:1;
   }
 
-  55% {
-    transform: scale(.96);
-  }
-
-  75% {
-    transform: scale(1.04);
-  }
-
-  100% {
-    transform: scale(1);
+  100%{
+    transform:scale(1);
   }
 }
 
-#result.result-color-flash {
+@keyframes resultShake{
+  0%,100%{
+    margin-left:0;
+  }
+
+  20%{
+    margin-left:-14px;
+  }
+
+  40%{
+    margin-left:14px;
+  }
+
+  60%{
+    margin-left:-9px;
+  }
+
+  80%{
+    margin-left:7px;
+  }
+}
+
+/* RESULT PARTICLES */
+
+.result-particle{
+  position:fixed;
+
+  left:50%;
+  top:50%;
+
+  width:13px;
+  height:13px;
+
+  border-radius:50%;
+
+  z-index:2100;
+  pointer-events:none;
+
   animation:
-    resultColorFlash .18s infinite alternate;
+    resultParticle 1.5s ease-out forwards;
 }
 
-@keyframes resultColorFlash {
-  from {
-    background:
-      rgba(255,0,100,.9);
-  }
+@keyframes resultParticle{
 
-  to {
-    background:
-      rgba(0,230,255,.9);
-  }
-}
-
-
-/* =========================
-   RESULT PARTICLES
-========================= */
-
-.result-particle {
-  position: fixed;
-
-  z-index: 7500;
-
-  pointer-events: none;
-
-  font-size: 30px;
-
-  animation:
-    resultParticle 1.4s
-    ease-out
-    forwards;
-}
-
-@keyframes resultParticle {
-  from {
-    left: 50%;
-    top: 50%;
+  from{
+    opacity:1;
 
     transform:
       translate(-50%,-50%)
-      scale(.2);
-
-    opacity: 1;
+      scale(1);
   }
 
-  to {
-    left:
-      calc(
-        50% +
-        var(--rx)
-      );
-
-    top:
-      calc(
-        50% +
-        var(--ry)
-      );
+  to{
+    opacity:0;
 
     transform:
-      translate(-50%,-50%)
-      scale(1.8)
-      rotate(720deg);
-
-    opacity: 0;
+      translate(
+        calc(-50% + var(--x)),
+        calc(-50% + var(--y))
+      )
+      scale(0);
   }
 }
 
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 420px) {
-
-  .game {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .stats {
-    gap: 4px;
-  }
-
-  .stat {
-    padding:
-      8px 2px;
-  }
-
-  .keypad {
-    gap: 7px;
-  }
-
-  .key {
-    min-height: 58px;
-    border-radius: 14px;
-  }
-
-  .question-track {
-    height: 140px;
-  }
+.hidden{
+  display:none!important;
 }
-
 </style>
 </head>
 
-
 <body>
 
-<div class="game">
-
-  <!-- TITLE -->
+<div class="container">
 
   <div class="title">
     NEURO KREPELIN
@@ -1273,151 +792,77 @@ body.fever-shake {
     反射 × 計算 × コンボ
   </div>
 
+  <div class="top">
 
-  <!-- STATS -->
+    <button
+      class="time-btn active"
+      id="time30"
+      onclick="selectTime(30)"
+    >
+      30 SEC
+    </button>
+
+    <button
+      class="time-btn"
+      id="time60"
+      onclick="selectTime(60)"
+    >
+      60 SEC
+    </button>
+
+    <button
+      class="start-btn"
+      id="startButton"
+      onclick="startGame()"
+    >
+      START GAME
+    </button>
+
+  </div>
 
   <div class="stats">
 
     <div class="stat">
-      <div class="stat-label">
-        TIME
-      </div>
-
-      <div
-        class="stat-value"
-        id="time"
-      >
-        30.0
-      </div>
+      <div class="stat-label">TIME</div>
+      <div class="stat-value" id="time">30</div>
     </div>
 
-
     <div class="stat">
-      <div class="stat-label">
-        正解
-      </div>
-
-      <div
-        class="stat-value"
-        id="correct"
-      >
-        0
-      </div>
+      <div class="stat-label">正解</div>
+      <div class="stat-value" id="correct">0</div>
     </div>
 
-
     <div class="stat">
-      <div class="stat-label">
-        ミス
-      </div>
-
-      <div
-        class="stat-value"
-        id="miss"
-      >
-        0
-      </div>
+      <div class="stat-label">ミス</div>
+      <div class="stat-value" id="miss">0</div>
     </div>
 
-
     <div class="stat">
-      <div class="stat-label">
-        BEST
-      </div>
-
-      <div
-        class="stat-value"
-        id="best"
-      >
-        0
-      </div>
+      <div class="stat-label">BEST</div>
+      <div class="stat-value" id="best">0</div>
     </div>
 
-
     <div class="stat">
-      <div class="stat-label">
-        COMBO
-      </div>
-
-      <div
-        class="stat-value"
-        id="combo"
-      >
-        0
-      </div>
+      <div class="stat-label">COMBO</div>
+      <div class="stat-value" id="combo">0</div>
     </div>
 
   </div>
 
+  <div class="game">
 
-  <!-- TIME -->
+    <div class="question-area">
 
-  <div
-    class="time-select"
-    id="timeSelect"
-  >
+      <div class="question-track" id="questionTrack">
 
-    <div class="time-title">
-      SELECT TIME
-    </div>
+        <div
+          class="question"
+          id="question"
+        >
+          READY?
+        </div>
 
-    <div class="time-buttons">
-
-      <button
-        class="time-button selected"
-        data-time="30"
-      >
-        30 SEC
-      </button>
-
-      <button
-        class="time-button"
-        data-time="60"
-      >
-        60 SEC
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- START -->
-
-  <button
-    class="start-button"
-    id="startButton"
-  >
-    START GAME
-  </button>
-
-
-  <!-- QUESTION -->
-
-  <div class="question-area">
-
-    <div
-      class="question-track"
-      id="questionTrack"
-    >
-
-      <div
-        class="question current-question"
-        id="question"
-      >
-        READY?
       </div>
-
-
-      <div
-        class="question next-question"
-        id="nextQuestion"
-      >
-        -
-      </div>
-
-
-      <!-- NEXT 5 NUMBERS -->
 
       <div class="next-preview">
 
@@ -1425,28 +870,19 @@ body.fever-shake {
           NEXT
         </div>
 
-        <div
-          class="next-numbers"
-          id="nextNumbers"
-        >
+        <div class="next-numbers">
 
-          <div class="next-number">
+          <div
+            class="next-number"
+            id="nextNumber1"
+          >
             -
           </div>
 
-          <div class="next-number">
-            -
-          </div>
-
-          <div class="next-number">
-            -
-          </div>
-
-          <div class="next-number">
-            -
-          </div>
-
-          <div class="next-number">
+          <div
+            class="next-number"
+            id="nextNumber2"
+          >
             -
           </div>
 
@@ -1456,105 +892,29 @@ body.fever-shake {
 
     </div>
 
-  </div>
+    <!-- 電話キー -->
 
+    <div class="keypad">
 
-  <!-- KEYPAD -->
+      <button class="key" onclick="pressKey(1)">1</button>
+      <button class="key" onclick="pressKey(2)">2</button>
+      <button class="key" onclick="pressKey(3)">3</button>
 
-  <div
-    class="keypad"
-    id="keypad"
-  >
+      <button class="key" onclick="pressKey(4)">4</button>
+      <button class="key" onclick="pressKey(5)">5</button>
+      <button class="key" onclick="pressKey(6)">6</button>
 
-    <button class="key" data-key="0">
-      0
-    </button>
+      <button class="key" onclick="pressKey(7)">7</button>
+      <button class="key" onclick="pressKey(8)">8</button>
+      <button class="key" onclick="pressKey(9)">9</button>
 
-    <button class="key" data-key="1">
-      1
-    </button>
+      <button
+        class="key zero"
+        onclick="pressKey(0)"
+      >
+        0
+      </button>
 
-    <button class="key" data-key="2">
-      2
-    </button>
-
-    <button class="key" data-key="3">
-      3
-    </button>
-
-    <button class="key" data-key="4">
-      4
-    </button>
-
-    <button class="key" data-key="5">
-      5
-    </button>
-
-    <button class="key" data-key="6">
-      6
-    </button>
-
-    <button class="key" data-key="7">
-      7
-    </button>
-
-    <button class="key" data-key="8">
-      8
-    </button>
-
-    <button class="key" data-key="9">
-      9
-    </button>
-
-  </div>
-
-
-  <!-- RESTART -->
-
-  <div
-    class="result-restart"
-    id="resultRestart"
-    style="display:none;"
-  >
-
-    <button
-      class="restart-button"
-      id="restartButton"
-    >
-      🔄 やり直す
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     FEVER
-========================= -->
-
-<div id="feverOverlay">
-
-  <div class="fever-bg"></div>
-
-  <div class="fever-content">
-
-    <div class="fever-small">
-      COMBO BREAK
-    </div>
-
-    <div
-      class="fever-combo"
-      id="feverCombo"
-    >
-      50
-    </div>
-
-    <div
-      class="fever-message"
-      id="feverMessage"
-    >
-      FEVER!!
     </div>
 
   </div>
@@ -1562,13 +922,36 @@ body.fever-shake {
 </div>
 
 
-<!-- =========================
-     RESULT
-========================= -->
+<!-- FEVER -->
 
-<div id="result">
+<div
+  class="fever"
+  id="fever"
+>
 
-  <div class="result-box">
+  <div class="fever-ring"></div>
+
+  <div
+    class="fever-text"
+    id="feverText"
+  >
+    FEVER!!
+  </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div
+  class="result-overlay"
+  id="resultOverlay"
+>
+
+  <div
+    class="result-card"
+    id="resultCard"
+  >
 
     <div
       class="result-title"
@@ -1577,11 +960,9 @@ body.fever-shake {
       RESULT
     </div>
 
-
     <div class="result-stats">
 
       <div class="result-stat">
-
         <div class="result-stat-label">
           正解
         </div>
@@ -1592,12 +973,9 @@ body.fever-shake {
         >
           0
         </div>
-
       </div>
 
-
       <div class="result-stat">
-
         <div class="result-stat-label">
           ミス
         </div>
@@ -1608,12 +986,9 @@ body.fever-shake {
         >
           0
         </div>
-
       </div>
 
-
       <div class="result-stat">
-
         <div class="result-stat-label">
           BEST COMBO
         </div>
@@ -1624,31 +999,14 @@ body.fever-shake {
         >
           0
         </div>
-
-      </div>
-
-
-      <div class="result-stat">
-
-        <div class="result-stat-label">
-          ACCURACY
-        </div>
-
-        <div
-          class="result-stat-value"
-          id="resultAccuracy"
-        >
-          0%
-        </div>
-
       </div>
 
     </div>
 
-
     <button
       class="restart-button"
-      id="resultRestartButton"
+      id="restartButton"
+      onclick="startGame()"
     >
       🔄 やり直す
     </button>
@@ -1659,6 +1017,32 @@ body.fever-shake {
 
 
 <script>
+
+/* =========================
+   GAME VARIABLES
+========================= */
+
+let selectedTime = 30;
+
+let timeLeft = 30;
+
+let timer = null;
+
+let playing = false;
+
+let correctCount = 0;
+let missCount = 0;
+let combo = 0;
+let bestCombo = 0;
+
+let currentA = 2;
+let currentB = 2;
+let currentAnswer = 0;
+
+let nextNumbers = [];
+
+let feverRunning = false;
+
 
 /* =========================
    ELEMENTS
@@ -1682,23 +1066,29 @@ const comboEl =
 const questionEl =
   document.getElementById("question");
 
-const nextQuestionEl =
-  document.getElementById("nextQuestion");
-
-const nextNumbersEl =
-  document.getElementById("nextNumbers");
-
 const questionTrack =
   document.getElementById("questionTrack");
 
-const timeSelect =
-  document.getElementById("timeSelect");
+const nextNumber1 =
+  document.getElementById("nextNumber1");
+
+const nextNumber2 =
+  document.getElementById("nextNumber2");
 
 const startButton =
   document.getElementById("startButton");
 
-const result =
-  document.getElementById("result");
+const fever =
+  document.getElementById("fever");
+
+const feverText =
+  document.getElementById("feverText");
+
+const resultOverlay =
+  document.getElementById("resultOverlay");
+
+const resultCard =
+  document.getElementById("resultCard");
 
 const resultTitle =
   document.getElementById("resultTitle");
@@ -1712,646 +1102,530 @@ const resultMiss =
 const resultBest =
   document.getElementById("resultBest");
 
-const resultAccuracy =
-  document.getElementById("resultAccuracy");
 
-const resultRestartButton =
-  document.getElementById(
-    "resultRestartButton"
-  );
+/* =========================
+   BEST
+========================= */
 
-const feverOverlay =
-  document.getElementById(
-    "feverOverlay"
-  );
+bestCombo =
+  Number(localStorage.getItem("neuroKreppelinBest") || 0);
 
-const feverCombo =
-  document.getElementById(
-    "feverCombo"
-  );
-
-const feverMessage =
-  document.getElementById(
-    "feverMessage"
-  );
+bestEl.textContent = bestCombo;
 
 
 /* =========================
-   GAME VARIABLES
+   TIME
 ========================= */
 
-let selectedTime = 30;
+function selectTime(seconds){
 
-let gameRunning = false;
+  if(playing) return;
 
-let endTime = 0;
+  selectedTime = seconds;
 
-let timerInterval = null;
+  time30.classList.toggle(
+    "active",
+    seconds === 30
+  );
 
-let correct = 0;
+  time60.classList.toggle(
+    "active",
+    seconds === 60
+  );
 
-let miss = 0;
-
-let combo = 0;
-
-let currentAnswer = 0;
-
-let best =
-  Number(
-    localStorage.getItem(
-      "neuroKreppelinBest"
-    )
-  ) || 0;
-
-
-/*
-  nextNumbers
-
-  例：
-
-  現在
-  9 + 5
-
-  nextNumbers
-  [7,3,8,4,6]
-
-  次：
-  5 + 7
-
-  nextNumbers
-  [3,8,4,6,2]
-*/
-
-let nextNumbers = [];
-
-let nextNumber = null;
-
-let feverActive = false;
+  timeEl.textContent = seconds;
+}
 
 
 /* =========================
    RANDOM
 ========================= */
 
-function randomInt(min, max) {
+function randomAddend(){
+
+  /*
+    1は絶対に出さない
+    2〜9
+  */
 
   return Math.floor(
-    Math.random() *
-    (max - min + 1)
-  ) + min;
-
+    Math.random() * 8
+  ) + 2;
 }
 
 
 /* =========================
-   GENERATE QUESTION
+   CREATE QUESTION
 ========================= */
 
-function generateQuestion() {
+function createFirstQuestion(){
 
-  let a;
-
-  /*
-    最初だけランダム。
-
-    それ以降は前の問題の
-    2個目の数字を使う。
-  */
-
-  if (nextNumber === null) {
-
-    a = randomInt(2, 9);
-
-  } else {
-
-    a = nextNumber;
-
-  }
-
-
-  /*
-    1は絶対に出さない。
-    2〜9。
-  */
-
-  const b =
-    randomInt(2, 9);
-
-
-  /*
-    次の問題の
-    左側になる数字。
-  */
-
-  nextNumber = b;
-
-
-  return {
-
-    text:
-      `${a} + ${b}`,
-
-    answer:
-      (a + b) % 10,
-
-    nextDigit:
-      b
-
-  };
-
-}
-
-
-/* =========================
-   SETUP QUESTIONS
-========================= */
-
-function setupQuestions() {
-
-  nextNumber = null;
-
-  nextNumbers = [];
-
-
-  /*
-    現在の問題
-  */
-
-  const first =
-    generateQuestion();
+  currentA = randomAddend();
+  currentB = randomAddend();
 
   currentAnswer =
-    first.answer;
+    (currentA + currentB) % 10;
 
   questionEl.textContent =
-    first.text;
-
-
-  /*
-    5個先まで作る。
-
-    firstのbが
-    次の問題のaになる。
-  */
-
-  for (
-    let i = 0;
-    i < 5;
-    i++
-  ) {
-
-    const q =
-      generateQuestion();
-
-    nextNumbers.push(
-      q.nextDigit
-    );
-
-  }
-
+    `${currentA} + ${currentB}`;
 
   /*
-    右側のNEXT表示
+    NEXTは
+    次の問題のB
+    さらにその次のB
   */
 
-  updateNextNumbers();
+  const b1 = randomAddend();
+  const b2 = randomAddend();
 
+  nextNumbers = [b1,b2];
 
-  /*
-    nextQuestionは
-    最初のNEXT数字から
-    仮表示しておく。
-  */
-
-  nextQuestionEl.textContent =
-    `${nextNumbers[0]} + ?`;
-
+  updateNext();
 }
 
 
 /* =========================
-   NEXT NUMBERS DISPLAY
+   NEXT DISPLAY
 ========================= */
 
-function updateNextNumbers() {
+function updateNext(){
 
-  const items =
-    nextNumbersEl.querySelectorAll(
-      ".next-number"
-    );
+  nextNumber1.textContent =
+    nextNumbers[0] ?? "-";
 
-
-  items.forEach(
-    (item, index) => {
-
-      if (
-        nextNumbers[index] !== undefined
-      ) {
-
-        item.textContent =
-          nextNumbers[index];
-
-      } else {
-
-        item.textContent = "-";
-
-      }
-
-    }
-  );
-
+  nextNumber2.textContent =
+    nextNumbers[1] ?? "-";
 }
 
 
 /* =========================
-   ADVANCE QUESTION
+   NEXT QUESTION
 ========================= */
 
-function advanceQuestion() {
+function advanceQuestion(){
 
   /*
-    現在の問題を左へ、
-    次の問題を中央へ。
+    現在
+      A + B
+
+    次
+      B + NEXT1
+
+    さらに
+      NEXT1 + NEXT2
   */
 
-  questionTrack.classList.remove(
-    "slide-next"
+  const newA = currentB;
+
+  const newB =
+    nextNumbers[0];
+
+  const followingB =
+    randomAddend();
+
+  currentA = newA;
+  currentB = newB;
+
+  currentAnswer =
+    (currentA + currentB) % 10;
+
+  nextNumbers.shift();
+
+  nextNumbers.push(followingB);
+
+  updateNext();
+
+
+  /*
+    問題を左へ流す
+  */
+
+  questionEl.classList.remove(
+    "question-slide-out",
+    "question-slide-in"
   );
 
-  void questionTrack.offsetWidth;
+  void questionEl.offsetWidth;
 
-  questionTrack.classList.add(
-    "slide-next"
+  questionEl.classList.add(
+    "question-slide-out"
   );
 
 
   setTimeout(() => {
 
-    /*
-      NEXTの最初の数字が
-      新しい問題の左側になる。
-
-      例えば
-
-      現在
-      9 + 5
-
-      NEXT
-      7 3 8 4 6
-
-      ↓
-
-      5 + 7
-
-      NEXT
-      3 8 4 6 2
-    */
-
-    const newA =
-      nextNumbers[0];
-
-
-    /*
-      新しいBを生成。
-      2〜9なので1は出ない。
-    */
-
-    const newB =
-      randomInt(2, 9);
-
-
-    /*
-      新しい問題の答え
-    */
-
-    currentAnswer =
-      (newA + newB) % 10;
-
-
-    /*
-      現在問題更新
-    */
-
     questionEl.textContent =
-      `${newA} + ${newB}`;
+      `${currentA} + ${currentB}`;
 
-
-    /*
-      NEXTを1個ずらす
-    */
-
-    nextNumbers.shift();
-
-
-    /*
-      一番後ろに新しい数字追加
-    */
-
-    nextNumbers.push(
-      newB
+    questionEl.classList.remove(
+      "question-slide-out"
     );
 
+    questionEl.style.left = "110%";
+    questionEl.style.opacity = "0";
+    questionEl.style.transform =
+      "translate(-50%,-50%) scale(.7)";
 
-    /*
-      NEXT表示更新
-    */
+    void questionEl.offsetWidth;
 
-    updateNextNumbers();
+    questionEl.style.left = "";
+    questionEl.style.opacity = "";
+    questionEl.style.transform = "";
 
-
-    /*
-      次に流れる問題の表示
-    */
-
-    nextQuestionEl.textContent =
-      `${nextNumbers[0]} + ?`;
-
-
-    /*
-      アニメーションリセット
-    */
-
-    const nextEl =
-      nextQuestionEl;
-
-    nextEl.style.transition =
-      "none";
-
-    nextEl.style.left =
-      "110%";
-
-    nextEl.style.opacity =
-      ".3";
-
-    nextEl.style.transform =
-      "translate(-50%, -50%) scale(.62)";
-
-
-    questionTrack.classList.remove(
-      "slide-next"
+    questionEl.classList.add(
+      "question-slide-in"
     );
 
-    void nextEl.offsetWidth;
+  },280);
+}
 
-    nextEl.style.transition =
-      "";
 
-  }, 280);
+/* =========================
+   AUDIO ENGINE
+========================= */
+
+let audioContext = null;
+
+function initAudio(){
+
+  if(!audioContext){
+
+    const AudioCtx =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(AudioCtx){
+      audioContext = new AudioCtx();
+    }
+  }
+
+  if(
+    audioContext &&
+    audioContext.state === "suspended"
+  ){
+    audioContext.resume();
+  }
+}
+
+
+function playTone(
+  frequency,
+  duration = .08,
+  type = "sine",
+  volume = .05,
+  delay = 0
+){
+
+  if(!audioContext) return;
+
+  const start =
+    audioContext.currentTime + delay;
+
+  const osc =
+    audioContext.createOscillator();
+
+  const gain =
+    audioContext.createGain();
+
+  osc.type = type;
+
+  osc.frequency.setValueAtTime(
+    frequency,
+    start
+  );
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    start
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    start + .008
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    start + duration
+  );
+
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
+
+  osc.start(start);
+  osc.stop(start + duration + .02);
+}
+
+
+/* 正解 */
+
+function soundCorrect(){
+
+  playTone(
+    720,
+    .07,
+    "sine",
+    .055
+  );
+
+  playTone(
+    1050,
+    .09,
+    "sine",
+    .045,
+    .045
+  );
+}
+
+
+/* ミス */
+
+function soundMiss(){
+
+  playTone(
+    150,
+    .12,
+    "square",
+    .035
+  );
+
+  playTone(
+    100,
+    .15,
+    "sawtooth",
+    .025,
+    .04
+  );
+}
+
+
+/* コンボ */
+
+function soundCombo(){
+
+  playTone(
+    500,
+    .07,
+    "triangle",
+    .05
+  );
+
+  playTone(
+    700,
+    .07,
+    "triangle",
+    .055,
+    .06
+  );
+
+  playTone(
+    1000,
+    .13,
+    "triangle",
+    .06,
+    .12
+  );
+}
+
+
+/* 節目 */
+
+function soundMilestone(level){
+
+  const base =
+    level >= 100
+      ? 880
+      : level >= 80
+        ? 760
+        : level >= 50
+          ? 650
+          : 560;
+
+  playTone(
+    base,
+    .12,
+    "triangle",
+    .075
+  );
+
+  playTone(
+    base * 1.25,
+    .12,
+    "triangle",
+    .07,
+    .10
+  );
+
+  playTone(
+    base * 1.5,
+    .22,
+    "triangle",
+    .075,
+    .20
+  );
 
 }
 
 
 /* =========================
-   START GAME
+   START
 ========================= */
 
-function startGame() {
+function startGame(){
 
-  clearInterval(
-    timerInterval
-  );
+  initAudio();
 
+  clearInterval(timer);
 
-  gameRunning = true;
+  stopFever();
 
-  correct = 0;
+  resultOverlay.classList.remove("show");
 
-  miss = 0;
+  playing = true;
 
+  document.body.classList.add("playing");
+
+  selectedTime =
+    selectedTime === 60
+      ? 60
+      : 30;
+
+  timeLeft = selectedTime;
+
+  correctCount = 0;
+  missCount = 0;
   combo = 0;
 
-
-  result.style.display =
-    "none";
-
-
-  result.classList.remove(
-    "result-boom",
-    "result-color-flash"
-  );
-
-
-  timeSelect.style.display =
-    "none";
-
+  correctEl.textContent = "0";
+  missEl.textContent = "0";
+  comboEl.textContent = "0";
+  timeEl.textContent = timeLeft;
 
   startButton.textContent =
     "PLAY AGAIN";
 
-
-  document.getElementById(
-    "resultRestart"
-  ).style.display =
-    "none";
-
-
-  setupQuestions();
-
-  updateStats();
-
-
-  endTime =
-    Date.now() +
-    selectedTime * 1000;
-
-
-  timerInterval =
-    setInterval(
-      updateTime,
-      50
+  document.getElementById("time30")
+    .classList.toggle(
+      "active",
+      selectedTime === 30
     );
 
-
-  updateTime();
-
-}
-
-
-/* =========================
-   UPDATE TIME
-========================= */
-
-function updateTime() {
-
-  if (!gameRunning) {
-    return;
-  }
-
-
-  const remaining =
-    Math.max(
-      0,
-      endTime - Date.now()
+  document.getElementById("time60")
+    .classList.toggle(
+      "active",
+      selectedTime === 60
     );
 
+  createFirstQuestion();
 
-  const seconds =
-    remaining / 1000;
+  timer =
+    setInterval(() => {
 
+      timeLeft--;
 
-  timeEl.textContent =
-    seconds.toFixed(1);
+      timeEl.textContent =
+        timeLeft;
 
+      if(timeLeft <= 0){
 
-  if (remaining <= 0) {
+        endGame();
 
-    finishGame();
+      }
 
-  }
-
+    },1000);
 }
 
 
 /* =========================
-   UPDATE STATS
+   INPUT
 ========================= */
 
-function updateStats() {
+function pressKey(value){
 
-  correctEl.textContent =
-    correct;
+  if(!playing) return;
 
-  missEl.textContent =
-    miss;
+  initAudio();
 
-  comboEl.textContent =
-    combo;
+  if(value === currentAnswer){
 
-  bestEl.textContent =
-    best;
-
-}
-
-
-/* =========================
-   ANSWER
-========================= */
-
-function answerQuestion(value) {
-
-  if (!gameRunning) {
-    return;
-  }
-
-
-  /*
-    正解
-  */
-
-  if (
-    Number(value) ===
-    currentAnswer
-  ) {
-
-    correct++;
-
+    correctCount++;
     combo++;
 
+    if(combo > bestCombo){
 
-    if (combo > best) {
-
-      best = combo;
+      bestCombo = combo;
 
       localStorage.setItem(
         "neuroKreppelinBest",
-        best
+        bestCombo
       );
 
     }
+
+    correctEl.textContent =
+      correctCount;
+
+    comboEl.textContent =
+      combo;
+
+    bestEl.textContent =
+      bestCombo;
+
+    soundCorrect();
+
+    correctEl.classList.remove("correct");
+
+    void correctEl.offsetWidth;
+
+    correctEl.classList.add("correct");
 
 
     /*
-      正解エフェクト
+      正解数で節目演出
     */
 
-    questionTrack.classList.remove(
-      "correct-flash"
-    );
+    if(
+      correctCount === 30 ||
+      correctCount === 50 ||
+      correctCount === 80 ||
+      correctCount === 100
+    ){
 
-    void questionTrack.offsetWidth;
+      milestone(correctCount);
 
-    questionTrack.classList.add(
-      "correct-flash"
-    );
+    }
+    else if(
+      combo >= 5 &&
+      combo % 5 === 0
+    ){
 
-
-    /*
-      コンボ演出
-    */
-
-    if (combo >= 5) {
-
-      comboEffect();
+      comboEffect(combo);
 
     }
 
-
-    /*
-      フィーバー
-    */
-
-    if (combo === 30) {
-
-      comboFever(
-        30,
-        2000
-      );
-
-    }
-
-    if (combo === 50) {
-
-      comboFever(
-        50,
-        5000
-      );
-
-    }
-
-    if (combo === 100) {
-
-      comboFever(
-        100,
-        5000
-      );
-
-    }
+    advanceQuestion();
 
   }
+  else{
 
-  /*
-    ミス
-  */
-
-  else {
-
-    miss++;
+    missCount++;
 
     combo = 0;
 
+    missEl.textContent =
+      missCount;
 
-    questionTrack.classList.remove(
-      "miss-flash"
-    );
+    comboEl.textContent =
+      combo;
 
-    void questionTrack.offsetWidth;
+    soundMiss();
 
-    questionTrack.classList.add(
-      "miss-flash"
-    );
+    missEl.classList.remove("miss");
 
+    void missEl.offsetWidth;
+
+    missEl.classList.add("miss");
   }
-
-
-  updateStats();
-
-
-  /*
-    即座に次へ
-  */
-
-  advanceQuestion();
-
 }
 
 
@@ -2359,48 +1633,76 @@ function answerQuestion(value) {
    COMBO EFFECT
 ========================= */
 
-function comboEffect() {
+function comboEffect(number){
 
   const pop =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   pop.className =
     "combo-pop";
 
   pop.textContent =
-    `${combo} COMBO!`;
+    `${number} COMBO!`;
 
-  document.body.appendChild(
-    pop
-  );
+  document.body.appendChild(pop);
 
+  soundCombo();
 
   setTimeout(() => {
-
     pop.remove();
+  },850);
+}
 
-  }, 700);
 
+/* =========================
+   MILESTONE
+========================= */
 
-  /*
-    振動
-  */
+function milestone(number){
 
-  if (
-    navigator.vibrate &&
-    combo % 5 === 0
-  ) {
+  let duration = 5000;
 
-    navigator.vibrate(
-      combo >= 20
-        ? [40,30,70]
-        : 30
-    );
-
+  if(number === 30){
+    duration = 2000;
   }
 
+  if(number === 50){
+    duration = 5000;
+  }
+
+  if(number === 80){
+    duration = 5000;
+  }
+
+  if(number === 100){
+    duration = 5000;
+  }
+
+  let message =
+    `${number} CORRECT!`;
+
+  if(number === 30){
+    message = "🔥 30 CORRECT! 🔥";
+  }
+
+  if(number === 50){
+    message = "⚡ 50 CORRECT!! ⚡";
+  }
+
+  if(number === 80){
+    message = "💥 80 CORRECT!!! 💥";
+  }
+
+  if(number === 100){
+    message = "🌈 100 CORRECT!!! 🌈";
+  }
+
+  feverText.textContent =
+    message;
+
+  soundMilestone(number);
+
+  showFever(duration);
 }
 
 
@@ -2408,605 +1710,330 @@ function comboEffect() {
    FEVER
 ========================= */
 
-function comboFever(
-  comboNumber,
-  duration
-) {
+function showFever(duration){
 
-  /*
-    すでにフィーバー中なら
-    重ねない。
-  */
-
-  if (feverActive) {
-    return;
+  if(feverRunning){
+    stopFever();
   }
 
+  feverRunning = true;
 
-  feverActive = true;
+  fever.classList.add("active");
 
+  createFeverParticles();
 
-  feverCombo.textContent =
-    comboNumber;
+  if(navigator.vibrate){
 
-
-  feverOverlay.classList.add(
-    "active"
-  );
-
-  document.body.classList.add(
-    "fever-shake"
-  );
-
-
-  /*
-    コンボ別メッセージ
-  */
-
-  if (comboNumber === 30) {
-
-    feverMessage.textContent =
-      "FEVER START!!";
-
+    try{
+      navigator.vibrate(
+        duration >= 5000
+          ? [80,50,80,50,120]
+          : [60,40,80]
+      );
+    }catch(e){}
   }
 
-  if (comboNumber === 50) {
+  setTimeout(() => {
 
-    feverMessage.textContent =
-      "UNSTOPPABLE!!";
+    stopFever();
 
-  }
-
-  if (comboNumber === 100) {
-
-    feverMessage.textContent =
-      "MAXIMUM OVERDRIVE!!";
-
-  }
+  },duration);
+}
 
 
-  /*
-    画面振動
-  */
+function stopFever(){
 
-  if (navigator.vibrate) {
+  feverRunning = false;
 
-    navigator.vibrate(
-      comboNumber >= 100
-        ? [100,50,100,50,180]
-        : [60,30,80]
-    );
+  fever.classList.remove("active");
 
-  }
+  document
+    .querySelectorAll(".fever-particle")
+    .forEach(el => el.remove());
+}
 
 
-  /*
-    パーティクル
-  */
+function createFeverParticles(){
 
-  const symbols = [
-    "🔥",
-    "⚡",
-    "🌈",
-    "💥",
-    "✨",
-    "⭐",
-    "💫",
-    "🎯"
-  ];
+  const count = 45;
 
-
-  const amount =
-    comboNumber >= 100
-      ? 180
-      : comboNumber >= 50
-        ? 130
-        : 70;
-
-
-  for (
-    let i = 0;
-    i < amount;
-    i++
-  ) {
+  for(let i=0;i<count;i++){
 
     const p =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     p.className =
       "fever-particle";
 
-
-    p.textContent =
-      symbols[
-        Math.floor(
-          Math.random() *
-          symbols.length
-        )
-      ];
-
-
     p.style.left =
-      Math.random() * 100 +
-      "%";
+      "50%";
 
     p.style.top =
-      Math.random() * 100 +
-      "%";
+      "50%";
 
+    const angle =
+      Math.random() * Math.PI * 2;
+
+    const distance =
+      100 + Math.random() * 500;
 
     p.style.setProperty(
       "--x",
-      (
-        Math.random() *
-        1100 -
-        550
-      ) + "px"
+      `${Math.cos(angle)*distance}px`
     );
-
 
     p.style.setProperty(
       "--y",
-      (
-        Math.random() *
-        1100 -
-        550
-      ) + "px"
+      `${Math.sin(angle)*distance}px`
     );
 
+    const colors = [
+      "#ff00cc",
+      "#00ffff",
+      "#ffe600",
+      "#7b5cff",
+      "#ff7b00",
+      "#00ff88"
+    ];
 
-    feverOverlay.appendChild(
-      p
-    );
+    p.style.background =
+      colors[
+        Math.floor(
+          Math.random()*colors.length
+        )
+      ];
 
+    document
+      .getElementById("fever")
+      .appendChild(p);
 
     setTimeout(() => {
-
       p.remove();
-
-    }, 1600);
-
+    },1200);
   }
-
-
-  /*
-    途中で文字変更
-  */
-
-  if (comboNumber >= 50) {
-
-    setTimeout(() => {
-
-      if (feverActive) {
-
-        feverMessage.textContent =
-          "KEEP GOING!!";
-
-      }
-
-    }, 1300);
-
-  }
-
-
-  if (comboNumber >= 50) {
-
-    setTimeout(() => {
-
-      if (feverActive) {
-
-        feverMessage.textContent =
-          "🔥 LEGEND 🔥";
-
-      }
-
-    }, 3000);
-
-  }
-
-
-  /*
-    終了
-  */
-
-  setTimeout(() => {
-
-    feverOverlay.classList.remove(
-      "active"
-    );
-
-    document.body.classList.remove(
-      "fever-shake"
-    );
-
-
-    feverOverlay
-      .querySelectorAll(
-        ".fever-particle"
-      )
-      .forEach(
-        p => p.remove()
-      );
-
-
-    feverActive = false;
-
-  }, duration);
-
 }
 
 
 /* =========================
-   FINISH GAME
+   END
 ========================= */
 
-function finishGame() {
+function endGame(){
 
-  if (!gameRunning) {
-    return;
-  }
+  if(!playing) return;
 
+  playing = false;
 
-  gameRunning = false;
+  clearInterval(timer);
 
+  timer = null;
 
-  clearInterval(
-    timerInterval
-  );
+  stopFever();
 
+  document.body.classList.remove("playing");
 
-  timeEl.textContent =
-    "0.0";
+  timeLeft = 0;
 
-
-  timeSelect.style.display =
-    "block";
-
-
-  startButton.textContent =
-    "PLAY AGAIN";
-
-
-  /*
-    正解・ミス
-  */
-
-  resultCorrect.textContent =
-    correct;
-
-  resultMiss.textContent =
-    miss;
-
-  resultBest.textContent =
-    best;
-
-
-  const total =
-    correct + miss;
-
-
-  const accuracy =
-    total === 0
-      ? 0
-      : Math.round(
-          correct /
-          total *
-          100
-        );
-
-
-  resultAccuracy.textContent =
-    accuracy + "%";
+  timeEl.textContent = "0";
 
 
   /*
     結果タイトル
   */
 
-  if (best >= 20) {
+  let title = "RESULT";
 
-    resultTitle.textContent =
-      "🔥 LEGENDARY!!! 🔥";
-
+  if(bestCombo >= 20){
+    title = "🔥 LEGENDARY!!! 🔥";
   }
-
-  else if (best >= 15) {
-
-    resultTitle.textContent =
-      "⚡ AMAZING!! ⚡";
-
+  else if(bestCombo >= 15){
+    title = "⚡ AMAZING!! ⚡";
   }
-
-  else if (correct >= 30) {
-
-    resultTitle.textContent =
-      "🌈 GREAT!! 🌈";
-
+  else if(correctCount >= 30){
+    title = "🌈 GREAT!! 🌈";
   }
-
-  else if (
-    correct >= 20 &&
-    miss <= 5
-  ) {
-
-    resultTitle.textContent =
-      "✨ NICE PLAY! ✨";
-
+  else if(
+    correctCount >= 20 &&
+    missCount <= 5
+  ){
+    title = "✨ NICE PLAY! ✨";
   }
-
-  else if (miss <= 3) {
-
-    resultTitle.textContent =
-      "🎯 ACCURATE!";
-
-  }
-
-  else {
-
-    resultTitle.textContent =
-      "RESULT";
-
+  else if(missCount <= 3){
+    title = "🎯 ACCURATE!";
   }
 
 
-  /*
-    結果表示
-  */
+  resultTitle.textContent =
+    title;
 
-  result.style.display =
-    "flex";
+  resultCorrect.textContent =
+    correctCount;
+
+  resultMiss.textContent =
+    missCount;
+
+  resultBest.textContent =
+    bestCombo;
 
 
-  result.classList.remove(
-    "result-boom",
-    "result-color-flash"
+  resultOverlay.classList.add("show");
+
+  resultCard.classList.remove(
+    "result-boom"
   );
 
+  void resultCard.offsetWidth;
 
-  void result.offsetWidth;
-
-
-  result.classList.add(
+  resultCard.classList.add(
     "result-boom"
   );
 
 
+  soundResult();
+
+  createResultParticles();
+
+
   /*
-    結果フラッシュ
+    結果演出は3秒で停止
   */
 
   setTimeout(() => {
 
-    result.classList.add(
-      "result-color-flash"
+    resultCard.classList.remove(
+      "result-boom"
     );
 
-  }, 350);
+    document
+      .querySelectorAll(".result-particle")
+      .forEach(el => el.remove());
 
-
-  /*
-    結果パーティクル
-  */
-
-  resultExplosion();
-
-
-  if (navigator.vibrate) {
-
-    navigator.vibrate(
-      [80,40,100,40,180]
-    );
-
-  }
-
+  },3000);
 }
 
 
 /* =========================
-   RESULT EXPLOSION
+   RESULT SOUND
 ========================= */
 
-function resultExplosion() {
+function soundResult(){
 
-  const symbols = [
-    "🔥",
-    "⚡",
-    "🌈",
-    "💥",
-    "✨",
-    "⭐",
-    "💫"
-  ];
+  playTone(
+    523,
+    .12,
+    "triangle",
+    .06
+  );
+
+  playTone(
+    659,
+    .12,
+    "triangle",
+    .06,
+    .10
+  );
+
+  playTone(
+    784,
+    .18,
+    "triangle",
+    .07,
+    .20
+  );
+
+  playTone(
+    1046,
+    .30,
+    "triangle",
+    .07,
+    .34
+  );
+}
 
 
-  for (
-    let i = 0;
-    i < 90;
-    i++
-  ) {
+/* =========================
+   RESULT PARTICLES
+========================= */
+
+function createResultParticles(){
+
+  for(let i=0;i<70;i++){
 
     const p =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
     p.className =
       "result-particle";
 
+    const angle =
+      Math.random() * Math.PI * 2;
 
-    p.textContent =
-      symbols[
+    const distance =
+      120 + Math.random() * 500;
+
+    p.style.setProperty(
+      "--x",
+      `${Math.cos(angle)*distance}px`
+    );
+
+    p.style.setProperty(
+      "--y",
+      `${Math.sin(angle)*distance}px`
+    );
+
+    const colors = [
+      "#ff00cc",
+      "#00ffff",
+      "#ffe600",
+      "#7b5cff",
+      "#ff7b00",
+      "#00ff88"
+    ];
+
+    p.style.background =
+      colors[
         Math.floor(
-          Math.random() *
-          symbols.length
+          Math.random()*colors.length
         )
       ];
 
-
-    p.style.setProperty(
-      "--rx",
-      (
-        Math.random() *
-        1000 -
-        500
-      ) + "px"
-    );
-
-
-    p.style.setProperty(
-      "--ry",
-      (
-        Math.random() *
-        1000 -
-        500
-      ) + "px"
-    );
-
-
-    document.body.appendChild(
-      p
-    );
-
+    document.body.appendChild(p);
 
     setTimeout(() => {
-
       p.remove();
-
-    }, 1500);
-
+    },1600);
   }
-
 }
 
 
 /* =========================
-   TIME BUTTONS
+   KEYBOARD SUPPORT
 ========================= */
 
-document
-  .querySelectorAll(
-    ".time-button"
-  )
-  .forEach(
-    button => {
+document.addEventListener(
+  "keydown",
+  e => {
 
-      button.addEventListener(
-        "click",
-        () => {
+    if(
+      e.key >= "0" &&
+      e.key <= "9"
+    ){
 
-          if (gameRunning) {
-            return;
-          }
-
-
-          document
-            .querySelectorAll(
-              ".time-button"
-            )
-            .forEach(
-              b =>
-                b.classList.remove(
-                  "selected"
-                )
-            );
-
-
-          button.classList.add(
-            "selected"
-          );
-
-
-          selectedTime =
-            Number(
-              button.dataset.time
-            );
-
-
-          timeEl.textContent =
-            selectedTime.toFixed(1);
-
-        }
+      pressKey(
+        Number(e.key)
       );
 
     }
-  );
-
-
-/* =========================
-   START
-========================= */
-
-startButton.addEventListener(
-  "click",
-  () => {
-
-    startGame();
 
   }
 );
-
-
-/* =========================
-   RESTART
-========================= */
-
-resultRestartButton.addEventListener(
-  "click",
-  () => {
-
-    result.style.display =
-      "none";
-
-    result.classList.remove(
-      "result-boom",
-      "result-color-flash"
-    );
-
-    startGame();
-
-  }
-);
-
-
-/* =========================
-   KEYPAD
-========================= */
-
-document
-  .querySelectorAll(
-    ".key"
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          answerQuestion(
-            button.dataset.key
-          );
-
-        }
-      );
-
-    }
-  );
 
 
 /* =========================
    INITIAL
 ========================= */
 
-bestEl.textContent =
-  best;
-
-timeEl.textContent =
-  selectedTime.toFixed(1);
-
-updateStats();
+selectTime(30);
 
 </script>
 
