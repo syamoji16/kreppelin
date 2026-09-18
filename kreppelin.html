@@ -2,701 +2,795 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>NEURO KREPELIN</title>
 
 <style>
 *{
   box-sizing:border-box;
-  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:#fff;
 }
 
 body{
-  margin:0;
   min-height:100vh;
-  color:#fff;
-  text-align:center;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:linear-gradient(135deg,#080a14,#15102b,#071923,#190b20);
-  background-size:400% 400%;
-  animation:bg 12s ease infinite;
   overflow-x:hidden;
+  background:
+    radial-gradient(circle at 15% 15%,#4c147d,transparent 32%),
+    radial-gradient(circle at 85% 25%,#004b75,transparent 35%),
+    radial-gradient(circle at 50% 100%,#66104f,transparent 40%),
+    linear-gradient(135deg,#04000d,#090026,#00152d);
+  background-size:180% 180%;
+  animation:bgMove 10s ease-in-out infinite alternate;
 }
 
-@keyframes bg{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+body.theme-rainbow{
+  background:
+    linear-gradient(
+      125deg,
+      #ff006e,
+      #6a00ff,
+      #00b7ff,
+      #00ff9d,
+      #ffe600,
+      #ff006e
+    );
+  background-size:400% 400%;
+  animation:rainbowBg 7s linear infinite;
 }
 
-header{
-  padding:20px 10px 8px;
+body.theme-cosmic{
+  background:
+    radial-gradient(circle at 20% 20%,#5420b8,transparent 28%),
+    radial-gradient(circle at 80% 30%,#006d9c,transparent 30%),
+    radial-gradient(circle at 50% 80%,#150060,transparent 35%),
+    #02020c;
 }
 
-h1{
-  margin:0;
-  font-size:31px;
-  letter-spacing:4px;
-  font-weight:1000;
-  background:linear-gradient(
-    90deg,
-    #00eaff,
-    #ff4fd8,
-    #ffe600,
-    #00ff9d
-  );
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  background-size:300% 100%;
-  animation:rainbow 4s linear infinite;
+body.theme-fire{
+  background:
+    radial-gradient(circle at 50% 100%,#ff2600,transparent 40%),
+    radial-gradient(circle at 20% 70%,#ff7b00,transparent 30%),
+    linear-gradient(#180000,#060000);
 }
 
-@keyframes rainbow{
-  to{
-    background-position:300% 0;
-  }
+@keyframes bgMove{
+  from{background-position:0 0}
+  to{background-position:100% 100%}
 }
 
-.subtitle{
-  color:#aeb5cc;
-  font-size:13px;
-  margin-top:3px;
-}
-
-#topControls{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:12px 10px;
+@keyframes rainbowBg{
+  to{background-position:400% 0}
 }
 
 button{
-  cursor:pointer;
-}
-
-.timeButton,
-.startButton,
-.shopButton{
-  border:0;
-  border-radius:15px;
-  padding:11px 18px;
+  font:inherit;
   color:#fff;
+  border:0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.app{
+  width:min(760px,100%);
+  margin:auto;
+  padding:14px 13px 40px;
+}
+
+.title{
+  text-align:center;
+  font-size:clamp(32px,9vw,62px);
+  line-height:1;
   font-weight:1000;
-  transition:.15s;
-  box-shadow:0 8px 25px #0004;
+  letter-spacing:2px;
+  margin:8px 0 6px;
+  color:transparent;
+  background:
+    linear-gradient(
+      90deg,
+      #ff28b8,
+      #754cff,
+      #00ddff,
+      #32ff91,
+      #ffe500,
+      #ff28b8
+    );
+  background-size:300% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  animation:titleMove 3s linear infinite;
+  filter:
+    drop-shadow(0 0 7px #ff28b8)
+    drop-shadow(0 0 15px #00ddff);
 }
 
-.timeButton{
-  background:#20263b;
+@keyframes titleMove{
+  to{background-position:300% center}
 }
 
-.timeButton.active{
-  background:linear-gradient(135deg,#00cfff,#7b2cff);
-  box-shadow:0 0 24px #7b2cff77;
+.subtitle{
+  text-align:center;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:3px;
+  opacity:.8;
+  margin-bottom:13px;
 }
+
+.menu{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.timeBox{
+  display:flex;
+  gap:7px;
+}
+
+.timeBtn,
+.shopBtn{
+  min-height:50px;
+  border-radius:16px;
+  font-weight:1000;
+  background:linear-gradient(135deg,#211c54,#151326);
+  border:2px solid #6258ff;
+  box-shadow:0 0 12px rgba(101,83,255,.55);
+}
+
+.timeBtn{
+  flex:1;
+  font-size:15px;
+}
+
+.timeBtn.active{
+  background:linear-gradient(135deg,#ff27b8,#643cff);
+  border-color:#fff;
+  box-shadow:0 0 12px #ff35c0,0 0 25px #693cff;
+}
+
+.shopBtn{
+  background:linear-gradient(135deg,#ff9d00,#ff2d72);
+  border-color:#ffd86b;
+}
+
+.points{
+  text-align:center;
+  margin-top:8px;
+  font-weight:1000;
+  font-size:15px;
+  color:#ffe66b;
+  text-shadow:0 0 10px #ffb000;
+}
+
+/* START */
 
 .startButton{
-  background:linear-gradient(135deg,#ff008c,#7b2cff);
-  font-size:16px;
-}
-
-.shopButton{
-  background:linear-gradient(135deg,#ffb300,#ff4f81);
-}
-
-button:active{
-  transform:scale(.94);
-}
-
-#pointsTop{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  background:#141827;
-  border:1px solid #ffffff18;
-  border-radius:14px;
-  padding:9px 14px;
+  width:100%;
+  margin:12px 0 14px;
+  min-height:82px;
+  border-radius:25px;
+  font-size:clamp(26px,7vw,40px);
   font-weight:1000;
-  color:#ffd84d;
+  letter-spacing:2px;
+  background:
+    linear-gradient(
+      90deg,
+      #ff239f,
+      #7144ff,
+      #00cfff,
+      #27f28a,
+      #ffdb00,
+      #ff239f
+    );
+  background-size:300% auto;
+  animation:startRainbow 3s linear infinite;
+  box-shadow:
+    0 0 12px #ff32b6,
+    0 0 28px #6945ff,
+    0 0 50px rgba(0,220,255,.4);
+  border:3px solid #fff;
+  text-shadow:0 2px 5px #000;
+  transition:.12s;
 }
 
-#stats{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:10px auto;
+.startButton:active{
+  transform:scale(.96);
+}
+
+@keyframes startRainbow{
+  to{background-position:300% center}
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:6px;
+  margin-bottom:9px;
 }
 
 .stat{
-  background:#141827dd;
+  background:rgba(10,5,30,.7);
+  border:1px solid rgba(255,255,255,.22);
   border-radius:13px;
-  padding:7px 13px;
-  min-width:78px;
-  border:1px solid #ffffff0d;
+  padding:8px 3px;
+  text-align:center;
 }
 
 .stat small{
   display:block;
-  color:#8991a8;
-  font-size:10px;
+  font-size:9px;
+  opacity:.65;
+  font-weight:900;
 }
 
-.stat strong{
+.stat b{
   font-size:19px;
 }
 
-#timerBar{
-  width:min(760px,90%);
-  height:8px;
-  margin:10px auto;
-  background:#202437;
-  border-radius:10px;
+/* TIMER */
+
+.timer{
+  height:9px;
+  border-radius:20px;
+  background:#100c25;
   overflow:hidden;
+  margin-bottom:12px;
 }
 
-#timer{
-  width:100%;
+.timerBar{
   height:100%;
-  background:linear-gradient(
-    90deg,
-    #00eaff,
-    #ff3dbb,
-    #ffe600
-  );
-  transition:width .1s linear;
+  width:100%;
+  transform-origin:left;
+  background:linear-gradient(90deg,#00ff9d,#00d9ff,#784cff,#ff2eae);
+  box-shadow:0 0 10px #00ddff;
 }
 
-#game{
-  max-width:1000px;
-  margin:auto;
-  padding:5px 14px 25px;
+/* GAME */
+
+.gameCard{
   position:relative;
+  min-height:340px;
+  padding:16px 10px 18px;
+  border-radius:28px;
+  background:rgba(5,3,20,.72);
+  border:2px solid rgba(255,255,255,.15);
+  box-shadow:
+    0 0 20px rgba(88,66,255,.25),
+    inset 0 0 30px rgba(255,255,255,.025);
 }
 
-#scoreLine{
+.scoreLine{
+  display:flex;
+  justify-content:space-between;
   font-weight:1000;
-  font-size:18px;
-  color:#ffd84d;
-  margin:5px;
+  padding:0 6px;
+  margin-bottom:9px;
+}
+
+#score{
+  color:#6affd1;
+  text-shadow:0 0 10px #00ffb3;
 }
 
 #combo{
-  min-height:45px;
-  font-size:27px;
-  font-weight:1000;
-  transition:transform .12s;
-  text-shadow:0 0 15px #fff5;
+  color:#ffe75c;
+  text-shadow:0 0 10px #ffb700;
 }
 
-#streakMsg{
-  height:30px;
-  font-size:18px;
-  font-weight:1000;
-  opacity:0;
-  transition:.15s;
-}
-
-#streakMsg.show{
-  opacity:1;
-  transform:scale(1.15);
-}
-
-/* =========================
-   QUESTION
-========================= */
-
-#questionArea{
-  min-height:150px;
+.questionArea{
+  min-height:120px;
   display:flex;
   align-items:center;
   justify-content:center;
+  gap:10px;
+  font-size:clamp(54px,17vw,105px);
+  font-weight:1000;
+  text-shadow:
+    0 0 8px #fff,
+    0 0 20px #8c65ff;
   position:relative;
-  margin:5px auto 0;
-  max-width:850px;
-}
-
-#question{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  font-size:72px;
-  font-weight:1000;
-  line-height:1;
-  white-space:nowrap;
-  text-shadow:0 0 20px #ffffff22;
 }
 
 .qpart{
   display:inline-block;
+  min-width:55px;
+  text-align:center;
 }
 
 #qOperator{
   display:inline-block;
+  min-width:35px;
 }
 
 .joinIn{
-  animation:joinIn .35s cubic-bezier(.2,.9,.2,1);
+  animation:joinIn .23s cubic-bezier(.2,1.5,.3,1);
 }
 
 @keyframes joinIn{
   from{
-    transform:translateX(90px);
+    transform:translateX(70px) scale(1.2);
     opacity:0;
   }
   to{
-    transform:translateX(0);
+    transform:translateX(0) scale(1);
     opacity:1;
   }
 }
 
-/* =========================
-   NEXT
-========================= */
+/* NEXT */
 
-#nextPanel{
-  position:absolute;
-  right:15px;
-  top:50%;
-  transform:translateY(-50%);
+.nextArea{
+  margin:2px auto 16px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:8px;
 }
 
-#nextPanel label{
-  font-size:12px;
+.nextLabel{
+  font-size:11px;
   font-weight:1000;
-  letter-spacing:3px;
-  color:#9ba3bd;
+  letter-spacing:4px;
+  opacity:.65;
+  margin-bottom:5px;
 }
 
-#nextNumbers{
+.nextBoxes{
   display:flex;
-  gap:8px;
-  overflow:hidden;
+  gap:10px;
 }
 
 .nextNumber{
-  width:66px;
-  height:66px;
-  border-radius:18px;
+  width:78px;
+  height:65px;
+  border-radius:19px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:34px;
   font-weight:1000;
-  color:#fff;
-  background:linear-gradient(
-    135deg,
-    #00cfff,
-    #7b2cff
-  );
-  box-shadow:0 0 25px #00cfff44;
+  background:linear-gradient(135deg,#1f145d,#30208b);
+  border:2px solid #8273ff;
+  box-shadow:0 0 14px #5f4bff;
 }
 
 .nextNumber.slide{
-  animation:nextSlide .35s ease;
+  animation:nextSlide .22s ease-out;
 }
 
 @keyframes nextSlide{
   from{
-    transform:translateX(80px);
+    transform:translateX(25px) scale(.8);
     opacity:0;
   }
   to{
-    transform:translateX(0);
+    transform:none;
     opacity:1;
   }
 }
 
-/* =========================
-   KEYPAD
-========================= */
+/* KEYPAD */
 
-#keypad{
-  width:min(310px,92vw);
-  margin:10px auto;
+.keypad{
+  width:min(390px,100%);
+  margin:auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px;
+  gap:9px;
 }
 
 .key{
-  border:0;
-  border-radius:20px;
-  min-height:67px;
-  color:#fff;
-  font-size:28px;
+  min-height:70px;
+  border-radius:21px;
+  font-size:30px;
   font-weight:1000;
-  background:linear-gradient(135deg,#1c2440,#2b1b4e);
+  background:linear-gradient(145deg,#2b246a,#15112f);
+  border:2px solid #655aff;
   box-shadow:
-    inset 0 1px 0 #ffffff18,
-    0 8px 20px #0005;
+    0 0 10px rgba(95,75,255,.55),
+    inset 0 0 9px rgba(255,255,255,.06);
+  transition:.1s;
 }
 
-.key:nth-child(1),
-.key:nth-child(4),
-.key:nth-child(7){
-  background:linear-gradient(135deg,#00aeea,#3158ff);
-}
-
-.key:nth-child(2),
-.key:nth-child(5),
-.key:nth-child(8){
-  background:linear-gradient(135deg,#7b2cff,#d92cff);
-}
-
-.key:nth-child(3),
-.key:nth-child(6),
-.key:nth-child(9){
-  background:linear-gradient(135deg,#ff008c,#ff5b3d);
-}
-
+.key:nth-child(1){border-color:#ff4bb8}
+.key:nth-child(2){border-color:#ff6b71}
+.key:nth-child(3){border-color:#ffb13b}
+.key:nth-child(4){border-color:#ffe247}
+.key:nth-child(5){border-color:#6dff72}
+.key:nth-child(6){border-color:#35e8ff}
+.key:nth-child(7){border-color:#4c9dff}
+.key:nth-child(8){border-color:#906dff}
+.key:nth-child(9){border-color:#d05bff}
 .key:nth-child(10){
   grid-column:2;
-  background:linear-gradient(135deg,#ffb300,#ff4f81);
+  border-color:#ff54db;
 }
 
-#message{
-  color:#aeb5cc;
-  font-size:13px;
-  margin:12px;
+.key:active{
+  transform:scale(.91);
+  filter:brightness(1.5);
 }
 
-/* =========================
-   FLASH
-========================= */
-
-#flash{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:0;
-  z-index:20;
+body.neon-strong .gameCard,
+body.neon-strong .key,
+body.neon-strong .nextNumber{
+  box-shadow:
+    0 0 15px currentColor,
+    0 0 35px rgba(100,80,255,.7);
 }
 
-body.hit #flash{
-  background:#fff;
-  animation:flash .12s ease-out;
+body.rainbow-buttons .key{
+  background:
+    linear-gradient(
+      90deg,
+      #ff247f,
+      #703cff,
+      #00d9ff,
+      #2aff90,
+      #ffe600
+    );
+  background-size:250% 100%;
+  animation:rainbowBg 2.5s linear infinite;
 }
 
-@keyframes flash{
-  0%{opacity:.18}
-  100%{opacity:0}
+body.fire-buttons .key{
+  background:linear-gradient(145deg,#ff4100,#8e0c00,#290000);
+  border-color:#ff9b00;
+  box-shadow:0 0 15px #ff4800,0 0 30px #ff9000;
 }
 
-/* =========================
-   FEVER
-========================= */
+/* HIT */
+
+.hit{
+  animation:hitFlash .1s ease-out;
+}
+
+@keyframes hitFlash{
+  0%{filter:brightness(1)}
+  50%{filter:brightness(1.5)}
+  100%{filter:brightness(1)}
+}
+
+/* FEVER */
 
 #feverOverlay{
-  display:none;
   position:fixed;
   inset:0;
+  z-index:50;
   pointer-events:none;
-  z-index:12;
-  overflow:hidden;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,.04);
 }
 
-#feverText{
-  position:absolute;
-  left:50%;
-  top:25%;
-  transform:translateX(-50%);
-  font-size:clamp(34px,8vw,75px);
+#feverOverlay.show{
+  display:flex;
+  animation:feverScreen .25s infinite alternate;
+}
+
+.feverText{
+  font-size:clamp(42px,12vw,95px);
   font-weight:1000;
-  letter-spacing:4px;
+  text-align:center;
   color:#fff;
   text-shadow:
-    0 0 15px #00eaff,
-    0 0 40px #ff00c8;
-  animation:feverPulse .4s infinite alternate;
+    0 0 8px #fff,
+    0 0 20px #ff29b8,
+    0 0 40px #00d9ff;
+  animation:feverPop .35s infinite alternate;
 }
 
-@keyframes feverPulse{
-  from{
-    transform:translateX(-50%) scale(1);
-  }
-  to{
-    transform:translateX(-50%) scale(1.12);
-  }
+@keyframes feverScreen{
+  from{background:rgba(255,0,140,.03)}
+  to{background:rgba(0,220,255,.16)}
 }
 
-.fParticle{
-  position:absolute;
-  width:9px;
-  height:9px;
+@keyframes feverPop{
+  from{transform:scale(.96) rotate(-1deg)}
+  to{transform:scale(1.05) rotate(1deg)}
+}
+
+/* PARTICLES */
+
+.particle{
+  position:fixed;
+  pointer-events:none;
+  width:8px;
+  height:8px;
   border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 15px #fff;
-  animation:particle 1s linear forwards;
+  z-index:60;
+  animation:particleFly 1s ease-out forwards;
 }
 
-@keyframes particle{
+@keyframes particleFly{
   from{
     transform:translate(0,0) scale(1);
     opacity:1;
   }
   to{
-    transform:
-      translate(var(--x),var(--y))
-      scale(.1);
+    transform:translate(var(--x),var(--y)) scale(0);
     opacity:0;
   }
 }
 
-/* =========================
-   RESULT
-========================= */
+/* OVERLAYS */
 
-#resultOverlay,
-#shopOverlay{
-  display:none;
+.overlay{
   position:fixed;
   inset:0;
-  z-index:30;
-  background:#05060dcc;
+  z-index:100;
+  background:rgba(3,0,15,.91);
+  backdrop-filter:blur(12px);
+  display:flex;
   align-items:center;
   justify-content:center;
+  padding:15px;
+}
+
+.modal{
+  width:min(650px,100%);
+  max-height:92vh;
+  overflow:auto;
+  border-radius:27px;
+  background:linear-gradient(145deg,#130d35,#08051b);
+  border:2px solid #715cff;
+  box-shadow:
+    0 0 25px #543dff,
+    0 0 60px rgba(255,30,180,.2);
   padding:20px;
 }
 
-.card{
-  width:min(520px,94vw);
-  background:linear-gradient(
-    145deg,
-    #141827,
-    #21153c
-  );
-  border:1px solid #ffffff18;
-  border-radius:26px;
-  padding:26px;
-  box-shadow:0 20px 80px #000b;
+.modalTitle{
+  text-align:center;
+  font-size:29px;
+  font-weight:1000;
+  margin-bottom:5px;
 }
 
-.resultTitle{
-  font-size:28px;
-  font-weight:1000;
-  margin-bottom:12px;
-}
-
-.resultBig{
-  font-size:50px;
-  font-weight:1000;
-  color:#ffd84d;
-  text-shadow:0 0 25px #ffd84d55;
+.modalSub{
+  text-align:center;
+  opacity:.65;
+  font-size:12px;
+  margin-bottom:16px;
 }
 
 .resultStats{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px;
-  margin:18px 0;
 }
 
-.resultStat{
-  background:#0d1020;
-  border-radius:14px;
-  padding:10px;
+.resultBox{
+  border-radius:15px;
+  padding:12px;
+  background:#171033;
+  border:1px solid #44377f;
+  text-align:center;
 }
 
-.resultStat small{
+.resultBox small{
   display:block;
-  color:#8991a8;
+  opacity:.6;
 }
 
-.resultStat strong{
-  font-size:22px;
-}
-
-.resultPoints{
-  font-size:21px;
-  font-weight:1000;
-  color:#7dffcb;
-  margin:12px;
-}
-
-.resultButtons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-
-.resultButtons button{
-  border:0;
-  border-radius:16px;
-  padding:13px 22px;
-  color:#fff;
-  font-weight:1000;
-  font-size:16px;
-}
-
-.restartButton{
-  background:linear-gradient(135deg,#00cfff,#7b2cff);
-}
-
-.titleButton{
-  background:linear-gradient(135deg,#ff008c,#7b2cff);
-}
-
-.resultBurst{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  overflow:hidden;
-}
-
-.rParticle{
-  position:absolute;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#fff;
-  animation:rBurst 1.5s ease-out forwards;
-}
-
-@keyframes rBurst{
-  from{
-    left:50%;
-    top:45%;
-    transform:translate(0,0) scale(1);
-    opacity:1;
-  }
-  to{
-    left:var(--lx);
-    top:var(--ly);
-    transform:scale(.1);
-    opacity:0;
-  }
-}
-
-/* =========================
-   SHOP
-========================= */
-
-#shopOverlay .card{
-  max-height:88vh;
-  overflow:auto;
-}
-
-.shopHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.shopHead h2{
-  margin:0;
+.resultBox b{
   font-size:25px;
 }
 
-.shopPoints{
-  color:#ffd84d;
+.modalButtons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:15px;
+}
+
+.modalButton{
+  min-height:55px;
+  border-radius:17px;
+  background:linear-gradient(135deg,#6544ff,#b52cff);
   font-weight:1000;
+  border:2px solid #9d8cff;
+}
+
+.modalButton.alt{
+  background:linear-gradient(135deg,#272054,#15132c);
+}
+
+/* SHOP */
+
+.shopBalance{
+  text-align:center;
+  color:#ffe45d;
+  font-weight:1000;
+  margin-bottom:12px;
 }
 
 .shopGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:16px;
+  gap:9px;
 }
 
-.item{
-  background:#0e1222;
-  border:1px solid #ffffff12;
+.shopItem{
+  padding:13px 10px;
   border-radius:17px;
-  padding:14px;
-  text-align:left;
+  background:linear-gradient(145deg,#1d163f,#0e0a23);
+  border:1px solid #493c83;
 }
 
-.item h3{
-  margin:0 0 5px;
-  font-size:17px;
+.shopItem.owned{
+  border-color:#36ffbd;
+  box-shadow:0 0 13px rgba(0,255,180,.25);
 }
 
-.item p{
-  margin:0 0 9px;
-  color:#9da5bd;
-  font-size:12px;
-  line-height:1.4;
+.shopName{
+  font-weight:1000;
+  font-size:15px;
 }
 
-.buy{
+.shopDesc{
+  font-size:10px;
+  opacity:.65;
+  min-height:31px;
+  margin:5px 0 8px;
+}
+
+.shopBuy{
   width:100%;
-  margin:0;
-  padding:9px;
-  border:0;
+  min-height:38px;
   border-radius:12px;
-  background:#5865f2;
-  color:#fff;
+  background:linear-gradient(135deg,#593aff,#d52cff);
   font-weight:1000;
 }
 
-.buy.owned{
-  background:#254b3c;
-  color:#7dffcb;
+.shopBuy:disabled{
+  opacity:.4;
 }
 
-.closeShop{
-  background:#272d42;
-  border:0;
-  color:#fff;
+.closeBtn{
+  width:100%;
+  margin-top:12px;
+  min-height:47px;
+  border-radius:14px;
+  background:#211a43;
+  border:1px solid #56498b;
+  font-weight:1000;
+}
+
+/* CUSTOMIZER */
+
+.customSection{
+  margin-bottom:15px;
+}
+
+.customSection h3{
+  font-size:14px;
+  margin:0 0 7px;
+}
+
+.choiceGrid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+}
+
+.choice{
+  min-height:47px;
   border-radius:13px;
-  padding:10px 18px;
+  background:#17112f;
+  border:1px solid #493d76;
+  font-size:12px;
+  font-weight:900;
+  padding:5px;
+}
+
+.choice.selected{
+  border:2px solid #fff;
+  background:linear-gradient(135deg,#633cff,#e62bb4);
+  box-shadow:0 0 12px #874bff;
+}
+
+.choice.locked{
+  opacity:.35;
+}
+
+.sampleBtn{
+  width:100%;
+  min-height:53px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#ff9c00,#ff2789);
   font-weight:1000;
-  margin-top:15px;
+  margin-top:5px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:720px){
-
-  #nextPanel{
-    position:relative;
-    right:auto;
-    top:auto;
-    transform:none;
-    margin:2px auto 10px;
-  }
-
-  #questionArea{
-    min-height:125px;
-  }
-
-  #question{
-    font-size:54px;
-  }
-
-  .nextNumber{
-    width:58px;
-    height:58px;
-    font-size:30px;
-  }
+.saveCustom{
+  width:100%;
+  min-height:57px;
+  border-radius:17px;
+  background:linear-gradient(
+    90deg,
+    #ff2aa8,
+    #7044ff,
+    #00d8ff,
+    #2fff94
+  );
+  background-size:250% 100%;
+  animation:rainbowBg 3s linear infinite;
+  font-size:18px;
+  font-weight:1000;
+  margin-top:7px;
 }
 
-@media(max-width:480px){
+/* COSMIC */
 
-  #question{
-    font-size:47px;
+body.cosmic-particles::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.35;
+  background-image:
+    radial-gradient(#fff 1px,transparent 1px),
+    radial-gradient(#fff 1px,transparent 1px);
+  background-size:47px 47px,79px 79px;
+  background-position:0 0,20px 30px;
+  animation:stars 5s linear infinite;
+}
+
+@keyframes stars{
+  to{background-position:47px 47px,99px 109px}
+}
+
+/* FIRE */
+
+body.fire-effect .title{
+  filter:
+    drop-shadow(0 0 8px #ff3000)
+    drop-shadow(0 0 25px #ff8a00);
+}
+
+/* MASTER */
+
+body.master-mode .questionArea{
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px #ffdd00,
+    0 0 50px #ff6a00;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+  .app{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .gameCard{
+    min-height:320px;
   }
 
   .key{
-    min-height:61px;
+    min-height:65px;
   }
 
   .shopGrid{
     grid-template-columns:1fr;
+  }
+
+  .choiceGrid{
+    grid-template-columns:1fr 1fr;
   }
 }
 </style>
@@ -704,199 +798,171 @@ body.hit #flash{
 
 <body>
 
-<header>
-  <h1>NEURO KREPELIN</h1>
+<div class="app">
+
+  <div class="title">NEURO KREPELIN</div>
   <div class="subtitle">反射 × 計算 × コンボ</div>
-</header>
 
-<div id="topControls">
+  <div class="menu">
 
-  <button class="timeButton active" data-time="30">
-    30 SEC
-  </button>
+    <div class="timeBox">
+      <button class="timeBtn active" id="time30">30 SEC</button>
+      <button class="timeBtn" id="time60">60 SEC</button>
+    </div>
 
-  <button class="timeButton" data-time="60">
-    60 SEC
-  </button>
+    <button class="shopBtn" id="shopButton">
+      🛒 SHOP
+    </button>
+
+  </div>
+
+  <div class="points">
+    💰 <span id="points">0</span> P
+  </div>
 
   <button class="startButton" id="startButton">
     START GAME
   </button>
 
-  <button class="shopButton" id="shopButton">
-    🛒 SHOP
-  </button>
+  <div class="stats">
 
-  <div id="pointsTop">
-    💰 <span id="pointsText">0</span>P
+    <div class="stat">
+      <small>TIME</small>
+      <b id="time">30</b>
+    </div>
+
+    <div class="stat">
+      <small>正解</small>
+      <b id="correct">0</b>
+    </div>
+
+    <div class="stat">
+      <small>ミス</small>
+      <b id="miss">0</b>
+    </div>
+
+    <div class="stat">
+      <small>BEST COMBO</small>
+      <b id="best">0</b>
+    </div>
+
   </div>
 
-</div>
-
-<div id="stats">
-
-  <div class="stat">
-    <small>TIME</small>
-    <strong id="timeText">30</strong>
+  <div class="timer">
+    <div class="timerBar" id="timerBar"></div>
   </div>
 
-  <div class="stat">
-    <small>正解</small>
-    <strong id="correctText">0</strong>
-  </div>
+  <div class="gameCard">
 
-  <div class="stat">
-    <small>ミス</small>
-    <strong id="wrongText">0</strong>
-  </div>
+    <div class="scoreLine">
+      <span>SCORE <span id="score">0</span></span>
+      <span>COMBO <span id="combo">0</span></span>
+    </div>
 
-  <div class="stat">
-    <small>BEST COMBO</small>
-    <strong id="bestText">0</strong>
-  </div>
+    <div class="questionArea">
 
-</div>
-
-<div id="timerBar">
-  <div id="timer"></div>
-</div>
-
-<div id="game">
-
-  <div id="scoreLine">
-    SCORE <span id="scoreText">0</span>
-  </div>
-
-  <div id="combo">
-    COMBO 0
-  </div>
-
-  <div id="streakMsg"></div>
-
-  <div id="questionArea">
-
-    <div id="question">
-
-      <span id="questionA" class="qpart">
-        READY?
-      </span>
-
+      <span id="questionA" class="qpart">READY?</span>
       <span id="qOperator"></span>
-
       <span id="questionB" class="qpart"></span>
 
     </div>
 
-    <div id="nextPanel">
+    <div class="nextArea">
 
-      <label>NEXT</label>
+      <div class="nextLabel">NEXT</div>
 
-      <div id="nextNumbers">
-
-        <div class="nextNumber" id="nextNumber1">
-          -
-        </div>
-
-        <div class="nextNumber" id="nextNumber2">
-          -
-        </div>
-
+      <div class="nextBoxes">
+        <div class="nextNumber" id="nextNumber1">-</div>
+        <div class="nextNumber" id="nextNumber2">-</div>
       </div>
 
     </div>
 
-  </div>
+    <div class="keypad">
 
-  <div id="keypad">
+      <button class="key" data-num="1">1</button>
+      <button class="key" data-num="2">2</button>
+      <button class="key" data-num="3">3</button>
 
-    <button class="key" data-key="1">1</button>
-    <button class="key" data-key="2">2</button>
-    <button class="key" data-key="3">3</button>
+      <button class="key" data-num="4">4</button>
+      <button class="key" data-num="5">5</button>
+      <button class="key" data-num="6">6</button>
 
-    <button class="key" data-key="4">4</button>
-    <button class="key" data-key="5">5</button>
-    <button class="key" data-key="6">6</button>
+      <button class="key" data-num="7">7</button>
+      <button class="key" data-num="8">8</button>
+      <button class="key" data-num="9">9</button>
 
-    <button class="key" data-key="7">7</button>
-    <button class="key" data-key="8">8</button>
-    <button class="key" data-key="9">9</button>
+      <button class="key" data-num="0">0</button>
 
-    <button class="key" data-key="0">0</button>
+    </div>
 
-  </div>
-
-  <div id="message">
-    答えは1の位だけをタップ！
   </div>
 
 </div>
 
-<div id="flash"></div>
+
+<!-- FEVER -->
 
 <div id="feverOverlay">
-  <div id="feverText">
-    FEVER!!
-  </div>
+  <div class="feverText" id="feverText"></div>
 </div>
 
-<!-- =========================
-     RESULT
-========================= -->
 
-<div id="resultOverlay">
+<!-- RESULT -->
 
-  <div class="card" id="resultCard">
+<div class="overlay hidden" id="resultOverlay">
 
-    <div class="resultBurst" id="resultBurst"></div>
+  <div class="modal">
 
-    <div class="resultTitle" id="resultTitle">
+    <div class="modalTitle" id="resultTitle">
       RESULT
     </div>
 
-    <div class="resultBig">
-      <span id="resultScore">0</span>
-      SCORE
+    <div class="modalSub">
+      GAME OVER
     </div>
 
     <div class="resultStats">
 
-      <div class="resultStat">
+      <div class="resultBox">
+        <small>SCORE</small>
+        <b id="resultScore">0</b>
+      </div>
+
+      <div class="resultBox">
         <small>正解</small>
-        <strong id="resultCorrect">0</strong>
+        <b id="resultCorrect">0</b>
       </div>
 
-      <div class="resultStat">
+      <div class="resultBox">
         <small>ミス</small>
-        <strong id="resultWrong">0</strong>
+        <b id="resultMiss">0</b>
       </div>
 
-      <div class="resultStat">
+      <div class="resultBox">
         <small>BEST COMBO</small>
-        <strong id="resultCombo">0</strong>
+        <b id="resultBest">0</b>
       </div>
 
-      <div class="resultStat">
+      <div class="resultBox">
         <small>正答率</small>
-        <strong id="resultRate">0%</strong>
+        <b id="resultAccuracy">0%</b>
+      </div>
+
+      <div class="resultBox">
+        <small>獲得POINT</small>
+        <b id="resultPoints">0</b>
       </div>
 
     </div>
 
-    <div class="resultPoints">
-      💰 +<span id="earnedPoints">0</span>P
-    </div>
+    <div class="modalButtons">
 
-    <div class="resultButtons">
-
-      <button
-        class="restartButton"
-        id="restartButton">
+      <button class="modalButton" id="retryButton">
         🔄 やり直す
       </button>
 
-      <button
-        class="titleButton"
-        id="titleButton">
+      <button class="modalButton alt" id="titleButton">
         🏠 タイトルへ
       </button>
 
@@ -906,32 +972,26 @@ body.hit #flash{
 
 </div>
 
-<!-- =========================
-     SHOP
-========================= -->
 
-<div id="shopOverlay">
+<!-- SHOP -->
 
-  <div class="card">
+<div class="overlay hidden" id="shopOverlay">
 
-    <div class="shopHead">
+  <div class="modal">
 
-      <h2>🛒 POINT SHOP</h2>
+    <div class="modalTitle">🛒 SHOP</div>
 
-      <div class="shopPoints">
-        💰 <span id="shopPoints">0</span>P
-      </div>
-
+    <div class="modalSub">
+      POINTを使って演出を解放
     </div>
 
-    <div
-      class="shopGrid"
-      id="shopGrid">
+    <div class="shopBalance">
+      💰 <span id="shopPoints">0</span> P
     </div>
 
-    <button
-      class="closeShop"
-      id="closeShop">
+    <div class="shopGrid" id="shopGrid"></div>
+
+    <button class="closeBtn" id="shopClose">
       閉じる
     </button>
 
@@ -939,570 +999,781 @@ body.hit #flash{
 
 </div>
 
+
+<!-- CUSTOMIZER -->
+
+<div class="overlay hidden" id="customOverlay">
+
+  <div class="modal">
+
+    <div class="modalTitle">
+      🎨 CUSTOMIZER
+    </div>
+
+    <div class="modalSub">
+      解放した演出を自由に組み合わせよう
+    </div>
+
+    <div class="customSection">
+      <h3>🌌 背景</h3>
+      <div class="choiceGrid" id="bgChoices"></div>
+    </div>
+
+    <div class="customSection">
+      <h3>⭕ 正解演出</h3>
+      <div class="choiceGrid" id="correctChoices"></div>
+    </div>
+
+    <div class="customSection">
+      <h3>❌ ミス演出</h3>
+      <div class="choiceGrid" id="missChoices"></div>
+    </div>
+
+    <div class="customSection">
+      <h3>🔥 コンボ演出</h3>
+      <div class="choiceGrid" id="comboChoices"></div>
+    </div>
+
+    <div class="customSection">
+      <h3>🌈 30/50/80/100演出</h3>
+      <div class="choiceGrid" id="feverChoices"></div>
+    </div>
+
+    <div class="customSection">
+      <h3>🔘 ボタン</h3>
+      <div class="choiceGrid" id="buttonChoices"></div>
+    </div>
+
+    <button class="sampleBtn" id="sampleButton">
+      ▶ サンプルを見る
+    </button>
+
+    <button class="saveCustom" id="saveCustom">
+      💾 この設定を装備
+    </button>
+
+    <button class="closeBtn" id="customClose">
+      閉じる
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
+"use strict";
 
 /* =========================
-   VARIABLES
+   HELPERS
+========================= */
+
+const $ = id => document.getElementById(id);
+
+function load(key, fallback){
+  try{
+    const v=localStorage.getItem(key);
+    return v===null ? fallback : JSON.parse(v);
+  }catch(e){
+    return fallback;
+  }
+}
+
+function save(key,value){
+  localStorage.setItem(key,JSON.stringify(value));
+}
+
+
+/* =========================
+   DATA
 ========================= */
 
 let selectedTime=30;
-let timeLeft=30;
-let timer=null;
 let playing=false;
 
+let score=0;
 let correctCount=0;
 let missCount=0;
 let combo=0;
 
-let bestCombo=
-  Number(
-    localStorage.getItem(
-      "neuroKreppelinBest"
-    ) || 0
-  );
-
-let score=0;
-
-let totalPoints=
-  Number(
-    localStorage.getItem(
-      "neuroKreppelinPoints"
-    ) || 0
-  );
+let bestCombo=load("neuroKreppelinBest",0);
+let totalPoints=load("neuroKreppelinPoints",0);
 
 let currentA=0;
 let currentB=0;
 let currentAnswer=0;
-
 let nextNumbers=[];
 
-let feverTimer=null;
-let resultTimer=null;
+let timerId=null;
+let endAt=0;
 
-let audioCtx=null;
+const owned=load("neuroKreppelinOwned",{});
 
-/* =========================
-   DOM
-========================= */
-
-const $=id=>
-  document.getElementById(id);
-
-/* =========================
-   SHOP ITEMS
-========================= */
-
-const shopItems=[
-
+let equipped=load(
+  "neuroKreppelinEquip",
   {
-    id:"theme_neon",
+    background:"neon",
+    correct:"normal",
+    miss:"normal",
+    combo:"normal",
+    fever:"neon",
+    buttons:"neon"
+  }
+);
+
+
+/* =========================
+   SHOP DATA
+========================= */
+
+const SHOP_ITEMS={
+
+  neon:{
     name:"🌈 NEONテーマ",
-    desc:"ゲーム中のネオン演出を強化。",
-    price:100
+    price:100,
+    desc:"ネオン発光を強化"
   },
 
-  {
-    id:"theme_rainbow",
+  rainbow:{
     name:"✨ RAINBOWテーマ",
-    desc:"タイトルと演出がレインボー仕様に。",
-    price:250
+    price:250,
+    desc:"虹色背景と虹色ボタン"
   },
 
-  {
-    id:"effect_cosmic",
+  cosmic:{
     name:"🌌 COSMIC演出",
-    desc:"30/50/80/100正解の演出を変更。",
-    price:400
+    price:400,
+    desc:"宇宙背景＋星の演出"
   },
 
-  {
-    id:"effect_fire",
+  fire:{
     name:"🔥 FIRE演出",
-    desc:"ピカピカ演出を炎系に変更。",
-    price:600
+    price:600,
+    desc:"炎の背景＋強烈な発光"
   },
 
-  {
-    id:"title_calc",
+  god:{
     name:"👑 計算神",
-    desc:"称号「計算神」を解放。",
-    price:500
+    price:500,
+    desc:"正解演出をゴールド化"
   },
 
-  {
-    id:"title_reflex",
+  reflex:{
     name:"⚡ 反射神経MAX",
-    desc:"称号「反射神経MAX」を解放。",
-    price:800
+    price:800,
+    desc:"入力反応・コンボ演出強化"
   },
 
-  {
-    id:"title_neuro",
+  master:{
     name:"🧠 NEURO MASTER",
-    desc:"特別称号を解放。",
-    price:1500
+    price:1500,
+    desc:"最上位のネオン演出"
+  },
+
+  custom:{
+    name:"🎨 CUSTOMIZER",
+    price:700,
+    desc:"解放した演出を自由に組み合わせる"
   }
 
-];
+};
+
 
 /* =========================
-   POINT
+   POINTS
 ========================= */
 
 function updatePoints(){
 
-  $("pointsText").textContent=
-    totalPoints.toLocaleString();
-
-  $("shopPoints").textContent=
-    totalPoints.toLocaleString();
+  $("points").textContent=totalPoints;
+  $("shopPoints").textContent=totalPoints;
 
 }
 
-function savePoints(){
-
-  localStorage.setItem(
-    "neuroKreppelinPoints",
-    String(totalPoints)
-  );
-
-  updatePoints();
-
-}
-
-function owned(id){
-
-  return localStorage.getItem(
-    "neuroKreppelinOwned_"+id
-  )==="1";
-
-}
 
 /* =========================
    SHOP
 ========================= */
 
+function isOwned(id){
+  return !!owned[id];
+}
+
 function buyItem(id){
 
-  const item=
-    shopItems.find(
-      x=>x.id===id
-    );
+  const item=SHOP_ITEMS[id];
 
-  if(!item)return;
+  if(isOwned(id)){
+    if(id==="custom"){
+      openCustomizer();
+    }
+    return;
+  }
 
-  if(owned(id))return;
-
-  if(totalPoints<item.price){
+  if(totalPoints < item.price){
 
     soundMiss();
 
-    return;
+    alert(
+      "ポイントが足りません。\n\n必要: "+
+      item.price+"P\n現在: "+
+      totalPoints+"P"
+    );
 
+    return;
   }
 
   totalPoints-=item.price;
+  owned[id]=true;
 
-  localStorage.setItem(
-    "neuroKreppelinOwned_"+id,
-    "1"
-  );
+  save("neuroKreppelinPoints",totalPoints);
+  save("neuroKreppelinOwned",owned);
 
-  savePoints();
+  soundPurchase();
 
   renderShop();
 
-  tone(
-    1000,
-    .07,
-    "sine",
-    .025
-  );
-
 }
+
+
+/* =========================
+   SHOP RENDER
+========================= */
 
 function renderShop(){
 
   updatePoints();
 
-  $("shopGrid").innerHTML=
-    shopItems.map(item=>{
+  const grid=$("shopGrid");
+  grid.innerHTML="";
 
-      const has=
-        owned(item.id);
+  Object.entries(SHOP_ITEMS).forEach(([id,item])=>{
 
-      return `
+    const div=document.createElement("div");
+    div.className="shopItem";
 
-        <div class="item">
+    if(isOwned(id)){
+      div.classList.add("owned");
+    }
 
-          <h3>${item.name}</h3>
+    const name=document.createElement("div");
+    name.className="shopName";
+    name.textContent=item.name;
 
-          <p>${item.desc}</p>
+    const desc=document.createElement("div");
+    desc.className="shopDesc";
+    desc.textContent=item.desc;
 
-          <button
-            class="buy ${has?"owned":""}"
-            data-buy="${item.id}">
+    const btn=document.createElement("button");
+    btn.className="shopBuy";
 
-            ${
-              has
-              ?"✓ 購入済み"
-              :item.price.toLocaleString()+"P で購入"
-            }
+    if(isOwned(id)){
 
-          </button>
+      btn.textContent=
+        id==="custom"
+        ? "🎨 CUSTOMIZE"
+        : "✓ 解放済み";
 
-        </div>
+      if(id!=="custom"){
+        btn.disabled=true;
+      }
 
-      `;
+    }else{
 
-    }).join("");
+      btn.textContent=item.price+" Pで解放";
 
-  document
-    .querySelectorAll("[data-buy]")
-    .forEach(button=>{
+    }
 
-      button.onclick=()=>
-        buyItem(
-          button.dataset.buy
-        );
+    btn.onclick=()=>buyItem(id);
 
-    });
+    div.appendChild(name);
+    div.appendChild(desc);
+    div.appendChild(btn);
+
+    grid.appendChild(div);
+
+  });
 
 }
 
-$("shopButton").onclick=()=>{
-
-  renderShop();
-
-  $("shopOverlay").style.display=
-    "flex";
-
-};
-
-$("closeShop").onclick=()=>{
-
-  $("shopOverlay").style.display=
-    "none";
-
-};
 
 /* =========================
-   TIME
+   CUSTOMIZER DATA
 ========================= */
 
-document
-  .querySelectorAll(".timeButton")
-  .forEach(button=>{
+const customData={
 
-    button.onclick=()=>{
+  background:[
+    ["neon","🌈 NEON","neon"],
+    ["rainbow","✨ RAINBOW","rainbow"],
+    ["cosmic","🌌 COSMIC","cosmic"],
+    ["fire","🔥 FIRE","fire"]
+  ],
 
-      if(playing)return;
+  correct:[
+    ["normal","通常","normal"],
+    ["neon","NEON","neon"],
+    ["rainbow","RAINBOW","rainbow"],
+    ["god","👑 GOLD","god"],
+    ["master","🧠 MASTER","master"]
+  ],
 
-      document
-        .querySelectorAll(".timeButton")
-        .forEach(x=>
-          x.classList.remove("active")
-        );
+  miss:[
+    ["normal","通常","normal"],
+    ["neon","NEON","neon"],
+    ["fire","🔥 FIRE","fire"],
+    ["cosmic","🌌 COSMIC","cosmic"]
+  ],
 
-      button.classList.add("active");
+  combo:[
+    ["normal","通常","normal"],
+    ["neon","⚡ NEON","neon"],
+    ["fire","🔥 FIRE","fire"],
+    ["cosmic","🌌 COSMIC","cosmic"],
+    ["master","🧠 MASTER","master"]
+  ],
 
-      selectedTime=
-        Number(button.dataset.time);
+  fever:[
+    ["neon","🌈 NEON","neon"],
+    ["rainbow","✨ RAINBOW","rainbow"],
+    ["cosmic","🌌 COSMIC","cosmic"],
+    ["fire","🔥 FIRE","fire"],
+    ["master","🧠 MASTER","master"]
+  ],
 
-      timeLeft=
-        selectedTime;
+  buttons:[
+    ["neon","🌈 NEON","neon"],
+    ["rainbow","✨ RAINBOW","rainbow"],
+    ["fire","🔥 FIRE","fire"],
+    ["cosmic","🌌 COSMIC","cosmic"]
+  ]
 
-      $("timeText").textContent=
-        selectedTime;
+};
 
-      $("timer").style.width=
-        "100%";
+
+/* =========================
+   OWNERSHIP FOR EFFECTS
+========================= */
+
+function effectAvailable(type,id){
+
+  if(id==="normal")return true;
+
+  if(id==="neon")return isOwned("neon");
+
+  if(id==="rainbow")return isOwned("rainbow");
+
+  if(id==="cosmic")return isOwned("cosmic");
+
+  if(id==="fire")return isOwned("fire");
+
+  if(id==="god")return isOwned("god");
+
+  if(id==="master")return isOwned("master");
+
+  return false;
+}
+
+
+/* =========================
+   CUSTOMIZER RENDER
+========================= */
+
+function renderChoices(type,elementId){
+
+  const box=$(elementId);
+  box.innerHTML="";
+
+  customData[type].forEach(item=>{
+
+    const id=item[0];
+    const label=item[1];
+
+    const btn=document.createElement("button");
+    btn.className="choice";
+
+    const available=effectAvailable(type,id);
+
+    if(!available){
+      btn.classList.add("locked");
+      btn.textContent="🔒 "+label;
+    }else{
+      btn.textContent=label;
+    }
+
+    if(equipped[type]===id){
+      btn.classList.add("selected");
+    }
+
+    btn.onclick=()=>{
+
+      if(!available){
+
+        soundMiss();
+
+        return;
+      }
+
+      equipped[type]=id;
+
+      renderCustomizer();
+
+      applyEquipped();
 
     };
 
+    box.appendChild(btn);
+
   });
+
+}
+
+function renderCustomizer(){
+
+  renderChoices("background","bgChoices");
+  renderChoices("correct","correctChoices");
+  renderChoices("miss","missChoices");
+  renderChoices("combo","comboChoices");
+  renderChoices("fever","feverChoices");
+  renderChoices("buttons","buttonChoices");
+
+}
+
+
+/* =========================
+   APPLY EQUIPMENT
+========================= */
+
+function clearThemes(){
+
+  document.body.classList.remove(
+    "theme-rainbow",
+    "theme-cosmic",
+    "theme-fire",
+    "neon-strong",
+    "rainbow-buttons",
+    "fire-buttons",
+    "cosmic-particles",
+    "fire-effect",
+    "master-mode"
+  );
+
+}
+
+function applyEquipped(){
+
+  clearThemes();
+
+  const bg=equipped.background;
+
+  if(bg==="rainbow"){
+    document.body.classList.add("theme-rainbow");
+  }
+
+  if(bg==="cosmic"){
+    document.body.classList.add("theme-cosmic","cosmic-particles");
+  }
+
+  if(bg==="fire"){
+    document.body.classList.add("theme-fire","fire-effect");
+  }
+
+  if(isOwned("neon")){
+    document.body.classList.add("neon-strong");
+  }
+
+  if(equipped.buttons==="rainbow"){
+    document.body.classList.add("rainbow-buttons");
+  }
+
+  if(equipped.buttons==="fire"){
+    document.body.classList.add("fire-buttons");
+  }
+
+  if(equipped.buttons==="cosmic"){
+    document.body.classList.add("cosmic-particles");
+  }
+
+  if(equipped.correct==="master" ||
+     equipped.combo==="master"){
+    document.body.classList.add("master-mode");
+  }
+
+}
+
+
+/* =========================
+   CUSTOMIZER OPEN
+========================= */
+
+function openCustomizer(){
+
+  if(!isOwned("custom")){
+    return;
+  }
+
+  renderCustomizer();
+
+  $("customOverlay").classList.remove("hidden");
+
+}
+
+$("customClose").onclick=()=>{
+  $("customOverlay").classList.add("hidden");
+};
+
+$("saveCustom").onclick=()=>{
+
+  save("neuroKreppelinEquip",equipped);
+
+  applyEquipped();
+
+  soundPurchase();
+
+  $("customOverlay").classList.add("hidden");
+
+};
+
+
+/* =========================
+   SAMPLE
+========================= */
+
+$("sampleButton").onclick=()=>{
+
+  const type="fever";
+
+  const selected=equipped[type];
+
+  if(selected==="rainbow"){
+    document.body.classList.add("theme-rainbow");
+  }
+
+  if(selected==="cosmic"){
+    document.body.classList.add("theme-cosmic","cosmic-particles");
+  }
+
+  if(selected==="fire"){
+    document.body.classList.add("theme-fire","fire-effect");
+  }
+
+  if(selected==="master"){
+    document.body.classList.add("master-mode");
+  }
+
+  showFever(
+    selected==="fire"
+      ? "🔥 FIRE SAMPLE!"
+      : selected==="cosmic"
+      ? "🌌 COSMIC SAMPLE!"
+      : selected==="rainbow"
+      ? "🌈 RAINBOW SAMPLE!"
+      : selected==="master"
+      ? "🧠 MASTER SAMPLE!"
+      : "⚡ NEON SAMPLE!",
+    3000
+  );
+
+};
+
 
 /* =========================
    AUDIO
 ========================= */
 
-function initAudio(){
+let audioCtx=null;
 
-  try{
+function getAudio(){
 
-    audioCtx ||=
-      new (
-        window.AudioContext ||
-        window.webkitAudioContext
-      )();
+  if(!audioCtx){
+    audioCtx=
+      new(window.AudioContext||
+          window.webkitAudioContext)();
+  }
 
-    if(
-      audioCtx.state===
-      "suspended"
-    ){
+  if(audioCtx.state==="suspended"){
+    audioCtx.resume();
+  }
 
-      audioCtx.resume();
-
-    }
-
-  }catch(e){}
-
+  return audioCtx;
 }
 
-function tone(
-  freq,
-  duration=.06,
-  type="sine",
-  gain=.035,
-  delay=0
-){
+function tone(freq,duration,type,gain,delay=0){
 
-  try{
+  const ctx=getAudio();
 
-    initAudio();
+  const osc=ctx.createOscillator();
+  const g=ctx.createGain();
 
-    const oscillator=
-      audioCtx.createOscillator();
+  osc.type=type;
+  osc.frequency.value=freq;
 
-    const gainNode=
-      audioCtx.createGain();
+  g.gain.setValueAtTime(0,ctx.currentTime+delay);
 
-    oscillator.type=
-      type;
+  g.gain.linearRampToValueAtTime(
+    gain,
+    ctx.currentTime+delay+.008
+  );
 
-    oscillator.frequency.value=
-      freq;
+  g.gain.exponentialRampToValueAtTime(
+    .001,
+    ctx.currentTime+delay+duration
+  );
 
-    oscillator.connect(
-      gainNode
-    );
+  osc.connect(g);
+  g.connect(ctx.destination);
 
-    gainNode.connect(
-      audioCtx.destination
-    );
-
-    const startTime=
-      audioCtx.currentTime+
-      delay;
-
-    gainNode.gain.setValueAtTime(
-      gain,
-      startTime
-    );
-
-    gainNode.gain
-      .exponentialRampToValueAtTime(
-        .001,
-        startTime+duration
-      );
-
-    oscillator.start(
-      startTime
-    );
-
-    oscillator.stop(
-      startTime+duration
-    );
-
-  }catch(e){}
-
+  osc.start(ctx.currentTime+delay);
+  osc.stop(ctx.currentTime+delay+duration+.02);
 }
-
-/* 静かめの正解SE */
 
 function soundCorrect(){
 
-  tone(
-    760,
-    .055,
-    "sine",
-    .025
-  );
+  const type=equipped.correct;
+
+  if(type==="god"){
+    tone(880,.07,"sine",.08);
+    tone(1320,.09,"sine",.055,.045);
+    return;
+  }
+
+  if(type==="master"){
+    tone(660,.05,"sine",.07);
+    tone(990,.06,"sine",.06,.045);
+    tone(1480,.08,"sine",.05,.09);
+    return;
+  }
+
+  if(type==="rainbow"){
+    tone(660,.05,"sine",.07);
+    tone(880,.05,"sine",.06,.04);
+    tone(1100,.07,"sine",.05,.08);
+    return;
+  }
+
+  tone(760,.07,"sine",.07);
 
 }
-
-/* ミス */
 
 function soundMiss(){
 
-  tone(
-    180,
-    .11,
-    "square",
-    .025
-  );
+  const type=equipped.miss;
+
+  if(type==="fire"){
+    tone(120,.12,"sawtooth",.07);
+    return;
+  }
+
+  if(type==="cosmic"){
+    tone(230,.15,"sine",.055);
+    return;
+  }
+
+  tone(180,.11,"square",.06);
 
 }
-
-/* コンボ */
 
 function soundCombo(){
 
-  tone(
-    850,
-    .05,
-    "sine",
-    .03
-  );
+  const type=equipped.combo;
 
-  tone(
-    1100,
-    .07,
-    "sine",
-    .025,
-    .055
-  );
+  if(type==="fire"){
+    tone(180,.06,"sawtooth",.06);
+    tone(450,.07,"sawtooth",.055,.06);
+    tone(760,.09,"sawtooth",.05,.12);
+    return;
+  }
+
+  if(type==="cosmic"){
+    tone(600,.06,"sine",.06);
+    tone(900,.07,"sine",.055,.07);
+    tone(1300,.1,"sine",.05,.14);
+    return;
+  }
+
+  if(type==="master"){
+    tone(850,.06,"sine",.07);
+    tone(1100,.08,"sine",.06,.06);
+    tone(1500,.1,"sine",.055,.13);
+    return;
+  }
+
+  tone(850,.06,"sine",.06);
+  tone(1100,.08,"sine",.05,.06);
 
 }
-
-/* 30/50/80/100 */
 
 function soundMilestone(){
 
-  tone(
-    660,
-    .09,
-    "triangle",
-    .035
-  );
-
-  tone(
-    880,
-    .09,
-    "triangle",
-    .035,
-    .09
-  );
-
-  tone(
-    1320,
-    .14,
-    "triangle",
-    .035,
-    .18
-  );
+  tone(660,.09,"sine",.08);
+  tone(880,.1,"sine",.07,.08);
+  tone(1100,.12,"sine",.065,.17);
+  tone(1500,.16,"sine",.055,.28);
 
 }
 
-/* 結果 */
+function soundPurchase(){
 
-function soundResult(){
-
-  tone(
-    520,
-    .08,
-    "triangle",
-    .035
-  );
-
-  tone(
-    780,
-    .09,
-    "triangle",
-    .035,
-    .09
-  );
-
-  tone(
-    1040,
-    .16,
-    "triangle",
-    .035,
-    .19
-  );
+  tone(500,.06,"sine",.06);
+  tone(800,.08,"sine",.06,.07);
+  tone(1200,.12,"sine",.05,.15);
 
 }
+
 
 /* =========================
-   NUMBER
+   RANDOM
 ========================= */
 
 function randomAddend(){
 
-  return Math.floor(
-    Math.random()*8
-  )+2;
+  return Math.floor(Math.random()*8)+2;
 
 }
 
+
 /* =========================
-   FIRST QUESTION
+   QUESTION
 ========================= */
 
-function createFirstQuestion(){
+function createQuestion(){
 
-  currentA=
-    randomAddend();
-
-  currentB=
-    randomAddend();
-
-  currentAnswer=
-    (currentA+currentB)%10;
+  currentA=randomAddend();
+  currentB=randomAddend();
 
   nextNumbers=[
     randomAddend(),
     randomAddend()
   ];
 
+  currentAnswer=(currentA+currentB)%10;
+
   renderQuestion(false);
   renderNext(false);
 
 }
 
-/* =========================
-   QUESTION
-========================= */
+function renderQuestion(animate=true){
 
-function renderQuestion(
-  animate=true
-){
-
-  $("questionA").textContent=
-    currentA;
-
-  $("qOperator").textContent=
-    "+";
-
-  $("questionB").textContent=
-    currentB;
+  $("questionA").textContent=currentA;
+  $("qOperator").textContent="+";
+  $("questionB").textContent=currentB;
 
   if(animate){
 
-    $("qOperator")
-      .classList.remove(
-        "joinIn"
-      );
+    $("qOperator").classList.remove("joinIn");
+    $("questionB").classList.remove("joinIn");
 
-    $("questionB")
-      .classList.remove(
-        "joinIn"
-      );
+    void $("questionB").offsetWidth;
 
-    void $("questionB")
-      .offsetWidth;
-
-    $("qOperator")
-      .classList.add(
-        "joinIn"
-      );
-
-    $("questionB")
-      .classList.add(
-        "joinIn"
-      );
+    $("qOperator").classList.add("joinIn");
+    $("questionB").classList.add("joinIn");
 
   }
 
 }
 
-/* =========================
-   NEXT
-========================= */
-
-function renderNext(
-  animate=true
-){
+function renderNext(animate=true){
 
   $("nextNumber1").textContent=
     nextNumbers[0] ?? "-";
@@ -1512,32 +1783,18 @@ function renderNext(
 
   if(animate){
 
-    $("nextNumber1")
-      .classList.remove(
-        "slide"
-      );
+    $("nextNumber1").classList.remove("slide");
+    $("nextNumber2").classList.remove("slide");
 
-    $("nextNumber2")
-      .classList.remove(
-        "slide"
-      );
+    void $("nextNumber1").offsetWidth;
 
-    void $("nextNumber1")
-      .offsetWidth;
-
-    $("nextNumber1")
-      .classList.add(
-        "slide"
-      );
-
-    $("nextNumber2")
-      .classList.add(
-        "slide"
-      );
+    $("nextNumber1").classList.add("slide");
+    $("nextNumber2").classList.add("slide");
 
   }
 
 }
+
 
 /* =========================
    ADVANCE
@@ -1545,202 +1802,98 @@ function renderNext(
 
 function advanceQuestion(){
 
-  /*
-    7 + 2
+  currentA=currentB;
 
-    ↓
+  currentB=nextNumbers.shift();
 
-    2 + 8
+  nextNumbers.push(randomAddend());
 
-    「2」はそのまま次のAになる
-  */
-
-  currentA=
-    currentB;
-
-  currentB=
-    nextNumbers.shift();
-
-  nextNumbers.push(
-    randomAddend()
-  );
-
-  currentAnswer=
-    (currentA+currentB)%10;
+  currentAnswer=(currentA+currentB)%10;
 
   renderQuestion(true);
   renderNext(true);
 
 }
 
+
 /* =========================
-   COMBO
+   UI
 ========================= */
 
-function updateCombo(){
+function updateUI(){
 
-  $("combo").textContent=
-    "COMBO "+combo;
-
-  $("combo").style.transform=
-    "scale(1.12)";
-
-  setTimeout(()=>{
-
-    $("combo").style.transform=
-      "scale(1)";
-
-  },120);
-
-  if(combo>bestCombo){
-
-    bestCombo=
-      combo;
-
-    localStorage.setItem(
-      "neuroKreppelinBest",
-      String(bestCombo)
-    );
-
-    $("bestText").textContent=
-      bestCombo;
-
-  }
-
-  if(
-    combo>=5 &&
-    combo%5===0
-  ){
-
-    soundCombo();
-
-  }
+  $("correct").textContent=correctCount;
+  $("miss").textContent=missCount;
+  $("best").textContent=bestCombo;
+  $("score").textContent=score;
+  $("combo").textContent=combo;
+  $("time").textContent=
+    Math.max(0,Math.ceil((endAt-Date.now())/1000));
 
 }
 
-/* =========================
-   FLASH
-========================= */
-
-function hitFlash(){
-
-  document.body
-    .classList
-    .remove("hit");
-
-  void document.body
-    .offsetWidth;
-
-  document.body
-    .classList
-    .add("hit");
-
-}
 
 /* =========================
-   FEVER PARTICLES
+   PARTICLES
 ========================= */
 
-function createFeverParticles(){
+function particles(count=20){
 
-  $("feverOverlay")
-    .querySelectorAll(
-      ".fParticle"
-    )
-    .forEach(x=>x.remove());
+  for(let i=0;i<count;i++){
 
-  for(
-    let i=0;
-    i<45;
-    i++
-  ){
+    const p=document.createElement("div");
 
-    const p=
-      document.createElement(
-        "div"
-      );
+    p.className="particle";
 
-    p.className=
-      "fParticle";
-
-    p.style.left=
-      "50%";
-
-    p.style.top=
-      "35%";
+    p.style.left=(50+Math.random()*10-5)+"%";
+    p.style.top=(50+Math.random()*10-5)+"%";
 
     p.style.setProperty(
       "--x",
-      (Math.random()*1000-500)
-      +"px"
+      ((Math.random()-.5)*500)+"px"
     );
 
     p.style.setProperty(
       "--y",
-      (Math.random()*700-350)
-      +"px"
+      ((Math.random()-.5)*500)+"px"
     );
 
-    p.style.animationDelay=
-      (Math.random()*.15)
-      +"s";
+    p.style.background=
+      `hsl(${Math.random()*360},100%,65%)`;
 
-    $("feverOverlay")
-      .appendChild(p);
+    document.body.appendChild(p);
+
+    setTimeout(()=>p.remove(),1100);
 
   }
 
 }
+
 
 /* =========================
    FEVER
 ========================= */
 
-function showFever(
-  text,
-  duration=3000
-){
+let feverTimer=null;
 
-  clearTimeout(
-    feverTimer
-  );
+function showFever(text,duration=3000){
 
-  $("feverText")
-    .textContent=text;
+  clearTimeout(feverTimer);
 
-  $("feverOverlay")
-    .style.display=
-      "block";
+  $("feverText").textContent=text;
 
-  createFeverParticles();
+  $("feverOverlay").classList.add("show");
 
-  feverTimer=
-    setTimeout(
-      stopFever,
-      duration
-    );
+  particles(35);
+
+  feverTimer=setTimeout(()=>{
+
+    $("feverOverlay").classList.remove("show");
+
+  },duration);
 
 }
 
-function stopFever(){
-
-  clearTimeout(
-    feverTimer
-  );
-
-  feverTimer=null;
-
-  $("feverOverlay")
-    .style.display=
-      "none";
-
-  $("feverOverlay")
-    .querySelectorAll(
-      ".fParticle"
-    )
-    .forEach(x=>x.remove());
-
-}
 
 /* =========================
    MILESTONE
@@ -1751,11 +1904,8 @@ function milestone(n){
   const messages={
 
     30:"🔥 30 CORRECT! 🔥",
-
     50:"⚡ 50 CORRECT! ⚡",
-
     80:"🌈 80 CORRECT! 🌈",
-
     100:"👑 100 CORRECT! 👑"
 
   };
@@ -1763,97 +1913,91 @@ function milestone(n){
   const bonus={
 
     30:100,
-
     50:200,
-
     80:400,
-
     100:800
 
   };
 
   if(!messages[n])return;
 
-  totalPoints+=
-    bonus[n];
+  totalPoints+=bonus[n];
 
-  savePoints();
+  save("neuroKreppelinPoints",totalPoints);
+
+  updatePoints();
 
   soundMilestone();
 
-  /*
-    ピカピカは必ず3秒
-  */
+  if(equipped.fever==="rainbow"){
+    document.body.classList.add("theme-rainbow");
+  }
 
-  showFever(
-    messages[n],
-    3000
-  );
+  if(equipped.fever==="cosmic"){
+    document.body.classList.add("theme-cosmic","cosmic-particles");
+  }
+
+  if(equipped.fever==="fire"){
+    document.body.classList.add("theme-fire","fire-effect");
+  }
+
+  if(equipped.fever==="master"){
+    document.body.classList.add("master-mode");
+  }
+
+  showFever(messages[n],3000);
 
 }
+
 
 /* =========================
    ANSWER
 ========================= */
 
-function pressKey(value){
+function answer(n){
 
   if(!playing)return;
 
-  if(
-    Number(value)===
-    currentAnswer
-  ){
-
-    /* 正解 */
+  if(n===currentAnswer){
 
     correctCount++;
 
     combo++;
 
-    /*
-      基本10点
-      5コンボ以上は少しボーナス
-    */
+    if(combo>bestCombo){
 
-    score+=
-      10+
-      (
-        combo>=5
-        ?Math.min(combo,20)
-        :0
-      );
+      bestCombo=combo;
 
-    /* 静かめSE */
-
-    soundCorrect();
-
-    hitFlash();
-
-    /*
-      正解数による演出
-    */
-
-    if(
-      [
-        30,
-        50,
-        80,
-        100
-      ].includes(
-        correctCount
-      )
-    ){
-
-      milestone(
-        correctCount
-      );
+      save("neuroKreppelinBest",bestCombo);
 
     }
 
+    score+=
+      10+
+      (combo>=5 ? Math.min(combo,20):0);
+
+    soundCorrect();
+
+    if(combo>=3){
+      soundCombo();
+    }
+
+    if(
+      [30,50,80,100].includes(correctCount)
+    ){
+      milestone(correctCount);
+    }
+
+    advanceQuestion();
+
+    updateUI();
+
   }else{
 
-    /* ミス */
+    /*
+      ★重要
+      ハズレでは問題を進めない
+    */
 
     missCount++;
 
@@ -1861,27 +2005,225 @@ function pressKey(value){
 
     soundMiss();
 
-    hitFlash();
+    updateUI();
+
+    document.body.classList.remove("hit");
+
+    void document.body.offsetWidth;
+
+    document.body.classList.add("hit");
 
   }
 
-  $("correctText")
-    .textContent=
-      correctCount;
+}
 
-  $("wrongText")
-    .textContent=
-      missCount;
 
-  $("scoreText")
-    .textContent=
-      score;
+/* =========================
+   START
+========================= */
 
-  updateCombo();
+$("startButton").onclick=()=>{
 
-  advanceQuestion();
+  if(playing)return;
+
+  startGame();
+
+};
+
+function startGame(){
+
+  getAudio();
+
+  playing=true;
+
+  score=0;
+  correctCount=0;
+  missCount=0;
+  combo=0;
+
+  $("resultOverlay").classList.add("hidden");
+
+  $("startButton").textContent="PLAYING...";
+
+  createQuestion();
+
+  endAt=
+    Date.now()+
+    selectedTime*1000;
+
+  clearInterval(timerId);
+
+  timerId=setInterval(()=>{
+
+    const remaining=
+      Math.max(0,endAt-Date.now());
+
+    const ratio=
+      remaining/(selectedTime*1000);
+
+    $("timerBar").style.width=
+      (ratio*100)+"%";
+
+    updateUI();
+
+    if(remaining<=0){
+
+      endGame();
+
+    }
+
+  },50);
+
+  updateUI();
 
 }
+
+
+/* =========================
+   END
+========================= */
+
+function endGame(){
+
+  if(!playing)return;
+
+  playing=false;
+
+  clearInterval(timerId);
+
+  $("startButton").textContent="START GAME";
+
+  const earned=score;
+
+  totalPoints+=earned;
+
+  save("neuroKreppelinPoints",totalPoints);
+
+  updatePoints();
+
+  const attempts=
+    correctCount+missCount;
+
+  const accuracy=
+    attempts
+      ? Math.round(correctCount/attempts*100)
+      : 0;
+
+  let title="RESULT";
+
+  if(bestCombo>=20){
+    title="🔥 LEGENDARY!!! 🔥";
+  }else if(bestCombo>=15){
+    title="⚡ AMAZING!! ⚡";
+  }else if(correctCount>=30){
+    title="🌈 GREAT!! 🌈";
+  }else if(correctCount>=20 && missCount<=5){
+    title="✨ NICE PLAY! ✨";
+  }else if(missCount<=3){
+    title="🎯 ACCURATE!";
+  }
+
+  $("resultTitle").textContent=title;
+  $("resultScore").textContent=score;
+  $("resultCorrect").textContent=correctCount;
+  $("resultMiss").textContent=missCount;
+  $("resultBest").textContent=bestCombo;
+  $("resultAccuracy").textContent=accuracy+"%";
+  $("resultPoints").textContent=earned;
+
+  $("resultOverlay").classList.remove("hidden");
+
+  particles(45);
+
+  setTimeout(()=>{
+
+    document
+      .querySelectorAll(".particle")
+      .forEach(p=>p.remove());
+
+  },3000);
+
+}
+
+
+/* =========================
+   RETRY
+========================= */
+
+$("retryButton").onclick=()=>{
+
+  $("resultOverlay").classList.add("hidden");
+
+  startGame();
+
+};
+
+
+/* =========================
+   TITLE
+========================= */
+
+$("titleButton").onclick=()=>{
+
+  $("resultOverlay").classList.add("hidden");
+
+  playing=false;
+
+  clearInterval(timerId);
+
+  score=0;
+  correctCount=0;
+  missCount=0;
+  combo=0;
+
+  $("time").textContent=selectedTime;
+  $("correct").textContent="0";
+  $("miss").textContent="0";
+  $("score").textContent="0";
+  $("combo").textContent="0";
+
+  $("questionA").textContent="READY?";
+  $("qOperator").textContent="";
+  $("questionB").textContent="";
+
+  $("nextNumber1").textContent="-";
+  $("nextNumber2").textContent="-";
+
+  $("startButton").textContent="START GAME";
+
+};
+
+
+/* =========================
+   TIME SELECT
+========================= */
+
+$("time30").onclick=()=>{
+
+  if(playing)return;
+
+  selectedTime=30;
+
+  $("time30").classList.add("active");
+  $("time60").classList.remove("active");
+
+  $("time").textContent="30";
+
+};
+
+$("time60").onclick=()=>{
+
+  if(playing)return;
+
+  selectedTime=60;
+
+  $("time60").classList.add("active");
+  $("time30").classList.remove("active");
+
+  $("time").textContent="60";
+
+};
+
 
 /* =========================
    KEYPAD
@@ -1891,398 +2233,63 @@ document
   .querySelectorAll(".key")
   .forEach(button=>{
 
-    button.onclick=()=>
-      pressKey(
-        button.dataset.key
+    button.onclick=()=>{
+
+      answer(
+        Number(button.dataset.num)
       );
 
+    };
+
   });
+
 
 /* =========================
    KEYBOARD
 ========================= */
 
-document.addEventListener(
-  "keydown",
-  e=>{
+document.addEventListener("keydown",e=>{
 
-    if(
-      /^[0-9]$/.test(
-        e.key
-      )
-    ){
+  if(!playing)return;
 
-      pressKey(e.key);
+  if(/^[0-9]$/.test(e.key)){
 
-    }
+    answer(Number(e.key));
 
   }
-);
+
+});
+
 
 /* =========================
-   START
+   SHOP OPEN
 ========================= */
 
-  $("startButton").onclick=()=>{
+$("shopButton").onclick=()=>{
 
-  if(playing)return;
+  renderShop();
 
-  startGame();
+  $("shopOverlay").classList.remove("hidden");
 
 };
-  
-function startGame(){
 
-  initAudio();
+$("shopClose").onclick=()=>{
 
-  clearInterval(timer);
+  $("shopOverlay").classList.add("hidden");
 
-  clearTimeout(resultTimer);
+};
 
-  stopFever();
-
-  $("resultOverlay")
-    .style.display=
-      "none";
-
-  playing=true;
-
-  correctCount=0;
-  missCount=0;
-  combo=0;
-  score=0;
-
-  timeLeft=
-    selectedTime;
-
-  $("correctText")
-    .textContent="0";
-
-  $("wrongText")
-    .textContent="0";
-
-  $("scoreText")
-    .textContent="0";
-
-  $("combo")
-    .textContent="COMBO 0";
-
-  $("timeText")
-    .textContent=
-      selectedTime;
-
-  $("timer")
-    .style.width=
-      "100%";
-
-  $("startButton")
-    .textContent=
-      "PLAYING...";
-
-  createFirstQuestion();
-
-  timer=
-    setInterval(()=>{
-
-      timeLeft-=.1;
-
-      if(
-        timeLeft<=0
-      ){
-
-        timeLeft=0;
-
-        endGame();
-
-        return;
-
-      }
-
-      $("timeText")
-        .textContent=
-          timeLeft.toFixed(1);
-
-      $("timer")
-        .style.width=
-          (
-            timeLeft/
-            selectedTime*
-            100
-          )+"%";
-
-    },100);
-
-}
 
 /* =========================
-   RESULT PARTICLES
+   INIT
 ========================= */
-
-function createResultParticles(){
-
-  $("resultBurst")
-    .innerHTML="";
-
-  for(
-    let i=0;
-    i<45;
-    i++
-  ){
-
-    const p=
-      document.createElement(
-        "div"
-      );
-
-    p.className=
-      "rParticle";
-
-    p.style.setProperty(
-      "--lx",
-      Math.random()*100+"%"
-    );
-
-    p.style.setProperty(
-      "--ly",
-      Math.random()*100+"%"
-    );
-
-    p.style.animationDelay=
-      Math.random()*.25+"s";
-
-    $("resultBurst")
-      .appendChild(p);
-
-  }
-
-}
-
-/* =========================
-   END GAME
-========================= */
-
-function endGame(){
-
-  clearInterval(timer);
-
-  timer=null;
-
-  playing=false;
-
-  stopFever();
-
-  $("startButton")
-    .textContent=
-      "START GAME";
-
-  const rate=
-    (
-      correctCount+
-      missCount
-    )
-    ?
-    Math.round(
-      correctCount/
-      (
-        correctCount+
-        missCount
-      )*
-      100
-    )
-    :
-    0;
-
-  /*
-    ゲーム終了時のスコアを
-    そのままポイントに変換
-  */
-
-  const earned=
-    score;
-
-  totalPoints+=
-    earned;
-
-  savePoints();
-
-  let title=
-    "RESULT";
-
-  if(
-    bestCombo>=20
-  ){
-
-    title=
-      "🔥 LEGENDARY!!! 🔥";
-
-  }else if(
-    bestCombo>=15
-  ){
-
-    title=
-      "⚡ AMAZING!! ⚡";
-
-  }else if(
-    correctCount>=30
-  ){
-
-    title=
-      "🌈 GREAT!! 🌈";
-
-  }else if(
-    correctCount>=20 &&
-    missCount<=5
-  ){
-
-    title=
-      "✨ NICE PLAY! ✨";
-
-  }else if(
-    missCount<=3
-  ){
-
-    title=
-      "🎯 ACCURATE!";
-
-  }
-
-  $("resultTitle")
-    .textContent=
-      title;
-
-  $("resultScore")
-    .textContent=
-      score;
-
-  $("resultCorrect")
-    .textContent=
-      correctCount;
-
-  $("resultWrong")
-    .textContent=
-      missCount;
-
-  $("resultCombo")
-    .textContent=
-      bestCombo;
-
-  $("resultRate")
-    .textContent=
-      rate+"%";
-
-  $("earnedPoints")
-    .textContent=
-      earned;
-
-  $("resultOverlay")
-    .style.display=
-      "flex";
-
-  createResultParticles();
-
-  soundResult();
-
-  /*
-    結果画面の粒子演出は
-    3秒で完全停止
-  */
-
-  resultTimer=
-    setTimeout(()=>{
-
-      $("resultBurst")
-        .innerHTML="";
-
-    },3000);
-
-}
-
-/* =========================
-   RESTART
-========================= */
-
-$("restartButton")
-  .onclick=()=>{
-
-    startGame();
-
-  };
-
-/* =========================
-   TITLE
-========================= */
-
-$("titleButton")
-  .onclick=()=>{
-
-    clearInterval(timer);
-
-    timer=null;
-
-    clearTimeout(
-      resultTimer
-    );
-
-    stopFever();
-
-    playing=false;
-
-    $("resultOverlay")
-      .style.display=
-        "none";
-
-    $("questionA")
-      .textContent=
-        "READY?";
-
-    $("qOperator")
-      .textContent="";
-
-    $("questionB")
-      .textContent="";
-
-    $("nextNumber1")
-      .textContent="-";
-
-    $("nextNumber2")
-      .textContent="-";
-
-    $("correctText")
-      .textContent="0";
-
-    $("wrongText")
-      .textContent="0";
-
-    $("scoreText")
-      .textContent="0";
-
-    $("combo")
-      .textContent=
-        "COMBO 0";
-
-    $("timeText")
-      .textContent=
-        selectedTime;
-
-    $("timer")
-      .style.width=
-        "100%";
-
-    $("startButton")
-      .textContent=
-        "START GAME";
-
-  };
-
-/* =========================
-   INITIALIZE
-========================= */
-
-$("bestText")
-  .textContent=
-    bestCombo;
 
 updatePoints();
+
+$("best").textContent=bestCombo;
+$("time").textContent=selectedTime;
+
+applyEquipped();
 
 </script>
 
