@@ -2290,7 +2290,1917 @@ $("best").textContent=bestCombo;
 $("time").textContent=selectedTime;
 
 applyEquipped();
+<script>
+/* =========================================================
+   NEURO KREPELIN
+   GACHA / COLLECTION SYSTEM
+   ========================================================= */
 
+(function(){
+
+/* =========================
+   GACHA DATA
+   ========================= */
+
+const NG_GACHA_ITEMS = [
+
+  /* NORMAL 14 */
+  {id:"001", rarity:"NORMAL", icon:"🍄", name:"スーパーキノコ", source:"マリオ", effect:"キノコスパーク"},
+  {id:"002", rarity:"NORMAL", icon:"🪙", name:"コイン", source:"マリオ", effect:"コインパーティクル"},
+  {id:"003", rarity:"NORMAL", icon:"💣", name:"ボム", source:"カービィ", effect:"ボムパーティクル"},
+  {id:"004", rarity:"NORMAL", icon:"🌟", name:"ワープスター", source:"カービィ", effect:"スター演出"},
+  {id:"005", rarity:"NORMAL", icon:"🪃", name:"ブーメラン", source:"ゼルダ", effect:"ブーメラン演出"},
+  {id:"006", rarity:"NORMAL", icon:"❤️", name:"ハートの器", source:"ゼルダ", effect:"ハート演出"},
+  {id:"007", rarity:"NORMAL", icon:"🔴", name:"モンスターボール", source:"ポケモン", effect:"ボール演出"},
+  {id:"008", rarity:"NORMAL", icon:"💍", name:"リング", source:"ソニック", effect:"リング演出"},
+  {id:"009", rarity:"NORMAL", icon:"⛏️", name:"ダイヤモンド", source:"Minecraft", effect:"ダイヤ演出"},
+  {id:"010", rarity:"NORMAL", icon:"🦑", name:"スプラッシュボム", source:"スプラトゥーン", effect:"インク演出"},
+  {id:"011", rarity:"NORMAL", icon:"📱", name:"充電1%", source:"高校生ネタ", effect:"バッテリー警告"},
+  {id:"012", rarity:"NORMAL", icon:"🔔", name:"通知100+", source:"高校生ネタ", effect:"通知演出"},
+  {id:"013", rarity:"NORMAL", icon:"✏️", name:"シャーペンの芯", source:"学校ネタ", effect:"芯ポキ演出"},
+  {id:"014", rarity:"NORMAL", icon:"🥤", name:"自販機の当たり", source:"日常ネタ", effect:"当たり演出"},
+
+  /* RARE 10 */
+  {id:"015", rarity:"RARE", icon:"⭐", name:"スーパースター", source:"マリオ", effect:"スターラッシュ"},
+  {id:"016", rarity:"RARE", icon:"🍅", name:"マキシムトマト", source:"カービィ", effect:"トマト演出"},
+  {id:"017", rarity:"RARE", icon:"🛡️", name:"ハイリアの盾", source:"ゼルダ", effect:"シールド演出"},
+  {id:"018", rarity:"RARE", icon:"🟡", name:"ハイパーボール", source:"ポケモン", effect:"ハイパー演出"},
+  {id:"019", rarity:"RARE", icon:"🧱", name:"ダイヤブロック", source:"Minecraft", effect:"ブロック演出"},
+  {id:"020", rarity:"RARE", icon:"🦑", name:"スプラッシュボム・改", source:"スプラトゥーン", effect:"強化インク演出"},
+  {id:"021", rarity:"RARE", icon:"🎧", name:"ワイヤレスイヤホン", source:"高校生ネタ", effect:"サウンド演出"},
+  {id:"022", rarity:"RARE", icon:"📶", name:"Wi-Fi弱", source:"日常ネタ", effect:"電波演出"},
+  {id:"023", rarity:"RARE", icon:"📝", name:"テスト範囲", source:"学校ネタ", effect:"テスト演出"},
+  {id:"024", rarity:"RARE", icon:"🎒", name:"通学バッグ", source:"学校ネタ", effect:"通学演出"},
+
+  /* EPIC 7 */
+  {id:"025", rarity:"EPIC", icon:"🗡️", name:"マスターソード", source:"ゼルダ", effect:"ソードフラッシュ"},
+  {id:"026", rarity:"EPIC", icon:"🟣", name:"マスターボール", source:"ポケモン", effect:"マスター演出"},
+  {id:"027", rarity:"EPIC", icon:"⚔️", name:"スマッシュボール", source:"スマブラ", effect:"スマッシュ演出"},
+  {id:"028", rarity:"EPIC", icon:"🌈", name:"レインボースター", source:"ゲーム系", effect:"レインボー演出"},
+  {id:"029", rarity:"EPIC", icon:"💰", name:"たぬきち商店のベル", source:"どうぶつの森", effect:"ベル演出"},
+  {id:"030", rarity:"EPIC", icon:"💀", name:"あと5分", source:"高校生ネタ", effect:"タイムアップ演出"},
+  {id:"031", rarity:"EPIC", icon:"🧠", name:"テスト前だけ覚醒", source:"高校生ネタ", effect:"覚醒演出"},
+
+  /* LEGEND 6 */
+  {id:"032", rarity:"LEGEND", icon:"🔺", name:"トライフォース", source:"ゼルダ", effect:"レジェンドフラッシュ"},
+  {id:"033", rarity:"LEGEND", icon:"👑", name:"王冠アイテム", source:"マリオ系", effect:"王冠演出"},
+  {id:"034", rarity:"LEGEND", icon:"🌠", name:"スターシップ", source:"カービィ系", effect:"宇宙演出"},
+  {id:"035", rarity:"LEGEND", icon:"💯", name:"奇跡の100点", source:"学校ネタ", effect:"100点演出"},
+  {id:"036", rarity:"LEGEND", icon:"📚", name:"一夜漬け", source:"高校生ネタ", effect:"徹夜演出"},
+  {id:"037", rarity:"LEGEND", icon:"🚨", name:"提出期限：今日", source:"学校ネタ", effect:"緊急演出"},
+
+  /* SECRET 3 */
+  {id:"038", rarity:"SECRET", icon:"🗿", name:"既読スルー", source:"日常ネタ", effect:"既読演出"},
+  {id:"039", rarity:"SECRET", icon:"🔋", name:"充電0%", source:"高校生ネタ", effect:"絶望演出"},
+  {id:"040", rarity:"SECRET", icon:"👁️", name:"親にスマホ見られる", source:"高校生ネタ", effect:"恐怖演出"},
+
+  /* 快楽 */
+  {id:"pleasure", rarity:"快楽", icon:"🟪", name:"ZETA30分券", source:"SPECIAL", effect:"快楽パープル演出"}
+];
+
+
+/* =========================
+   月村手毬 10種類
+   ========================= */
+
+const NG_TEMARI_QUOTES = [
+  "5キロも増えてませんっ！",
+  "まあ、過ぎたことはいいよ",
+  "それって私がクールすぎるってこと？",
+  "おぶってぇ……",
+  "私のプロデューサーが、あなたで良かった",
+  "私たちは機械じゃない！ 人間なんだ！",
+  "なんで何度もかけてるのに電話に出ないんですか！",
+  "は？は？は？",
+  "ならアイドル辞めれば？",
+  "痛くて歩けない"
+];
+
+
+/* =========================
+   STORAGE
+   ========================= */
+
+let NG_owned =
+  JSON.parse(localStorage.getItem("neuroKreppelinGachaOwned") || "{}");
+
+let NG_count =
+  Number(localStorage.getItem("neuroKreppelinGachaCount") || 0);
+
+let NG_equip =
+  localStorage.getItem("neuroKreppelinGachaEquip") || "";
+
+let NG_discount =
+  Number(localStorage.getItem("neuroKreppelinGachaDiscount") || 0);
+
+let NG_claimedDiscounts =
+  JSON.parse(localStorage.getItem("neuroKreppelinDiscountClaims") || "{}");
+
+let NG_lastTemariQuote =
+  localStorage.getItem("neuroKreppelinTemariQuote") || "";
+
+
+/* =========================
+   SAVE
+   ========================= */
+
+function NG_save(){
+
+  localStorage.setItem(
+    "neuroKreppelinGachaOwned",
+    JSON.stringify(NG_owned)
+  );
+
+  localStorage.setItem(
+    "neuroKreppelinGachaCount",
+    NG_count
+  );
+
+  localStorage.setItem(
+    "neuroKreppelinGachaEquip",
+    NG_equip
+  );
+
+  localStorage.setItem(
+    "neuroKreppelinGachaDiscount",
+    NG_discount
+  );
+
+  localStorage.setItem(
+    "neuroKreppelinDiscountClaims",
+    JSON.stringify(NG_claimedDiscounts)
+  );
+
+  localStorage.setItem(
+    "neuroKreppelinTemariQuote",
+    NG_lastTemariQuote
+  );
+}
+
+
+/* =========================
+   COLLECTION COMPLETE
+   ========================= */
+
+function NG_baseComplete(){
+
+  return NG_GACHA_ITEMS.every(item => NG_owned[item.id]);
+}
+
+
+/* =========================
+   TOTAL COLLECTION
+   ========================= */
+
+function NG_totalOwned(){
+
+  return Object.keys(NG_owned).filter(id => NG_owned[id]).length;
+}
+
+
+/* =========================
+   GACHA RATES
+   ========================= */
+
+function NG_rates(){
+
+  if(!NG_baseComplete()){
+
+    return [
+      ["NORMAL",50],
+      ["RARE",30],
+      ["EPIC",12],
+      ["LEGEND",5],
+      ["SECRET",2],
+      ["快楽",1]
+    ];
+
+  }
+
+  /* 解放後 */
+
+  return [
+    ["NORMAL",40],
+    ["RARE",30],
+    ["EPIC",16],
+    ["LEGEND",7],
+    ["SECRET",4],
+    ["快楽",0.95],
+    ["月村手毬",2],
+    ["???",0.05]
+  ];
+}
+
+
+/* =========================
+   RARITY VALUE
+   ========================= */
+
+function NG_rarityValue(r){
+
+  const values = {
+    "NORMAL":1,
+    "RARE":2,
+    "EPIC":3,
+    "LEGEND":4,
+    "SECRET":5,
+    "快楽":6,
+    "月村手毬":7,
+    "???":8
+  };
+
+  return values[r] || 0;
+}
+
+
+/* =========================
+   RANDOM RARITY
+   ========================= */
+
+function NG_randomRarity(forceLegend=false){
+
+  let rates = NG_rates();
+
+  if(forceLegend){
+
+    rates = rates.filter(x =>
+      NG_rarityValue(x[0]) >= NG_rarityValue("LEGEND")
+    );
+
+  }
+
+  let total = rates.reduce((a,b)=>a+b[1],0);
+
+  let r = Math.random() * total;
+
+  for(const [rarity,rate] of rates){
+
+    r -= rate;
+
+    if(r <= 0){
+      return rarity;
+    }
+
+  }
+
+  return rates[rates.length-1][0];
+}
+
+
+/* =========================
+   ITEM FROM RARITY
+   ========================= */
+
+function NG_pickItem(rarity){
+
+  if(rarity === "月村手毬"){
+
+    return {
+      id:"temari",
+      rarity:"月村手毬",
+      icon:"🟪",
+      name:"月村手毬",
+      source:"SPECIAL",
+      effect:"10種のセリフ",
+      quote:
+        NG_TEMARI_QUOTES[
+          Math.floor(Math.random()*NG_TEMARI_QUOTES.length)
+        ]
+    };
+
+  }
+
+  if(rarity === "???"){
+
+    return {
+      id:"job",
+      rarity:"???",
+      icon:"💼",
+      name:"内定",
+      source:"SECRET",
+      effect:"専用内定演出"
+    };
+
+  }
+
+  const pool =
+    NG_GACHA_ITEMS.filter(x => x.rarity === rarity);
+
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+
+/* =========================
+   DUPLICATE BONUS
+   ========================= */
+
+function NG_duplicatePoint(rarity){
+
+  const bonus = {
+    NORMAL:20,
+    RARE:40,
+    EPIC:80,
+    LEGEND:150,
+    SECRET:300,
+    快楽:500,
+    月村手毬:400,
+    "???":1000
+  };
+
+  return bonus[rarity] || 20;
+}
+
+
+/* =========================
+   POINT CONTROL
+   ========================= */
+
+function NG_getPoints(){
+
+  return Number(
+    localStorage.getItem("neuroKreppelinPoints") || 0
+  );
+
+}
+
+function NG_setPoints(v){
+
+  localStorage.setItem(
+    "neuroKreppelinPoints",
+    Math.max(0,Math.floor(v))
+  );
+
+  if(typeof updatePoints === "function"){
+    updatePoints();
+  }
+
+  NG_updateGachaUI();
+}
+
+
+/* =========================
+   DISCOUNT
+   ========================= */
+
+const NG_DISCOUNTS = [
+  {draws:20,percent:10},
+  {draws:50,percent:20},
+  {draws:100,percent:30},
+  {draws:200,percent:50}
+];
+
+function NG_gachaPrice(base){
+
+  return Math.max(
+    1,
+    Math.floor(base * (100-NG_discount) / 100)
+  );
+
+}
+
+
+/* =========================
+   CSS
+   ========================= */
+
+const NG_style = document.createElement("style");
+
+NG_style.textContent = `
+
+.ng-feature-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:12px 0;
+}
+
+.ng-feature-btn{
+  border:0;
+  border-radius:16px;
+  padding:15px 10px;
+  font-weight:900;
+  font-size:15px;
+  color:#fff;
+  cursor:pointer;
+  background:linear-gradient(135deg,#6c5ce7,#00cec9);
+  box-shadow:0 5px 18px rgba(0,0,0,.25);
+}
+
+.ng-feature-btn:active{
+  transform:scale(.96);
+}
+
+.ng-gacha-count{
+  text-align:center;
+  font-weight:900;
+  margin:8px 0;
+  opacity:.9;
+}
+
+.ng-overlay{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  background:rgba(5,5,20,.88);
+  backdrop-filter:blur(12px);
+}
+
+.ng-panel{
+  width:min(720px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:26px;
+  padding:22px;
+  background:linear-gradient(145deg,#15152c,#25254b);
+  color:#fff;
+  box-shadow:0 0 60px rgba(120,80,255,.45);
+}
+
+.ng-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:1000;
+  margin-bottom:8px;
+}
+
+.ng-sub{
+  text-align:center;
+  opacity:.8;
+  margin-bottom:16px;
+}
+
+.ng-gacha-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:16px 0;
+}
+
+.ng-gacha-btn{
+  border:0;
+  border-radius:18px;
+  min-height:70px;
+  font-weight:1000;
+  font-size:17px;
+  color:white;
+  background:linear-gradient(135deg,#ff2bd6,#6c5ce7);
+  cursor:pointer;
+}
+
+.ng-gacha-btn.ten{
+  background:linear-gradient(135deg,#ff9f43,#ff4757);
+}
+
+.ng-gacha-btn:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.ng-close{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:13px;
+  font-weight:900;
+  background:#44445f;
+  color:#fff;
+  cursor:pointer;
+}
+
+.ng-rate-box{
+  padding:12px;
+  border-radius:15px;
+  background:rgba(255,255,255,.07);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.ng-result-list{
+  display:grid;
+  gap:8px;
+  margin:14px 0;
+}
+
+.ng-result{
+  padding:12px;
+  border-radius:15px;
+  background:rgba(255,255,255,.08);
+  text-align:center;
+  animation:ngPop .35s ease;
+}
+
+.ng-result .icon{
+  font-size:32px;
+}
+
+.ng-result .rarity{
+  font-size:11px;
+  font-weight:1000;
+  opacity:.8;
+}
+
+.ng-collection-info{
+  text-align:center;
+  font-weight:900;
+  margin-bottom:14px;
+}
+
+.ng-collection-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.ng-card{
+  border-radius:17px;
+  padding:13px;
+  background:rgba(255,255,255,.075);
+  border:1px solid rgba(255,255,255,.1);
+  text-align:center;
+}
+
+.ng-card.locked{
+  opacity:.42;
+}
+
+.ng-card-icon{
+  font-size:36px;
+  margin:4px;
+}
+
+.ng-card-name{
+  font-weight:1000;
+  font-size:14px;
+}
+
+.ng-card-rarity{
+  font-size:10px;
+  font-weight:1000;
+  opacity:.75;
+}
+
+.ng-card-effect{
+  font-size:11px;
+  opacity:.75;
+  margin:6px 0;
+}
+
+.ng-equip{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:9px;
+  font-weight:900;
+  background:#6c5ce7;
+  color:#fff;
+  cursor:pointer;
+}
+
+.ng-equip.equipped{
+  background:#00b894;
+}
+
+.ng-discount{
+  margin-top:18px;
+  padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.06);
+}
+
+.ng-discount-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.ng-discount-row:last-child{
+  border-bottom:0;
+}
+
+.ng-claim{
+  border:0;
+  border-radius:10px;
+  padding:8px 10px;
+  font-weight:900;
+  color:#fff;
+  background:#00b894;
+  cursor:pointer;
+}
+
+.ng-claim:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+#ngJobOverlay{
+  background:
+    radial-gradient(circle at center,
+      rgba(255,255,255,.98) 0%,
+      rgba(255,215,80,.95) 18%,
+      rgba(255,80,0,.85) 45%,
+      rgba(10,0,30,.98) 80%);
+}
+
+.ng-job{
+  text-align:center;
+  color:#fff;
+  font-weight:1000;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 30px #ffd700,
+    0 0 60px #ff6b00;
+}
+
+.ng-job-q{
+  font-size:70px;
+  animation:ngSpin .7s infinite alternate;
+}
+
+.ng-job-card{
+  font-size:80px;
+  animation:ngExplosion .8s ease;
+}
+
+.ng-job-text{
+  font-size:42px;
+  margin-top:20px;
+  animation:ngShake .12s infinite alternate;
+}
+
+.ng-temari-quote{
+  margin-top:12px;
+  padding:14px;
+  border-radius:15px;
+  background:rgba(255,255,255,.08);
+  font-weight:900;
+  font-size:16px;
+}
+
+@keyframes ngPop{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+@keyframes ngSpin{
+  from{transform:rotate(-8deg) scale(.9)}
+  to{transform:rotate(8deg) scale(1.1)}
+}
+
+@keyframes ngExplosion{
+  0%{transform:scale(.1);opacity:0}
+  60%{transform:scale(1.35);opacity:1}
+  100%{transform:scale(1)}
+}
+
+@keyframes ngShake{
+  from{transform:translateX(-4px)}
+  to{transform:translateX(4px)}
+}
+
+@media(max-width:500px){
+  .ng-collection-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .ng-title{
+    font-size:24px;
+  }
+
+  .ng-job-text{
+    font-size:29px;
+  }
+}
+
+`;
+
+document.head.appendChild(NG_style);
+
+
+/* =========================
+   MAIN BUTTONS
+   ========================= */
+
+const NG_buttons = document.createElement("div");
+
+NG_buttons.className = "ng-feature-buttons";
+
+NG_buttons.innerHTML = `
+  <button class="ng-feature-btn" id="ngGachaOpen">
+    🎰 GACHA
+  </button>
+
+  <button class="ng-feature-btn" id="ngCollectionOpen">
+    📖 図鑑
+  </button>
+`;
+
+const NG_countBox = document.createElement("div");
+
+NG_countBox.className = "ng-gacha-count";
+
+NG_countBox.innerHTML =
+  '🎰 ガチャ回数：<span id="ngGachaCount">0</span>回';
+
+const NG_start =
+  document.querySelector("#startButton") ||
+  document.querySelector(".startButton");
+
+if(NG_start){
+
+  NG_start.parentNode.insertBefore(
+    NG_countBox,
+    NG_start
+  );
+
+  NG_start.parentNode.insertBefore(
+    NG_buttons,
+    NG_countBox
+  );
+
+}else{
+
+  const NG_app =
+    document.querySelector(".app") ||
+    document.body;
+
+  NG_app.appendChild(NG_buttons);
+  NG_app.appendChild(NG_countBox);
+
+}
+
+
+/* =========================
+   GACHA OVERLAY
+   ========================= */
+
+const NG_gachaOverlay = document.createElement("div");
+
+NG_gachaOverlay.className = "ng-overlay";
+
+NG_gachaOverlay.id = "ngGachaOverlay";
+
+NG_gachaOverlay.innerHTML = `
+
+<div class="ng-panel">
+
+  <div class="ng-title">🎰 NEURO GACHA</div>
+
+  <div class="ng-sub">
+    POINTを使ってアイテムをGET！
+  </div>
+
+  <div class="ng-rate-box" id="ngRateBox"></div>
+
+  <div class="ng-gacha-actions">
+
+    <button class="ng-gacha-btn" id="ngSingle">
+      1回引く<br>
+      <small id="ngSinglePrice">100P</small>
+    </button>
+
+    <button class="ng-gacha-btn ten" id="ngTen">
+      10回引く<br>
+      <small id="ngTenPrice">900P</small>
+    </button>
+
+  </div>
+
+  <div id="ngGachaResult"></div>
+
+  <button class="ng-close" id="ngGachaClose">
+    閉じる
+  </button>
+
+</div>
+
+`;
+
+document.body.appendChild(NG_gachaOverlay);
+
+
+/* =========================
+   COLLECTION OVERLAY
+   ========================= */
+
+const NG_collectionOverlay = document.createElement("div");
+
+NG_collectionOverlay.className = "ng-overlay";
+
+NG_collectionOverlay.id = "ngCollectionOverlay";
+
+NG_collectionOverlay.innerHTML = `
+
+<div class="ng-panel">
+
+  <div class="ng-title">📖 NEURO 図鑑</div>
+
+  <div class="ng-collection-info"
+       id="ngCollectionInfo">
+  </div>
+
+  <div class="ng-collection-grid"
+       id="ngCollectionGrid">
+  </div>
+
+  <br>
+
+  <button class="ng-close" id="ngCollectionClose">
+    閉じる
+  </button>
+
+</div>
+
+`;
+
+document.body.appendChild(NG_collectionOverlay);
+
+
+/* =========================
+   JOB OFFER OVERLAY
+   ========================= */
+
+const NG_jobOverlay = document.createElement("div");
+
+NG_jobOverlay.className = "ng-overlay";
+
+NG_jobOverlay.id = "ngJobOverlay";
+
+NG_jobOverlay.innerHTML = `
+
+<div class="ng-job">
+
+  <div class="ng-job-q" id="ngJobQ">
+    ???
+  </div>
+
+  <div class="ng-job-card" id="ngJobCard">
+    💼
+  </div>
+
+  <div class="ng-job-text"
+       id="ngJobText">
+  </div>
+
+</div>
+
+`;
+
+document.body.appendChild(NG_jobOverlay);
+
+
+/* =========================
+   UPDATE UI
+   ========================= */
+
+function NG_updateGachaUI(){
+
+  const count =
+    document.getElementById("ngGachaCount");
+
+  if(count){
+    count.textContent = NG_count;
+  }
+
+  const single =
+    document.getElementById("ngSinglePrice");
+
+  const ten =
+    document.getElementById("ngTenPrice");
+
+  if(single){
+    single.textContent =
+      NG_gachaPrice(100) + "P";
+  }
+
+  if(ten){
+    ten.textContent =
+      NG_gachaPrice(900) + "P";
+  }
+
+  const rate =
+    document.getElementById("ngRateBox");
+
+  if(rate){
+
+    rate.innerHTML =
+      NG_rates()
+        .map(x => `${x[0]}：${x[1]}%`)
+        .join("　");
+
+    if(NG_baseComplete()){
+
+      rate.innerHTML +=
+        `<br><b>🎉 初期図鑑完成！特殊レアリティ解放中</b>`;
+
+    }
+
+  }
+
+  const tenBtn =
+    document.getElementById("ngTen");
+
+  if(tenBtn){
+
+    tenBtn.disabled = !NG_baseComplete();
+
+    if(!NG_baseComplete()){
+
+      tenBtn.innerHTML =
+        `🔒 10回引く<br><small>初期図鑑完成で解放</small>`;
+
+    }else{
+
+      tenBtn.innerHTML =
+        `🔥 10回引く<br><small>${NG_gachaPrice(900)}P</small>`;
+
+    }
+
+  }
+
+}
+
+
+/* =========================
+   COLLECTION RENDER
+   ========================= */
+
+function NG_renderCollection(){
+
+  const grid =
+    document.getElementById("ngCollectionGrid");
+
+  const info =
+    document.getElementById("ngCollectionInfo");
+
+  if(!grid || !info) return;
+
+  const totalPossible =
+    NG_GACHA_ITEMS.length +
+    2;
+
+  info.textContent =
+    `収集：${NG_totalOwned()} / ${totalPossible}`;
+
+  grid.innerHTML = "";
+
+  const list = [...NG_GACHA_ITEMS];
+
+  if(NG_baseComplete()){
+
+    list.push({
+      id:"temari",
+      rarity:"月村手毬",
+      icon:"🟪",
+      name:"月村手毬",
+      source:"10種類のセリフ",
+      effect:"セリフコレクション"
+    });
+
+    list.push({
+      id:"job",
+      rarity:"???",
+      icon:"💼",
+      name:"内定",
+      source:"SPECIAL",
+      effect:"専用内定演出"
+    });
+
+  }
+
+  for(const item of list){
+
+    const owned =
+      !!NG_owned[item.id];
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "ng-card" +
+      (owned ? "" : " locked");
+
+    let displayName =
+      owned ? item.name : "？？？？";
+
+    let icon =
+      owned ? item.icon : "❔";
+
+    let effect =
+      owned ? item.effect : "未獲得";
+
+    let quote = "";
+
+    if(item.id === "temari" && owned){
+
+      quote =
+        `<div class="ng-temari-quote">
+          所持セリフ：${NG_owned.temariQuotes
+            ? NG_owned.temariQuotes.length
+            : 0}/10
+        </div>`;
+
+    }
+
+    card.innerHTML = `
+
+      <div class="ng-card-icon">
+        ${icon}
+      </div>
+
+      <div class="ng-card-rarity">
+        ${item.rarity}
+      </div>
+
+      <div class="ng-card-name">
+        ${displayName}
+      </div>
+
+      <div class="ng-card-effect">
+        ${effect}
+      </div>
+
+      ${quote}
+
+      ${
+        owned
+        ?
+        `<button class="ng-equip ${
+          NG_equip === item.id ? "equipped" : ""
+        }"
+        data-ng-equip="${item.id}">
+          ${
+            NG_equip === item.id
+            ? "✓ 装備中"
+            : "装備"
+          }
+        </button>`
+        :
+        `<button class="ng-equip" disabled>
+          🔒 未獲得
+        </button>`
+      }
+
+    `;
+
+    grid.appendChild(card);
+
+  }
+
+  grid.querySelectorAll("[data-ng-equip]")
+    .forEach(btn => {
+
+      btn.addEventListener("click",()=>{
+
+        NG_equip =
+          btn.dataset.ngEquip;
+
+        NG_save();
+
+        NG_renderCollection();
+
+        NG_applyEquip();
+
+      });
+
+    });
+
+}
+
+
+/* =========================
+   TEMARI COLLECTION
+   ========================= */
+
+function NG_ensureTemariStorage(){
+
+  if(!Array.isArray(NG_owned.temariQuotes)){
+
+    NG_owned.temariQuotes = [];
+
+  }
+
+}
+
+
+/* =========================
+   EQUIP EFFECT
+   ========================= */
+
+function NG_applyEquip(){
+
+  document.body.classList.remove(
+    "ng-equip-normal",
+    "ng-equip-rare",
+    "ng-equip-epic",
+    "ng-equip-legend",
+    "ng-equip-secret",
+    "ng-equip-pleasure",
+    "ng-equip-temari",
+    "ng-equip-job"
+  );
+
+  if(!NG_equip) return;
+
+  let item = null;
+
+  if(NG_equip === "temari"){
+
+    document.body.classList.add("ng-equip-temari");
+    return;
+
+  }
+
+  if(NG_equip === "job"){
+
+    document.body.classList.add("ng-equip-job");
+    return;
+
+  }
+
+  item =
+    NG_GACHA_ITEMS.find(
+      x => x.id === NG_equip
+    );
+
+  if(item){
+
+    document.body.classList.add(
+      "ng-equip-" +
+      item.rarity.toLowerCase()
+    );
+
+  }
+
+}
+
+
+/* =========================
+   EQUIP GAME EFFECT
+   ========================= */
+
+function NG_triggerEquipEffect(){
+
+  if(!NG_equip) return;
+
+  const item =
+    NG_GACHA_ITEMS.find(
+      x => x.id === NG_equip
+    );
+
+  if(NG_equip === "temari"){
+
+    NG_ensureTemariStorage();
+
+    if(NG_owned.temariQuotes.length){
+
+      const q =
+        NG_owned.temariQuotes[
+          Math.floor(
+            Math.random() *
+            NG_owned.temariQuotes.length
+          )
+        ];
+
+      NG_showToast("🟪 月村手毬",q);
+
+    }
+
+    return;
+  }
+
+  if(NG_equip === "job"){
+
+    NG_particles(20);
+    return;
+
+  }
+
+  if(item){
+
+    const amount = {
+      NORMAL:4,
+      RARE:7,
+      EPIC:10,
+      LEGEND:14,
+      SECRET:20,
+      快楽:25
+    }[item.rarity] || 5;
+
+    NG_particles(amount);
+
+  }
+
+}
+
+
+/* =========================
+   PARTICLES
+   ========================= */
+
+function NG_particles(amount){
+
+  if(typeof particles === "function"){
+
+    try{
+      particles(amount);
+      return;
+    }catch(e){}
+
+  }
+
+  for(let i=0;i<Math.min(amount,30);i++){
+
+    const p =
+      document.createElement("div");
+
+    p.textContent = "✦";
+
+    p.style.position = "fixed";
+    p.style.left = Math.random()*100 + "%";
+    p.style.top = Math.random()*100 + "%";
+    p.style.zIndex = "10000";
+    p.style.pointerEvents = "none";
+    p.style.fontSize = "22px";
+    p.style.color =
+      `hsl(${Math.random()*360},100%,70%)`;
+    p.style.animation =
+      "ngPop .5s ease forwards";
+
+    document.body.appendChild(p);
+
+    setTimeout(()=>{
+      p.remove();
+    },600);
+
+  }
+
+}
+
+
+/* =========================
+   TOAST
+   ========================= */
+
+function NG_showToast(title,text){
+
+  const box =
+    document.createElement("div");
+
+  box.style.position = "fixed";
+  box.style.left = "50%";
+  box.style.top = "20%";
+  box.style.transform = "translateX(-50%)";
+  box.style.zIndex = "10001";
+  box.style.maxWidth = "90%";
+  box.style.padding = "16px 22px";
+  box.style.borderRadius = "18px";
+  box.style.background = "rgba(20,20,45,.95)";
+  box.style.color = "#fff";
+  box.style.textAlign = "center";
+  box.style.fontWeight = "900";
+  box.style.boxShadow = "0 0 35px rgba(160,100,255,.7)";
+
+  box.innerHTML =
+    `<div style="font-size:13px;opacity:.7">${title}</div>
+     <div style="font-size:18px;margin-top:5px">${text}</div>`;
+
+  document.body.appendChild(box);
+
+  setTimeout(()=>{
+    box.remove();
+  },1800);
+
+}
+
+
+/* =========================
+   NORMAL GACHA REVEAL
+   ========================= */
+
+function NG_reveal(result){
+
+  const resultBox =
+    document.getElementById("ngGachaResult");
+
+  if(!resultBox) return;
+
+  let html = "";
+
+  if(result.id === "temari"){
+
+    html = `
+      <div class="ng-result">
+        <div class="icon">🟪</div>
+        <div class="rarity">月村手毬 ★★★★★★★</div>
+        <div style="font-size:20px;font-weight:1000">
+          月村手毬
+        </div>
+        <div class="ng-temari-quote">
+          「${result.quote}」
+        </div>
+      </div>
+    `;
+
+  }else if(result.id === "job"){
+
+    html = `
+      <div class="ng-result">
+        <div class="icon">💼</div>
+        <div class="rarity">???</div>
+        <div style="font-size:24px;font-weight:1000">
+          内定
+        </div>
+      </div>
+    `;
+
+  }else{
+
+    html = `
+      <div class="ng-result">
+        <div class="icon">${result.icon}</div>
+        <div class="rarity">${result.rarity}</div>
+        <div style="font-size:19px;font-weight:1000">
+          ${result.name}
+        </div>
+        <div style="font-size:11px;opacity:.7">
+          ${result.effect}
+        </div>
+      </div>
+    `;
+
+  }
+
+  resultBox.innerHTML = html;
+
+}
+
+
+/* =========================
+   JOB OFFER SPECIAL
+   ========================= */
+
+function NG_showJobOffer(){
+
+  const overlay =
+    document.getElementById("ngJobOverlay");
+
+  const q =
+    document.getElementById("ngJobQ");
+
+  const card =
+    document.getElementById("ngJobCard");
+
+  const text =
+    document.getElementById("ngJobText");
+
+  overlay.style.display = "flex";
+
+  q.textContent = "???";
+  card.textContent = "💼";
+  text.textContent = "";
+
+  NG_particles(30);
+
+  setTimeout(()=>{
+    q.textContent = "???";
+    NG_particles(30);
+  },700);
+
+  setTimeout(()=>{
+    card.textContent = "💼";
+    NG_particles(50);
+  },1400);
+
+  setTimeout(()=>{
+    text.textContent = "内定";
+    NG_particles(70);
+  },2300);
+
+  setTimeout(()=>{
+    text.textContent = "内定取ってこいよ";
+    NG_particles(100);
+  },3300);
+
+  setTimeout(()=>{
+    overlay.style.display = "none";
+  },5000);
+
+}
+
+
+/* =========================
+   GACHA DRAW
+   ========================= */
+
+let NG_busy = false;
+
+async function NG_draw(ten=false){
+
+  if(NG_busy) return;
+
+  if(ten && !NG_baseComplete()){
+
+    NG_showToast(
+      "🔒 LOCKED",
+      "初期図鑑を完成させると10連が解放されます"
+    );
+
+    return;
+
+  }
+
+  const base =
+    ten ? 900 : 100;
+
+  const price =
+    NG_gachaPrice(base);
+
+  if(NG_getPoints() < price){
+
+    NG_showToast(
+      "POINT不足",
+      `${price}P必要です`
+    );
+
+    return;
+
+  }
+
+  NG_busy = true;
+
+  NG_setPoints(
+    NG_getPoints() - price
+  );
+
+  const results = [];
+
+  for(let i=0;i<(ten?10:1);i++){
+
+    const forceLegend =
+      ten && i === 9;
+
+    const rarity =
+      NG_randomRarity(forceLegend);
+
+    const result =
+      NG_pickItem(rarity);
+
+    results.push(result);
+
+  }
+
+
+  let duplicateBonus = 0;
+
+  for(const result of results){
+
+    NG_count++;
+
+    if(result.id === "temari"){
+
+      NG_ensureTemariStorage();
+
+      const quote =
+        result.quote;
+
+      NG_lastTemariQuote =
+        quote;
+
+      if(
+        !NG_owned.temariQuotes
+          .includes(quote)
+      ){
+
+        NG_owned.temariQuotes.push(
+          quote
+        );
+
+        NG_owned.temari = true;
+
+      }else{
+
+        duplicateBonus +=
+          NG_duplicatePoint("月村手毬");
+
+      }
+
+      continue;
+
+    }
+
+
+    if(result.id === "job"){
+
+      if(!NG_owned.job){
+
+        NG_owned.job = true;
+
+      }else{
+
+        duplicateBonus +=
+          NG_duplicatePoint("???");
+
+      }
+
+      continue;
+
+    }
+
+
+    if(NG_owned[result.id]){
+
+      duplicateBonus +=
+        NG_duplicatePoint(result.rarity);
+
+    }else{
+
+      NG_owned[result.id] = true;
+
+    }
+
+  }
+
+
+  if(duplicateBonus > 0){
+
+    NG_setPoints(
+      NG_getPoints() + duplicateBonus
+    );
+
+  }
+
+
+  NG_save();
+
+  NG_updateGachaUI();
+
+  NG_renderCollection();
+
+
+  const resultBox =
+    document.getElementById("ngGachaResult");
+
+  if(resultBox){
+
+    resultBox.innerHTML = "";
+
+  }
+
+
+  for(const result of results){
+
+    NG_reveal(result);
+
+    NG_particles(
+      result.rarity === "SECRET" ||
+      result.rarity === "LEGEND" ||
+      result.rarity === "月村手毬" ||
+      result.rarity === "???"
+      ? 18
+      : 6
+    );
+
+    await new Promise(
+      resolve => setTimeout(
+        resolve,
+        ten ? 180 : 700
+      )
+    );
+
+  }
+
+
+  if(duplicateBonus > 0){
+
+    const resultBox =
+      document.getElementById("ngGachaResult");
+
+    if(resultBox){
+
+      resultBox.innerHTML += `
+        <div class="ng-result">
+          🔁 重複ボーナス
+          <b>+${duplicateBonus}P</b>
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  if(results.some(x=>x.id==="job")){
+
+    setTimeout(
+      NG_showJobOffer,
+      300
+    );
+
+  }
+
+
+  NG_busy = false;
+
+  NG_save();
+
+  NG_updateGachaUI();
+
+  NG_renderCollection();
+
+}
+
+
+/* =========================
+   DISCOUNT SHOP
+   ========================= */
+
+function NG_renderDiscountShop(){
+
+  const shopOverlay =
+    document.getElementById("shopOverlay");
+
+  if(!shopOverlay) return;
+
+  let old =
+    document.getElementById("ngDiscountShop");
+
+  if(old) old.remove();
+
+  const box =
+    document.createElement("div");
+
+  box.id = "ngDiscountShop";
+
+  box.className = "ng-discount";
+
+  let html =
+    `<h3 style="margin-top:0">
+      🎟️ ガチャ割引券
+    </h3>
+    <div style="font-size:12px;opacity:.7;margin-bottom:8px">
+      ガチャ累計回数でショップに追加されます
+    </div>`;
+
+  for(const d of NG_DISCOUNTS){
+
+    const unlocked =
+      NG_count >= d.draws;
+
+    const claimed =
+      !!NG_claimedDiscounts[d.percent];
+
+    let button = "";
+
+    if(claimed){
+
+      button =
+        `<button class="ng-claim" disabled>
+          ✓ 取得済み
+        </button>`;
+
+    }else if(unlocked){
+
+      button =
+        `<button class="ng-claim"
+          data-ng-claim="${d.percent}">
+          無料で受け取る
+        </button>`;
+
+    }else{
+
+      button =
+        `<button class="ng-claim" disabled>
+          ${d.draws}回
+        </button>`;
+
+    }
+
+    html += `
+      <div class="ng-discount-row">
+        <div>
+          🎟️ ${d.percent}%OFF券<br>
+          <small>
+            ${d.draws}回突破
+          </small>
+        </div>
+        ${button}
+      </div>
+    `;
+
+  }
+
+  html += `
+    <div style="
+      margin-top:10px;
+      text-align:center;
+      font-weight:1000;
+    ">
+      現在のガチャ割引：${NG_discount}%
+    </div>
+  `;
+
+  box.innerHTML = html;
+
+  const panel =
+    shopOverlay.querySelector(".shop");
+
+  if(panel){
+
+    panel.appendChild(box);
+
+  }else{
+
+    shopOverlay.appendChild(box);
+
+  }
+
+
+  box.querySelectorAll("[data-ng-claim]")
+    .forEach(btn=>{
+
+      btn.addEventListener("click",()=>{
+
+        const percent =
+          Number(btn.dataset.ngClaim);
+
+        NG_claimedDiscounts[percent] = true;
+
+        NG_discount =
+          Math.max(
+            NG_discount,
+            percent
+          );
+
+        /*
+         * 上位券を取得した場合、
+         * 下位券も取得済みにする
+         */
+        for(const d of NG_DISCOUNTS){
+
+          if(d.percent <= percent &&
+             NG_count >= d.draws){
+
+            NG_claimedDiscounts[
+              d.percent
+            ] = true;
+
+          }
+
+        }
+
+        NG_save();
+
+        NG_renderDiscountShop();
+
+        NG_updateGachaUI();
+
+      });
+
+    });
+
+}
+
+
+/* =========================
+   OPEN / CLOSE
+   ========================= */
+
+document
+  .getElementById("ngGachaOpen")
+  .addEventListener("click",()=>{
+
+    NG_updateGachaUI();
+
+    NG_gachaOverlay.style.display =
+      "flex";
+
+  });
+
+
+document
+  .getElementById("ngCollectionOpen")
+  .addEventListener("click",()=>{
+
+    NG_renderCollection();
+
+    NG_collectionOverlay.style.display =
+      "flex";
+
+  });
+
+
+document
+  .getElementById("ngGachaClose")
+  .addEventListener("click",()=>{
+
+    NG_gachaOverlay.style.display =
+      "none";
+
+  });
+
+
+document
+  .getElementById("ngCollectionClose")
+  .addEventListener("click",()=>{
+
+    NG_collectionOverlay.style.display =
+      "none";
+
+  });
+
+
+document
+  .getElementById("ngSingle")
+  .addEventListener("click",()=>{
+
+    NG_draw(false);
+
+  });
+
+
+document
+  .getElementById("ngTen")
+  .addEventListener("click",()=>{
+
+    NG_draw(true);
+
+  });
+
+
+/* =========================
+   SHOP HOOK
+   ========================= */
+
+if(typeof renderShop === "function"){
+
+  const NG_originalRenderShop =
+    renderShop;
+
+  renderShop = function(){
+
+    NG_originalRenderShop();
+
+    setTimeout(
+      NG_renderDiscountShop,
+      0
+    );
+
+  };
+
+}
+
+
+/* =========================
+   ANSWER HOOK
+   ========================= */
+
+if(typeof answer === "function"){
+
+  const NG_originalAnswer =
+    answer;
+
+  answer = function(n){
+
+    const before =
+      typeof correctCount === "number"
+      ? correctCount
+      : 0;
+
+    NG_originalAnswer(n);
+
+    const after =
+      typeof correctCount === "number"
+      ? correctCount
+      : before;
+
+    if(after > before){
+
+      NG_triggerEquipEffect();
+
+    }
+
+  };
+
+}
+
+
+/* =========================
+   INIT
+   ========================= */
+
+NG_updateGachaUI();
+NG_renderCollection();
+NG_applyEquip();
+
+})();
+</script>
 </script>
 
 </body>
