@@ -2,168 +2,174 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 <title>NEURO KREPELIN</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+body{
+  margin:0;
+  min-height:100vh;
   background:
-    radial-gradient(circle at top, #18243d 0%, #090d18 45%, #05070d 100%);
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+    radial-gradient(circle at top,#18243d 0%,#090d18 45%,#05070d 100%);
+  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
 }
 
-.game {
-  width: min(94vw, 700px);
-  text-align: center;
+.game{
+  width:min(94vw,620px);
+  text-align:center;
 }
 
-h1 {
-  margin: 0;
-  font-size: clamp(32px, 8vw, 58px);
-  letter-spacing: 5px;
-  font-weight: 900;
+h1{
+  margin:0;
+  font-size:clamp(30px,8vw,55px);
+  letter-spacing:4px;
+  font-weight:900;
 }
 
-.subtitle {
-  margin-top: 5px;
-  color: #8fa7d8;
-  letter-spacing: 2px;
-  font-size: 14px;
+.subtitle{
+  color:#8fa7d8;
+  margin-top:4px;
+  font-size:14px;
+  letter-spacing:2px;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin: 25px 0;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  margin:20px 0 14px;
 }
 
-.stat {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 12px;
-  padding: 10px 4px;
+.stat{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  padding:8px 2px;
 }
 
-.label {
-  font-size: 10px;
-  color: #8d9bb8;
-  letter-spacing: 1px;
+.label{
+  font-size:9px;
+  color:#8d9bb8;
+  letter-spacing:1px;
 }
 
-.value {
-  margin-top: 3px;
-  font-size: 22px;
-  font-weight: 800;
+.value{
+  font-size:19px;
+  font-weight:800;
+  margin-top:2px;
 }
 
-.problem {
-  min-height: 190px;
-  border-radius: 25px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 15px 50px rgba(0,0,0,.3);
+.problem{
+  border-radius:22px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  padding:20px 15px 18px;
+  box-shadow:0 15px 50px rgba(0,0,0,.3);
 }
 
-.question {
-  font-size: clamp(38px, 11vw, 72px);
-  font-weight: 900;
-  letter-spacing: 4px;
+.question{
+  font-size:clamp(38px,11vw,68px);
+  font-weight:900;
+  letter-spacing:4px;
+  min-height:80px;
 }
 
-input {
-  width: 80%;
-  max-width: 400px;
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 14px;
-  border: 2px solid #394b70;
-  background: #0a0f1c;
-  color: white;
-  text-align: center;
-  font-size: 30px;
-  font-weight: 700;
-  outline: none;
+.answer{
+  height:48px;
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:14px;
+  letter-spacing:3px;
 }
 
-input:focus {
-  border-color: #6d9cff;
-  box-shadow: 0 0 20px rgba(80,130,255,.25);
+.keypad{
+  width:min(100%,390px);
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
 }
 
-button {
-  margin-top: 18px;
-  width: 80%;
-  max-width: 400px;
-  padding: 15px;
-  border: 0;
-  border-radius: 14px;
-  background: #426ee8;
-  color: white;
-  font-size: 18px;
-  font-weight: 800;
-  cursor: pointer;
+.key{
+  height:65px;
+  border:0;
+  border-radius:13px;
+  background:#18243b;
+  border:1px solid #34476c;
+  color:white;
+  font-size:26px;
+  font-weight:800;
+  cursor:pointer;
+  touch-action:manipulation;
 }
 
-button:active {
-  transform: scale(.97);
+.key:active{
+  transform:scale(.94);
+  background:#304b7d;
 }
 
-.message {
-  height: 35px;
-  margin-top: 12px;
-  font-size: 18px;
-  font-weight: 800;
+.delete{
+  background:#2b2030;
 }
 
-.correct {
-  color: #65ffb0;
+.submit{
+  background:#315ec8;
 }
 
-.wrong {
-  color: #ff667d;
+.start{
+  width:100%;
+  height:60px;
+  border:0;
+  border-radius:14px;
+  background:#426ee8;
+  color:white;
+  font-size:20px;
+  font-weight:900;
 }
 
-.gameover {
-  font-size: 28px;
-  font-weight: 900;
+.message{
+  height:25px;
+  margin-top:8px;
+  font-weight:800;
 }
 
-.hidden {
-  display: none;
+.correct{
+  color:#65ffb0;
 }
 
-@media (max-width: 500px) {
-  .stats {
-    gap: 4px;
+.wrong{
+  color:#ff667d;
+}
+
+.hidden{
+  display:none;
+}
+
+@media(max-height:700px){
+  .stats{
+    margin:10px 0;
   }
 
-  .stat {
-    padding: 8px 2px;
+  .problem{
+    padding:12px;
   }
 
-  .value {
-    font-size: 18px;
+  .question{
+    min-height:55px;
   }
 
-  .problem {
-    min-height: 180px;
+  .key{
+    height:54px;
   }
 }
 </style>
@@ -173,213 +179,292 @@ button:active {
 
 <div class="game">
 
-  <h1>NEURO KREPELIN</h1>
-  <div class="subtitle">反射 × 計算 × コンボ</div>
+<h1>NEURO KREPELIN</h1>
+<div class="subtitle">反射 × 計算 × コンボ</div>
 
-  <div class="stats">
-    <div class="stat">
-      <div class="label">TIME</div>
-      <div class="value" id="time">30.0</div>
-    </div>
+<div class="stats">
 
-    <div class="stat">
-      <div class="label">正解</div>
-      <div class="value" id="correct">0</div>
-    </div>
+<div class="stat">
+<div class="label">TIME</div>
+<div class="value" id="time">30.0</div>
+</div>
 
-    <div class="stat">
-      <div class="label">ミス</div>
-      <div class="value" id="wrong">0</div>
-    </div>
+<div class="stat">
+<div class="label">正解</div>
+<div class="value" id="correct">0</div>
+</div>
 
-    <div class="stat">
-      <div class="label">BEST</div>
-      <div class="value" id="best">0</div>
-    </div>
+<div class="stat">
+<div class="label">ミス</div>
+<div class="value" id="wrong">0</div>
+</div>
 
-    <div class="stat">
-      <div class="label">COMBO</div>
-      <div class="value" id="combo">0</div>
-    </div>
-  </div>
+<div class="stat">
+<div class="label">BEST</div>
+<div class="value" id="best">0</div>
+</div>
 
-  <div class="problem">
+<div class="stat">
+<div class="label">COMBO</div>
+<div class="value" id="combo">0</div>
+</div>
 
-    <div id="question" class="question">START</div>
+</div>
 
-    <input
-      id="answer"
-      type="number"
-      inputmode="numeric"
-      autocomplete="off"
-      placeholder="答え"
-      disabled
-    >
+<div class="problem">
 
-    <button id="startButton">START</button>
+<div id="question" class="question">START</div>
 
-    <div id="message" class="message"></div>
+<div id="answer" class="answer"></div>
 
-  </div>
+<div id="keypad" class="keypad hidden">
+
+<button class="key" data-num="1">1</button>
+<button class="key" data-num="2">2</button>
+<button class="key" data-num="3">3</button>
+
+<button class="key" data-num="4">4</button>
+<button class="key" data-num="5">5</button>
+<button class="key" data-num="6">6</button>
+
+<button class="key" data-num="7">7</button>
+<button class="key" data-num="8">8</button>
+<button class="key" data-num="9">9</button>
+
+<button class="key delete" id="delete">←</button>
+<button class="key" data-num="0">0</button>
+<button class="key submit" id="submit">✓</button>
+
+</div>
+
+<button id="startButton" class="start">START</button>
+
+<div id="message" class="message"></div>
+
+</div>
 
 </div>
 
 <script>
-const question = document.getElementById("question");
-const answer = document.getElementById("answer");
-const startButton = document.getElementById("startButton");
 
-const timeDisplay = document.getElementById("time");
-const correctDisplay = document.getElementById("correct");
-const wrongDisplay = document.getElementById("wrong");
-const bestDisplay = document.getElementById("best");
-const comboDisplay = document.getElementById("combo");
-const message = document.getElementById("message");
+const question=document.getElementById("question");
+const answer=document.getElementById("answer");
+const keypad=document.getElementById("keypad");
+const startButton=document.getElementById("startButton");
 
-let correct = 0;
-let wrong = 0;
-let combo = 0;
-let best = Number(localStorage.getItem("neuroKrepelinBest") || 0);
+const timeDisplay=document.getElementById("time");
+const correctDisplay=document.getElementById("correct");
+const wrongDisplay=document.getElementById("wrong");
+const bestDisplay=document.getElementById("best");
+const comboDisplay=document.getElementById("combo");
+const message=document.getElementById("message");
 
-let running = false;
-let currentAnswer = 0;
-let endTime = 0;
-let timer = null;
+let correct=0;
+let wrong=0;
+let combo=0;
 
-bestDisplay.textContent = best;
+let best=Number(
+  localStorage.getItem("neuroKrepelinBest") || 0
+);
 
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+let running=false;
+let currentAnswer=0;
+let playerAnswer="";
+
+let endTime=0;
+let timer=null;
+
+bestDisplay.textContent=best;
+
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
 }
 
-function makeQuestion() {
-  const a = randomInt(1, 9);
-  const b = randomInt(1, 9);
+function makeQuestion(){
 
-  currentAnswer = a + b;
+  const a=randomInt(1,9);
+  const b=randomInt(1,9);
 
-  question.textContent = `${a} + ${b}`;
+  currentAnswer=a+b;
+
+  question.textContent=`${a} + ${b}`;
+
+  playerAnswer="";
+  answer.textContent="";
 }
 
-function updateStats() {
-  correctDisplay.textContent = correct;
-  wrongDisplay.textContent = wrong;
-  comboDisplay.textContent = combo;
-  bestDisplay.textContent = best;
+function updateStats(){
+
+  correctDisplay.textContent=correct;
+  wrongDisplay.textContent=wrong;
+  comboDisplay.textContent=combo;
+  bestDisplay.textContent=best;
+
 }
 
-function startGame() {
-  correct = 0;
-  wrong = 0;
-  combo = 0;
+function startGame(){
 
-  running = true;
+  correct=0;
+  wrong=0;
+  combo=0;
 
-  answer.disabled = false;
+  running=true;
+
   startButton.classList.add("hidden");
+  keypad.classList.remove("hidden");
 
-  message.textContent = "";
-  message.className = "message";
+  message.textContent="";
+  message.className="message";
 
-  endTime = performance.now() + 30000;
+  endTime=performance.now()+30000;
 
   updateStats();
   makeQuestion();
 
-  answer.value = "";
-  answer.focus();
-
   clearInterval(timer);
 
-  timer = setInterval(updateTime, 50);
+  timer=setInterval(updateTime,50);
+
   updateTime();
+
 }
 
-function updateTime() {
-  if (!running) return;
+function updateTime(){
 
-  const remaining = Math.max(0, endTime - performance.now());
-  const seconds = remaining / 1000;
+  if(!running)return;
 
-  timeDisplay.textContent = seconds.toFixed(1);
+  const remaining=Math.max(
+    0,
+    endTime-performance.now()
+  );
 
-  if (remaining <= 0) {
+  timeDisplay.textContent=
+    (remaining/1000).toFixed(1);
+
+  if(remaining<=0){
+
     finishGame();
+
   }
+
 }
 
-function submitAnswer() {
-  if (!running) return;
+function addNumber(num){
 
-  const value = Number(answer.value);
+  if(!running)return;
 
-  if (answer.value === "") return;
+  // 最大3桁
+  if(playerAnswer.length>=3)return;
 
-  if (value === currentAnswer) {
+  playerAnswer+=num;
+
+  answer.textContent=playerAnswer;
+
+}
+
+function deleteNumber(){
+
+  if(!running)return;
+
+  playerAnswer=
+    playerAnswer.slice(0,-1);
+
+  answer.textContent=playerAnswer;
+
+}
+
+function submitAnswer(){
+
+  if(!running)return;
+
+  if(playerAnswer==="")return;
+
+  const value=Number(playerAnswer);
+
+  if(value===currentAnswer){
 
     correct++;
     combo++;
 
-    if (combo > best) {
-      best = combo;
-      localStorage.setItem("neuroKrepelinBest", best);
+    if(combo>best){
+
+      best=combo;
+
+      localStorage.setItem(
+        "neuroKrepelinBest",
+        best
+      );
+
     }
 
-    message.textContent = "CORRECT!";
-    message.className = "message correct";
+    message.textContent="CORRECT!";
+    message.className="message correct";
 
-  } else {
+  }else{
 
     wrong++;
-    combo = 0;
+    combo=0;
 
-    message.textContent = "MISS!";
-    message.className = "message wrong";
+    message.textContent="MISS!";
+    message.className="message wrong";
+
   }
 
-  answer.value = "";
-
   updateStats();
+
   makeQuestion();
+
 }
 
-function finishGame() {
-  running = false;
+function finishGame(){
+
+  running=false;
 
   clearInterval(timer);
 
-  timeDisplay.textContent = "0.0";
+  timeDisplay.textContent="0.0";
 
-  answer.disabled = true;
+  keypad.classList.add("hidden");
 
-  question.textContent = "TIME UP!";
-  message.textContent =
+  question.textContent="TIME UP!";
+
+  answer.textContent="";
+
+  message.textContent=
     `正解 ${correct}　ミス ${wrong}　BEST COMBO ${best}`;
 
-  message.className = "message";
+  message.className="message";
 
-  startButton.textContent = "もう一度";
+  startButton.textContent="もう一度";
+
   startButton.classList.remove("hidden");
+
 }
 
-answer.addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    submitAnswer();
-  }
+document.querySelectorAll("[data-num]")
+.forEach(button=>{
+
+  button.addEventListener("click",()=>{
+
+    addNumber(button.dataset.num);
+
+  });
+
 });
 
-answer.addEventListener("input", function() {
-  if (!running) return;
+document.getElementById("delete")
+.addEventListener("click",deleteNumber);
 
-  // 数字が入力されたら自動判定
-  if (answer.value.length >= String(currentAnswer).length) {
-    submitAnswer();
-  }
-});
+document.getElementById("submit")
+.addEventListener("click",submitAnswer);
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener(
+  "click",
+  startGame
+);
 
 updateStats();
+
 </script>
 
 </body>
