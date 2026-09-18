@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEURO KREPELIN</title>
+<style>
+*{box-sizing:border-box;user-select:none}
+body{margin:0;background:#090b12;color:white;font-family:system-ui,sans-serif;text-align:center}
+header{padding:20px 10px 10px}h1{margin:0;font-size:28px;letter-spacing:3px}.subtitle{color:#8991a8;font-size:13px}
+#stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:15px auto}
+.stat{background:#141827;border-radius:12px;padding:8px 16px;min-width:90px}.stat small{display:block;color:#8991a8;font-size:11px}.stat strong{font-size:20px}
+#game{max-width:900px;margin:auto;padding:15px}
+#numbers{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;min-height:90px;margin:15px 0}
+.num{width:42px;height:50px;display:flex;align-items:center;justify-content:center;background:#171b2b;border-radius:8px;font-size:24px;font-weight:bold}
+.num.active{outline:3px solid white;transform:scale(1.08)}
+#question{font-size:48px;font-weight:bold;margin:20px 0}
+#answer{width:130px;height:65px;border:0;border-radius:16px;background:#20263a;color:white;text-align:center;font-size:34px;font-weight:bold;outline:none}
+#answer:focus{box-shadow:0 0 0 3px #6975ff}
+#answer.correct{background:#174c38}#answer.wrong{background:#55232d;animation:shake .15s linear 2}
+button{margin:15px 5px;padding:13px 25px;border:0;border-radius:12px;background:#5865f2;color:white;font-size:16px;font-weight:bold}
+button:active{transform:scale(.96)}
+#timerBar{width:min(700px,90%);height:8px;margin:15px auto;background:#202437;border-radius:10px;overflow:hidden}
+#timer{width:100%;height:100%;background:#6975ff}
+#combo{min-height:55px;font-size:28px;font-weight:bold}
+#fever{display:none;font-size:40px;font-weight:900;letter-spacing:5px;animation:pulse .4s infinite alternate}
+body.feverMode{background:#12091b}body.feverMode #question{text-shadow:0 0 20px #b56cff}
+body.feverMode #numbers .num{box-shadow:0 0 8px #7b4dff}
+#result{display:none;max-width:500px;margin:25px auto;padding:25px;background:#141827;border-radius:20px}
+.resultNumber{font-size:38px;font-weight:bold}
+#message{margin:15px;color:#aeb5cc}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.08)}}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}100%{transform:translateX(0)}}
+@media(max-width:600px){.num{width:34px;height:43px;font-size:20px}#question{font-size:42px}}
+</style>
+</head>
+<body>
+<header><h1>NEURO KREPELIN</h1><div class="subtitle">反射 × 計算 × コンボ</div></header>
+<div id="stats">
+<div class="stat"><small>TIME</small><strong id="timeText">30.0</strong></div>
+<div class="stat"><small>正解</small><strong id="correctText">0</strong></div>
+<div class="stat"><small>ミス</small><strong id="wrongText">0</strong></div>
+<div class="stat"><small>BEST</small><strong id="bestText">0</strong></div>
+</div>
+<div id="timerBar"><div id="timer"></div></div>
+<div id="game">
+<div id="numbers"></div><div id="combo">COMBO 0</div><div id="fever">FEVER!!</div>
+<div id="question">---</div>
+<input id="answer" type="tel" inputmode="numeric" maxlength="1" autocomplete="off" disabled>
+<div><button id="start">START</button></div>
+<div id="message">2つの数字を足して、1の位を入力！</div>
+</div>
+<div id="result">
+<div>RESULT</div><div class="resultNumber"><span id="resultCorrect">0</span> 問</div>
+<p>ミス：<span id="resultWrong">0</span></p><p>正答率：<span id="resultRate">0</span>%</p>
+<p>最大コンボ：<span id="resultCombo">0</span></p><p>処理速度：<span id="resultSpeed">0</span> 問/秒</p>
+<h2 id="resultMessage"></h2><button id="retry">もう一回</button>
+</div>
+<script>
+const GAME_TIME=30;let numbers=[],index=0,correct=0,wrong=0,combo=0,maxCombo=0,timeLeft=GAME_TIME,timerInterval=null,running=false,fever=false;
+const numbersEl=document.getElementById("numbers"),questionEl=document.getElementById("question"),answerEl=document.getElementById("answer");
+const timeText=document.getElementById("timeText"),correctText=document.getElementById("correctText"),wrongText=document.getElementById("wrongText"),bestText=document.getElementById("bestText"),comboEl=document.getElementById("combo"),feverEl=document.getElementById("fever"),timerEl=document.getElementById("timer"),resultEl=document.getElementById("result");
+let best=Number(localStorage.getItem("neuroKrepelinBest")||0);bestText.textContent=best;
+function generateNumbers(){numbers=[];for(let i=0;i<100;i++)numbers.push(Math.floor(Math.random()*10));numbersEl.innerHTML="";numbers.forEach((n,i)=>{const d=document.createElement("div");d.className="num";d.textContent=n;d.dataset.index=i;numbersEl.appendChild(d)})}
+function showQuestion(){if(index>=numbers.length-1){generateNumbers();index=0}document.querySelectorAll(".num").forEach(e=>e.classList.remove("active"));const a=document.querySelector(`.num[data-index="${index}"]`),b=document.querySelector(`.num[data-index="${index+1}"]`);if(a)a.classList.add("active");if(b)b.classList.add("active");questionEl.textContent=numbers[index]+" + "+numbers[index+1];answerEl.value="";answerEl.focus()}
+function updateCombo(){comboEl.textContent="COMBO "+combo;if(combo>maxCombo)maxCombo=combo;if(combo>=10&&!fever){fever=true;document.body.classList.add("feverMode");feverEl.style.display="block"}if(fever&&combo<5){fever=false;document.body.classList.remove("feverMode");feverEl.style.display="none"}}
+function answer(value){if(!running)return;const expected=(numbers[index]+numbers[index+1])%10;if(Number(value)===expected){correct++;combo++;answerEl.classList.remove("wrong");answerEl.classList.add("correct");setTimeout(()=>answerEl.classList.remove("correct"),100)}else{wrong++;combo=0;answerEl.classList.remove("correct");answerEl.classList.add("wrong");setTimeout(()=>answerEl.classList.remove("wrong"),150)}correctText.textContent=correct;wrongText.textContent=wrong;updateCombo();index++;showQuestion()}
+answerEl.addEventListener("input",()=>{if(answerEl.value.length===1)answer(answerEl.value)});
+document.getElementById("start").addEventListener("click",startGame);document.getElementById("retry").addEventListener("click",startGame);
+function startGame(){clearInterval(timerInterval);resultEl.style.display="none";correct=0;wrong=0;combo=0;maxCombo=0;timeLeft=GAME_TIME;index=0;running=true;fever=false;document.body.classList.remove("feverMode");feverEl.style.display="none";correctText.textContent="0";wrongText.textContent="0";timeText.textContent=GAME_TIME.toFixed(1);timerEl.style.width="100%";answerEl.disabled=false;generateNumbers();showQuestion();timerInterval=setInterval(()=>{timeLeft-=.1;if(timeLeft<=0){timeLeft=0;endGame()}timeText.textContent=timeLeft.toFixed(1);timerEl.style.width=(timeLeft/GAME_TIME*100)+"%"},100)}
+function endGame(){clearInterval(timerInterval);running=false;answerEl.disabled=true;if(correct>best){best=correct;localStorage.setItem("neuroKrepelinBest",best);bestText.textContent=best}const total=correct+wrong,rate=total===0?0:Math.round(correct/total*100),speed=(correct/GAME_TIME).toFixed(2);document.getElementById("resultCorrect").textContent=correct;document.getElementById("resultWrong").textContent=wrong;document.getElementById("resultRate").textContent=rate;document.getElementById("resultCombo").textContent=maxCombo;document.getElementById("resultSpeed").textContent=speed;document.getElementById("resultMessage").textContent=correct>=100?"LIMIT BREAK":correct>=75?"すごい。もう一段上を狙える。":correct>=50?"いい感じ。もう一回記録更新を狙おう。":"もう一回やって記録更新を狙おう。";resultEl.style.display="block"}
+</script>
+</body>
+</html>
