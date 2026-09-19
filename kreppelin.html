@@ -3369,9 +3369,38 @@ function NG_renderCollection(){
   list.sort((a, b) => {
   return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
 });
+
+  let currentRarity = null;
+  let currentRarityGrid = null;
   
   for(const item of list){
 
+
+        if(item.rarity !== currentRarity){
+
+      currentRarity = item.rarity;
+
+      const section =
+        document.createElement("div");
+
+      section.className = "ng-rarity-section";
+
+      section.innerHTML = `
+        <div class="ng-rarity-section-title ${getNGRarityClass(item.rarity)}">
+          ${item.rarity}
+        </div>
+      `;
+
+      currentRarityGrid =
+        document.createElement("div");
+
+      currentRarityGrid.className =
+        "ng-rarity-section-grid";
+
+      section.appendChild(currentRarityGrid);
+      grid.appendChild(section);
+    }
+    
     const owned =
       !!NG_owned[item.id];
 
@@ -3446,7 +3475,7 @@ card.className =
 
     `;
 
-    grid.appendChild(card);
+    currentRarityGrid.appendChild(card);
 
   }
 
