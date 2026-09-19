@@ -3238,6 +3238,50 @@ document.body.appendChild(NG_collectionOverlay);
 
 
 /* =========================
+   TEMARI QUOTE COLLECTION OVERLAY
+   ========================= */
+
+const NG_temariCollectionOverlay = document.createElement("div");
+
+NG_temariCollectionOverlay.className = "ng-overlay";
+NG_temariCollectionOverlay.id = "ngTemariCollection";
+
+NG_temariCollectionOverlay.innerHTML = `
+<div class="ng-panel" style="max-width:520px;">
+
+  <div class="ng-title">🟪 月村手毬 セリフ図鑑</div>
+
+  <div id="ngTemariQuoteList"
+       style="max-height:60vh;overflow:auto;margin-top:12px;">
+  </div>
+
+  <br>
+
+  <button class="ng-close" id="ngTemariCollectionClose">
+    閉じる
+  </button>
+
+</div>
+`;
+
+document.body.appendChild(NG_temariCollectionOverlay);
+
+document
+  .getElementById("ngTemariCollectionClose")
+  .addEventListener("click",NG_closeTemariCollection);
+
+document
+  .getElementById("ngCollectionGrid")
+  ?.addEventListener("click",e=>{
+
+    if(e.target.closest("[data-ng-temari-open]")){
+      NG_openTemariCollection();
+    }
+
+  });
+
+
+/* =========================
    JOB OFFER OVERLAY
    ========================= */
 
@@ -3509,7 +3553,11 @@ card.className =
       ${quote}
 
       ${
-        owned
+        item.id === "temari" && owned
+        ? `<button class="ng-equip" data-ng-temari-open="1">
+            📖 セリフ図鑑を開く
+          </button>`
+        : owned
         ?
         `<button class="ng-equip ${
           NG_equip === item.id ? "equipped" : ""
