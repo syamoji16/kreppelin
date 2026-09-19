@@ -2777,7 +2777,7 @@ function NG_pickItem(rarity){
   }
 
   if(rarity === "GOD" || rarity === "GOD2"){
-    return {id:rarity==="GOD2"?"god2":"god",rarity,icon:rarity==="GOD2"?"🌌":"👑",name:rarity==="GOD"?"社長":"GOD2",source:"SPECIAL",effect:"超高確率演出"};
+    return {id:rarity==="GOD2"?"god2":"god",rarity,icon:rarity==="GOD2"?"🌌":"👑",name:rarity==="GOD"?"本当ならね😏😏":"GOD2",source:"SPECIAL",effect:"超高確率演出"};
   }
 
   if(rarity === "???"){
@@ -3551,7 +3551,7 @@ function NG_renderCollection(){
       id:"god",
       rarity:"GOD",
       icon:"👑",
-      name:"社長",
+      name:"本当ならね😏😏",
       source:"SPECIAL",
       effect:"超高確率演出"
     });
@@ -4234,7 +4234,7 @@ function NG_showGodOffer(kind="god"){
   NG_specialDopamineSound(kind);q.textContent=kind==="god2"?"超・奇跡降臨":"奇跡降臨";card.textContent=kind==="god2"?"🌌":"👑";text.textContent="";NG_particles(kind==="god2"?150:90);
   setTimeout(()=>{q.textContent=kind==="god2"?"GOD2":"社長";NG_particles(kind==="god2"?220:130)},700);
   setTimeout(()=>{text.textContent=kind==="god2"?"GOD2":"本当ならね😏😏";NG_particles(kind==="god2"?300:180)},1800);
-  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind.toUpperCase(),icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"GOD2":"社長",effect:"超高確率演出"});},5000);
+  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind.toUpperCase(),icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"GOD2":"本当ならね😏😏",effect:"超高確率演出"});},5000);
 }
 
 /* =========================
