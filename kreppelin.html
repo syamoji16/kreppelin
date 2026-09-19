@@ -3486,7 +3486,9 @@ function getNGRarityClass(rarity){
     "企業":"ng-rarity-company",
     "???":"ng-rarity-unknown",
     "GOD":"ng-rarity-god",
-    "GOD2":"ng-rarity-god2"
+    "GOD2":"ng-rarity-god2",
+    "社長":"ng-rarity-god",
+    "念願の":"ng-rarity-god2"
   };
 
   return map[rarity] || "ng-rarity-normal";
@@ -3549,7 +3551,7 @@ function NG_renderCollection(){
 
     list.push({
       id:"god",
-      rarity:"GOD",
+      rarity:"社長",
       icon:"👑",
       name:"本当ならね😏😏",
       source:"SPECIAL",
@@ -3558,9 +3560,9 @@ function NG_renderCollection(){
 
     list.push({
       id:"god2",
-      rarity:"GOD2",
+      rarity:"念願の",
       icon:"🌌",
-      name:"GOD2",
+      name:"二人目",
       source:"SPECIAL",
       effect:"超高確率演出"
     });
@@ -4022,12 +4024,22 @@ function NG_reveal(result){
 
   }else{
 
+    const displayRarity =
+      result.id === "god" ? "社長" :
+      result.id === "god2" ? "念願の" :
+      result.rarity;
+
+    const displayName =
+      result.id === "god" ? "本当ならね😏😏" :
+      result.id === "god2" ? "二人目" :
+      result.name;
+
     html = `
       <div class="ng-result">
         <div class="icon">${result.icon}</div>
-        <div class="rarity ${getNGRarityClass(result.rarity)}">${result.rarity}</div>
+        <div class="rarity ${getNGRarityClass(displayRarity)}">${displayRarity}</div>
         <div style="font-size:19px;font-weight:1000">
-          ${result.name}
+          ${displayName}
         </div>
         <div style="font-size:11px;opacity:.7">
           ${result.effect}
@@ -4232,9 +4244,9 @@ function NG_showGodOffer(kind="god"){
   if(!overlay||!q||!card||!text)return;
   overlay.classList.remove("ng-temari-special","ng-pleasure-special");overlay.classList.add(kind==="god2"?"ng-god2-special":"ng-god-special");overlay.style.display="flex";
   NG_specialDopamineSound(kind);q.textContent=kind==="god2"?"超・奇跡降臨":"奇跡降臨";card.textContent=kind==="god2"?"🌌":"👑";text.textContent="";NG_particles(kind==="god2"?150:90);
-  setTimeout(()=>{q.textContent=kind==="god2"?"GOD2":"社長";NG_particles(kind==="god2"?220:130)},700);
-  setTimeout(()=>{text.textContent=kind==="god2"?"GOD2":"本当ならね😏😏";NG_particles(kind==="god2"?300:180)},1800);
-  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind.toUpperCase(),icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"GOD2":"本当ならね😏😏",effect:"超高確率演出"});},5000);
+  setTimeout(()=>{q.textContent=kind==="god2"?"念願の":"社長";NG_particles(kind==="god2"?220:130)},700);
+  setTimeout(()=>{text.textContent=kind==="god2"?"二人目":"本当ならね😏😏";NG_particles(kind==="god2"?300:180)},1800);
+  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind==="god2"?"念願の":"社長",icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"二人目":"本当ならね😏😏",effect:"超高確率演出"});},5000);
 }
 
 /* =========================
