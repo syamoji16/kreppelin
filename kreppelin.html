@@ -1755,6 +1755,33 @@ function tone(freq,duration,type,gain,delay=0){
   osc.stop(ctx.currentTime+delay+duration+.02);
 }
 
+function NG_specialDopamineSound(kind){
+
+  /* パチンコ風の「当たり感」を狙ったオリジナル電子音 */
+  const base = kind==="pleasure" ? 520 : kind==="temari" ? 620 : 460;
+  const notes = [0,1,2,4,5,7,9,12];
+
+  notes.forEach((n,i)=>{
+    const freq = base * Math.pow(2,n/12);
+    tone(freq,.075,"square",.035,i*.075);
+  });
+
+  tone(base*2,.18,"sawtooth",.045,.72);
+  tone(base*2.5,.22,"sine",.05,.88);
+
+  /* 演出中も短い上昇音を繰り返して期待感を出す */
+  for(let t=1.25;t<4.7;t+=.55){
+    tone(base*1.5,.055,"square",.025,t);
+    tone(base*2,.075,"sine",.035,t+.055);
+  }
+
+  if(kind==="pleasure"){
+    tone(1046,.12,"sine",.05,2.25);
+    tone(1318,.16,"sine",.055,2.4);
+    tone(1568,.22,"sine",.06,2.58);
+  }
+}
+
 function soundCorrect(){
 
   const type=equipped.correct;
@@ -3965,6 +3992,7 @@ function NG_showJobOffer(){
 
   overlay.classList.remove("ng-temari-special");
   overlay.style.display = "flex";
+  NG_specialDopamineSound("job");
 
   q.textContent = "???";
   card.textContent = "💼";
@@ -4024,6 +4052,7 @@ function NG_showPleasureOffer(){
   overlay.classList.remove("ng-temari-special");
   overlay.classList.add("ng-pleasure-special");
   overlay.style.display = "flex";
+  NG_specialDopamineSound("pleasure");
 
   q.textContent = "快楽";
   card.textContent = "🟪";
@@ -4089,6 +4118,7 @@ function NG_showTemariOffer(){
 
   overlay.classList.add("ng-temari-special");
   overlay.style.display = "flex";
+  NG_specialDopamineSound("temari");
 
   q.textContent = "月村手毬";
   card.textContent = "🟪";
