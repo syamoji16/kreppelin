@@ -3481,9 +3481,15 @@ function NG_updateGachaUI(){
 
   if(rate){
 
+    const NG_rateDisplayName = {
+      "???":"企業",
+      "GOD":"社長",
+      "GOD2":"念願の"
+    };
+
     rate.innerHTML =
       NG_rates()
-        .map(x => `${x[0]}：${x[1]}%`)
+        .map(x => `${NG_rateDisplayName[x[0]] || x[0]}：${x[1]}%`)
         .join("　");
 
     if(NG_baseComplete()){
