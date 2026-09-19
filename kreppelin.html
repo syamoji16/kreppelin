@@ -2747,7 +2747,7 @@ function NG_pickItem(rarity){
       id:"job",
       rarity:"???",
       icon:"💼",
-      name:"内定",
+      name:NG_owned.job ? "内定" : "???",
       source:"SECRET",
       effect:"専用内定演出"
     };
@@ -3490,7 +3490,7 @@ function NG_renderCollection(){
       id:"job",
       rarity:NG_owned.job ? "企業" : "???",
       icon:"💼",
-      name:"内定",
+      name:NG_owned.job ? "内定" : "???",
       source:"SPECIAL",
       effect:"専用内定演出"
     });
@@ -3938,7 +3938,7 @@ function NG_reveal(result){
   }else if(result.id === "job"){
 
     const jobRarity = NG_owned.job ? "企業" : "???";
-    const jobName = "内定";
+    const jobName = NG_owned.job ? "内定" : "???";
 
     html = `
       <div class="ng-result">
