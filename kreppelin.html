@@ -4839,6 +4839,18 @@ function NG_showDeveloperPanel(){
     </button>
 
     <button
+      class="ng-dev-button"
+      id="ngDevGod">
+      👑 社長演出テスト
+    </button>
+
+    <button
+      class="ng-dev-button"
+      id="ngDevGod2">
+      🌌 念願の演出テスト
+    </button>
+
+    <button
       class="ng-dev-button ng-dev-close"
       id="ngDevClose">
       閉じる
@@ -4888,6 +4900,20 @@ function NG_showDeveloperPanel(){
 
     });
 
+
+  /* GOD演出テスト */
+
+  document
+    .getElementById("ngDevGod")
+    .addEventListener("click",()=>{
+      NG_showGodOffer("god");
+    });
+
+  document
+    .getElementById("ngDevGod2")
+    .addEventListener("click",()=>{
+      NG_showGodOffer("god2");
+    });
 
   /* 高レア限定ガチャ */
 
