@@ -3460,7 +3460,12 @@ function NG_renderCollection(){
 card.className =
   "ng-card " +
   getNGRarityClass(item.rarity) +
-  (owned ? "" : " locked");
+  (owned ? "" : " locked") +
+  (item.id === "temari" && owned ? " ng-temari-clickable" : "");
+
+if(item.id === "temari" && owned){
+  card.style.cursor = "pointer";
+}
 
     let displayName =
       owned ? item.name : "？？？？";
@@ -3534,6 +3539,13 @@ card.className =
     `;
 
     currentRarityGrid.appendChild(card);
+
+    if(item.id === "temari" && owned){
+      card.addEventListener("click",(e)=>{
+        if(e.target.closest("[data-ng-equip]")) return;
+        NG_openTemariCollection();
+      });
+    }
 
   }
 
