@@ -1777,7 +1777,7 @@ function tone(freq,duration,type,gain,delay=0){
 function NG_specialDopamineSound(kind){
 
   /* パチンコ風の「当たり感」を狙ったオリジナル電子音 */
-  const base = kind==="pleasure" ? 520 : kind==="temari" ? 620 : 460;
+  const base = kind==="god2" ? 980 : kind==="god" ? 820 : kind==="pleasure" ? 520 : kind==="temari" ? 620 : 460;
   const notes = [0,1,2,4,5,7,9,12];
 
   notes.forEach((n,i)=>{
@@ -2689,7 +2689,9 @@ function NG_rates(){
     ["SECRET",4],
     ["快楽",0.95],
     ["月村手毬",2],
-    ["???",0.05]
+    ["???",0.05],
+    ["GOD",0.0001],
+    ["GOD2",0.00001]
   ];
 }
 
@@ -2708,7 +2710,9 @@ function NG_rarityValue(r){
     "SECRET":5,
     "快楽":6,
     "月村手毬":7,
-    "???":8
+    "???":8,
+    "GOD":9,
+    "GOD2":10
   };
 
   return values[r] || 0;
@@ -2770,6 +2774,10 @@ function NG_pickItem(rarity){
         ]
     };
 
+  }
+
+  if(rarity === "GOD" || rarity === "GOD2"){
+    return {id:rarity==="GOD2"?"god2":"god",rarity,icon:rarity==="GOD2"?"🌌":"👑",name:rarity,source:"SPECIAL",effect:"超高確率演出"};
   }
 
   if(rarity === "???"){
@@ -3098,7 +3106,16 @@ NG_style.textContent = `
       rgba(10,0,30,.98) 80%);
 }
 
-#ngJobOverlay.ng-temari-special .ng-job{
+#ngJobOverlay.ng-temari-special  .ng-rarity-god{color:#fff;text-shadow:0 0 8px #fff,0 0 24px #ffd700,0 0 50px #ff6a00;animation:ngGodPulse .3s infinite alternate;}
+.ng-rarity-god2{color:#fff;text-shadow:0 0 12px #fff,0 0 35px #00eaff,0 0 60px #8c65ff;animation:ngGod2Pulse .25s infinite alternate;}
+@keyframes ngGodPulse{from{filter:brightness(1)}to{filter:brightness(1.8)}}
+@keyframes ngGod2Pulse{from{filter:brightness(1)}to{filter:brightness(2)}}
+#ngJobOverlay.ng-god-special{background:radial-gradient(circle,#fff 0%,#ffd54f 18%,#ff6a00 40%,#24002f 80%);animation:ngGodFlash .1s infinite alternate;}
+#ngJobOverlay.ng-god2-special{background:radial-gradient(circle,#fff 0%,#00eaff 18%,#4b00ff 42%,#000 82%);animation:ngGodFlash .06s infinite alternate;}
+#ngJobOverlay.ng-god-special::before,#ngJobOverlay.ng-god2-special::before{content:"";position:absolute;inset:8%;border:8px solid #fff;border-radius:50%;box-shadow:0 0 40px #fff,0 0 100px #ffd700,0 0 150px #00eaff;animation:ngGodRing .6s linear infinite;}
+@keyframes ngGodFlash{from{filter:brightness(1)}to{filter:brightness(1.7)}}
+@keyframes ngGodRing{from{transform:scale(.5) rotate(0deg);opacity:.3}to{transform:scale(1.1) rotate(360deg);opacity:1}}
+.ng-job{
   text-shadow:
     0 0 10px #fff,
     0 0 30px #344A52,
@@ -3467,7 +3484,9 @@ function getNGRarityClass(rarity){
     "快楽":"ng-rarity-pleasure",
     "月村手毬":"ng-rarity-temari",
     "企業":"ng-rarity-company",
-    "???":"ng-rarity-unknown"
+    "???":"ng-rarity-unknown",
+    "GOD":"ng-rarity-god",
+    "GOD2":"ng-rarity-god2"
   };
 
   return map[rarity] || "ng-rarity-normal";
@@ -3484,7 +3503,9 @@ function NG_renderCollection(){
     "快楽",
     "月村手毬",
     "企業",
-    "???"
+    "???",
+    "GOD",
+    "GOD2"
   ];
 
   const grid =
@@ -4188,6 +4209,16 @@ function NG_showTemariOffer(){
 }
 
 
+function NG_showGodOffer(kind="god"){
+  const overlay=document.getElementById("ngJobOverlay"),q=document.getElementById("ngJobQ"),card=document.getElementById("ngJobCard"),text=document.getElementById("ngJobText");
+  if(!overlay||!q||!card||!text)return;
+  overlay.classList.remove("ng-temari-special","ng-pleasure-special");overlay.classList.add(kind==="god2"?"ng-god2-special":"ng-god-special");overlay.style.display="flex";
+  NG_specialDopamineSound(kind);q.textContent=kind==="god2"?"超・奇跡降臨":"奇跡降臨";card.textContent=kind==="god2"?"🌌":"👑";text.textContent="";NG_particles(kind==="god2"?150:90);
+  setTimeout(()=>{q.textContent=kind.toUpperCase();NG_particles(kind==="god2"?220:130)},700);
+  setTimeout(()=>{text.textContent=kind.toUpperCase();NG_particles(kind==="god2"?300:180)},1800);
+  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind.toUpperCase(),icon:kind==="god2"?"🌌":"👑",name:kind.toUpperCase(),effect:"超高確率演出"});},5000);
+}
+
 /* =========================
    GACHA DRAW
    ========================= */
@@ -4254,7 +4285,9 @@ async function NG_draw(ten=false, startIndex=0){
       result.rarity === "快楽" ||
       result.rarity === "月村手毬" ||
       result.rarity === "企業" ||
-      result.rarity === "???";
+      result.rarity === "???" ||
+      result.rarity === "GOD" ||
+      result.rarity === "GOD2";
 
     if(result.id === "temari"){
       NG_showTemariOffer();
