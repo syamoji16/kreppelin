@@ -3108,6 +3108,21 @@ NG_style.textContent = `
 }
 
 #ngJobOverlay.ng-temari-special  .ng-rarity-god{color:#fff;text-shadow:0 0 8px #fff,0 0 24px #ffd700,0 0 50px #ff6a00;animation:ngGodPulse .3s infinite alternate;}
+.ng-god-collection-effect,.ng-god2-collection-effect{
+  margin-top:7px;
+  font-size:12px;
+  font-weight:1000;
+  letter-spacing:1px;
+}
+.ng-god-collection-effect{
+  color:#ffd54f;
+  text-shadow:0 0 8px #ffd700,0 0 18px #ff6a00;
+}
+.ng-god2-collection-effect{
+  color:#8fefff;
+  text-shadow:0 0 8px #00eaff,0 0 18px #8c65ff;
+}
+
 .ng-rarity-god2{color:#fff;text-shadow:0 0 12px #fff,0 0 35px #00eaff,0 0 60px #8c65ff;animation:ngGod2Pulse .25s infinite alternate;}
 @keyframes ngGodPulse{from{filter:brightness(1)}to{filter:brightness(1.8)}}
 @keyframes ngGod2Pulse{from{filter:brightness(1)}to{filter:brightness(2)}}
@@ -3660,6 +3675,14 @@ if(item.id === "temari" && owned){
       <div class="ng-card-name">
         ${displayName}
       </div>
+
+      ${
+        owned && item.id === "god"
+        ? `<div class="ng-god-collection-effect">👑 社長降臨</div>`
+        : owned && item.id === "god2"
+        ? `<div class="ng-god2-collection-effect">🌌 念願の奇跡</div>`
+        : ""
+      }
 
       <div class="ng-card-effect">
         ${effect}
