@@ -288,6 +288,10 @@ button{
   text-shadow:0 0 10px #ffb700;
 }
 
+.gameCard{
+  position:relative;
+}
+
 .questionArea{
   min-height:120px;
   display:flex;
@@ -331,10 +335,14 @@ button{
 /* NEXT */
 
 .nextArea{
-  margin:2px auto 16px;
+  position:absolute;
+  top:70px;
+  right:18px;
+  margin:0;
   display:flex;
   flex-direction:column;
   align-items:center;
+  z-index:2;
 }
 
 .nextLabel{
