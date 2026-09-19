@@ -2126,6 +2126,9 @@ function answer(n){
 
   if(n===currentAnswer){
 
+    /* 1問目の正解を押した瞬間からカウント開始 */
+    startExamTimer();
+
     correctCount++;
 
     combo++;
@@ -2213,6 +2216,24 @@ function startGame(){
 
   createQuestion();
 
+  /* タイマーは1問目を解くまで開始しない */
+  endAt=0;
+  clearInterval(timerId);
+  $("timerBar").style.width="100%";
+
+  updateUI();
+
+}
+
+
+/* =========================
+   END
+========================= */
+
+function startExamTimer(){
+
+  if(!playing || endAt) return;
+
   endAt=
     Date.now()+
     selectedTime*1000;
@@ -2233,21 +2254,12 @@ function startGame(){
     updateUI();
 
     if(remaining<=0){
-
       endGame();
-
     }
 
   },50);
 
-  updateUI();
-
 }
-
-
-/* =========================
-   END
-========================= */
 
 function endGame(){
 
