@@ -3509,24 +3509,20 @@ card.className =
       ${quote}
 
       ${
-        item.id === "temari" && owned
-        ? `<button class="ng-equip" data-ng-temari-open="1">📖 セリフ図鑑</button>`
-        : owned
-        ?
-        `<button class="ng-equip ${
-          NG_equip === item.id ? "equipped" : ""
-        }"
-        data-ng-equip="${item.id}">
-          ${
-            NG_equip === item.id
-            ? "✓ 装備中"
-            : "装備"
-          }
-        </button>`
-        :
-        `<button class="ng-equip" disabled>
-          🔒 未獲得
-        </button>`
+        owned
+        ? `<div style="display:grid;grid-template-columns:1fr;gap:7px;">
+            <button class="ng-equip" data-ng-temari-open="1">📖 セリフ図鑑</button>
+            <button class="ng-equip ${
+              NG_equip === item.id ? "equipped" : ""
+            }" data-ng-equip="${item.id}">
+              ${
+                NG_equip === item.id ? "✓ 装備中" : "装備"
+              }
+            </button>
+          </div>`
+        : `<button class="ng-equip" disabled>
+            🔒 未獲得
+          </button>`
       }
 
     `;
