@@ -3919,11 +3919,6 @@ for(let i=0;i<(ten?10:1);i++){
 
         NG_owned.temari = true;
 
-      }else{
-
-        duplicateBonus +=
-          NG_duplicatePoint("月村手毬");
-
       }
 
       continue;
@@ -3937,11 +3932,6 @@ for(let i=0;i<(ten?10:1);i++){
 
         NG_owned.job = true;
 
-      }else{
-
-        duplicateBonus +=
-          NG_duplicatePoint("???");
-
       }
 
       continue;
@@ -3949,25 +3939,11 @@ for(let i=0;i<(ten?10:1);i++){
     }
 
 
-    if(NG_owned[result.id]){
-
-      duplicateBonus +=
-        NG_duplicatePoint(result.rarity);
-
-    }else{
+    if(NG_owned[result.id])
 
       NG_owned[result.id] = true;
 
     }
-
-  }
-
-
-  if(duplicateBonus > 0){
-
-    NG_setPoints(
-      NG_getPoints() + duplicateBonus
-    );
 
   }
 
@@ -4010,26 +3986,6 @@ for(let i=0;i<(ten?10:1);i++){
     );
 
   }
-
-
-  if(duplicateBonus > 0){
-
-    const resultBox =
-      document.getElementById("ngGachaResult");
-
-    if(resultBox){
-
-      resultBox.innerHTML += `
-        <div class="ng-result">
-          🔁 重複ボーナス
-          <b>+${duplicateBonus}P</b>
-        </div>
-      `;
-
-    }
-
-  }
-
 
   if(results.some(x=>x.id==="job")){
 
