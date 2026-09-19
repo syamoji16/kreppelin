@@ -4115,12 +4115,46 @@ async function NG_draw(ten=false, startIndex=0){
     if(result.id === "temari"){
       NG_showTemariOffer();
       await new Promise(resolve=>setTimeout(resolve,5000));
+
+      /* 10連中に月村手毬が出たら、その時点で10連を強制終了。
+         残り回数分（1回100P）を返却する。 */
+      if(ten && i < results.length - 1){
+        const refund = (results.length - i - 1) * 100;
+        NG_setPoints(NG_getPoints() + refund);
+        NG_showToast(
+          "🟪 月村手毬出現！",
+          "残り" + (results.length - i - 1) + "回分、" + refund + "P返却"
+        );
+        NG_updateGachaUI();
+        NG_save();
+        NG_renderCollection();
+        NG_busy = false;
+        return;
+      }
+
     }else if(result.id === "job"){
       NG_reveal(result);
       NG_particles(30);
       await new Promise(resolve=>setTimeout(resolve,300));
       NG_showJobOffer();
       await new Promise(resolve=>setTimeout(resolve,5000));
+
+      /* 10連中に内定が出たら、その時点で10連を強制終了。
+         残り回数分（1回100P）を返却する。 */
+      if(ten && i < results.length - 1){
+        const refund = (results.length - i - 1) * 100;
+        NG_setPoints(NG_getPoints() + refund);
+        NG_showToast(
+          "💼 内定出現！",
+          "残り" + (results.length - i - 1) + "回分、" + refund + "P返却"
+        );
+        NG_updateGachaUI();
+        NG_save();
+        NG_renderCollection();
+        NG_busy = false;
+        return;
+      }
+
     }else{
       NG_reveal(result);
       NG_particles(isHighRare ? 18 : 6);
