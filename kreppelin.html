@@ -3312,9 +3312,10 @@ function NG_renderCollection(){
     const card =
       document.createElement("div");
 
-    card.className =
-      "ng-card" +
-      (owned ? "" : " locked");
+card.className =
+  "ng-card " +
+  getNGRarityClass(item.rarity) +
+  (owned ? "" : " locked");
 
     let displayName =
       owned ? item.name : "？？？？";
