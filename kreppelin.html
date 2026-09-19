@@ -3876,6 +3876,72 @@ function NG_showJobOffer(){
 
 
 /* =========================
+   TEMARI SPECIAL REVEAL
+   ========================= */
+
+function NG_showTemariOffer(){
+
+  const overlay =
+    document.getElementById("ngJobOverlay");
+
+  const q =
+    document.getElementById("ngJobQ");
+
+  const card =
+    document.getElementById("ngJobCard");
+
+  const text =
+    document.getElementById("ngJobText");
+
+  if(!overlay || !q || !card || !text){
+    NG_reveal({
+      id:"temari",
+      rarity:"月村手毬",
+      quote:NG_lastTemariQuote
+    });
+    return;
+  }
+
+  overlay.style.display = "flex";
+
+  q.textContent = "月村手毬";
+  card.textContent = "🟪";
+  text.textContent = "";
+
+  NG_particles(30);
+
+  setTimeout(()=>{
+    q.textContent = "月村手毬";
+    card.textContent = "🟪";
+    NG_particles(40);
+  },700);
+
+  setTimeout(()=>{
+    text.textContent = "月村手毬";
+    NG_particles(60);
+  },1400);
+
+  setTimeout(()=>{
+    text.textContent =
+      NG_lastTemariQuote
+      ? "「" + NG_lastTemariQuote + "」"
+      : "月村手毬、獲得！";
+    NG_particles(100);
+  },2300);
+
+  setTimeout(()=>{
+    overlay.style.display = "none";
+    NG_reveal({
+      id:"temari",
+      rarity:"月村手毬",
+      quote:NG_lastTemariQuote
+    });
+  },5000);
+
+}
+
+
+/* =========================
    GACHA DRAW
    ========================= */
 
@@ -4621,16 +4687,29 @@ function NG_showDeveloperPanel(){
 
       NG_updateGachaUI();
       NG_renderCollection();
-      NG_reveal(result);
 
-      NG_particles(
-        result.rarity === "SECRET" ||
-        result.rarity === "快楽" ||
-        result.rarity === "月村手毬" ||
-        result.rarity === "???"
-        ? 18
-        : 6
-      );
+      /* 月村手毬は内定と同じ専用演出 */
+      if(result.id === "temari"){
+        NG_showTemariOffer();
+      }else if(result.id === "job"){
+        NG_reveal(result);
+
+        NG_particles(30);
+
+        setTimeout(
+          NG_showJobOffer,
+          300
+        );
+      }else{
+        NG_reveal(result);
+
+        NG_particles(
+          result.rarity === "SECRET" ||
+          result.rarity === "快楽"
+          ? 18
+          : 6
+        );
+      }
 
       NG_showToast(
         "🔥 DEV 高レアガチャ",
