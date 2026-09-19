@@ -3433,7 +3433,7 @@ function NG_renderCollection(){
       id:"job",
       rarity:NG_owned.job ? "企業" : "???",
       icon:"💼",
-      name:NG_owned.job ? "企業" : "内定",
+      name:"内定",
       source:"SPECIAL",
       effect:"専用内定演出"
     });
@@ -3881,7 +3881,7 @@ function NG_reveal(result){
   }else if(result.id === "job"){
 
     const jobRarity = NG_owned.job ? "企業" : "???";
-    const jobName = NG_owned.job ? "企業" : "内定";
+    const jobName = "内定";
 
     html = `
       <div class="ng-result">
