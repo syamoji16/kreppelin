@@ -3238,50 +3238,6 @@ document.body.appendChild(NG_collectionOverlay);
 
 
 /* =========================
-   TEMARI QUOTE COLLECTION OVERLAY
-   ========================= */
-
-const NG_temariCollectionOverlay = document.createElement("div");
-
-NG_temariCollectionOverlay.className = "ng-overlay";
-NG_temariCollectionOverlay.id = "ngTemariCollection";
-
-NG_temariCollectionOverlay.innerHTML = `
-<div class="ng-panel" style="max-width:520px;">
-
-  <div class="ng-title">🟪 月村手毬 セリフ図鑑</div>
-
-  <div id="ngTemariQuoteList"
-       style="max-height:60vh;overflow:auto;margin-top:12px;">
-  </div>
-
-  <br>
-
-  <button class="ng-close" id="ngTemariCollectionClose">
-    閉じる
-  </button>
-
-</div>
-`;
-
-document.body.appendChild(NG_temariCollectionOverlay);
-
-document
-  .getElementById("ngTemariCollectionClose")
-  .addEventListener("click",NG_closeTemariCollection);
-
-document
-  .getElementById("ngCollectionGrid")
-  ?.addEventListener("click",e=>{
-
-    if(e.target.closest("[data-ng-temari-open]")){
-      NG_openTemariCollection();
-    }
-
-  });
-
-
-/* =========================
    JOB OFFER OVERLAY
    ========================= */
 
@@ -3554,9 +3510,7 @@ card.className =
 
       ${
         item.id === "temari" && owned
-        ? `<button class="ng-equip" data-ng-temari-open="1">
-            📖 セリフ図鑑を開く
-          </button>`
+        ? `<button class="ng-equip" data-ng-temari-open="1">📖 セリフ図鑑</button>`
         : owned
         ?
         `<button class="ng-equip ${
@@ -3580,6 +3534,11 @@ card.className =
     currentRarityGrid.appendChild(card);
 
   }
+
+  grid.querySelectorAll("[data-ng-temari-open]")
+    .forEach(btn => {
+      btn.addEventListener("click",NG_openTemariCollection);
+    });
 
   grid.querySelectorAll("[data-ng-equip]")
     .forEach(btn => {
@@ -3605,6 +3564,100 @@ card.className =
 /* =========================
    TEMARI COLLECTION
    ========================= */
+
+function NG_openTemariCollection(){
+
+  NG_ensureTemariStorage();
+
+  let overlay =
+    document.getElementById("ngTemariCollection");
+
+  if(!overlay){
+
+    overlay = document.createElement("div");
+    overlay.className = "ng-overlay";
+    overlay.id = "ngTemariCollection";
+
+    overlay.innerHTML = \`
+      <div class="ng-panel" style="max-width:520px;">
+
+        <div class="ng-title">🟪 月村手毬 セリフ図鑑</div>
+
+        <div id="ngTemariQuoteList"
+             style="max-height:60vh;overflow:auto;margin-top:12px;">
+        </div>
+
+        <br>
+
+        <button class="ng-close" id="ngTemariCollectionClose">
+          閉じる
+        </button>
+
+      </div>
+    \`;
+
+    document.body.appendChild(overlay);
+
+    document
+      .getElementById("ngTemariCollectionClose")
+      .addEventListener(
+        "click",
+        NG_closeTemariCollection
+      );
+
+  }
+
+  const list =
+    document.getElementById("ngTemariQuoteList");
+
+  list.innerHTML = "";
+
+  NG_TEMARI_QUOTES.forEach((quote,index)=>{
+
+    const owned =
+      NG_owned.temariQuotes.includes(quote);
+
+    const row =
+      document.createElement("div");
+
+    row.style.padding = "12px 14px";
+    row.style.marginBottom = "8px";
+    row.style.borderRadius = "14px";
+    row.style.background =
+      owned
+      ? "rgba(52,74,82,.28)"
+      : "rgba(255,255,255,.05)";
+    row.style.border =
+      owned
+      ? "1px solid #344A52"
+      : "1px solid rgba(255,255,255,.1)";
+    row.style.fontWeight = "800";
+
+    row.textContent =
+      owned
+      ? \`\${index + 1}. 「\${quote}」\`
+      : \`\${index + 1}. 🔒 未獲得\`;
+
+    list.appendChild(row);
+
+  });
+
+  overlay.style.display = "flex";
+
+}
+
+function NG_closeTemariCollection(){
+
+  const overlay =
+    document.getElementById("ngTemariCollection");
+
+  if(overlay){
+    overlay.style.display = "none";
+  }
+
+}
+
+
 
 function NG_openTemariCollection(){
 
