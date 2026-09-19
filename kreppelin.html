@@ -2465,7 +2465,11 @@ const NG_TEMARI_QUOTES = [
 /* =========================
    STORAGE
    ========================= */
-
+if(localStorage.getItem("neuroKreppelinResetV1") !== "done"){
+  localStorage.setItem("neuroKreppelinPoints","0");
+  localStorage.setItem("neuroKreppelinResetV1","done");
+}
+  
 let NG_owned =
   JSON.parse(localStorage.getItem("neuroKreppelinGachaOwned") || "{}");
 
