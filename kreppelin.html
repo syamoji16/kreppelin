@@ -3864,16 +3864,16 @@ async function NG_draw(ten=false){
 
   NG_busy = true;
 
-  NG_setPoints(
-    NG_getPoints() - price
-  );
+const results = [];
 
-  const results = [];
+NG_setPoints(
+  NG_getPoints() - price
+);
 
-  for(let i=0;i<(ten?10:1);i++){
+for(let i=0;i<(ten?10:1);i++){
 
-    const forceLegend =
-      ten && i === 9;
+  const forceLegend =
+    ten && i === 9;
 
     const rarity =
       NG_randomRarity(forceLegend);
