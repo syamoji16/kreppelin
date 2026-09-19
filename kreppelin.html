@@ -2511,6 +2511,14 @@ if(localStorage.getItem("neuroKreppelinResetV1") !== "done"){
   localStorage.setItem("neuroKreppelinPoints","0");
   localStorage.setItem("neuroKreppelinResetV1","done");
 }
+
+/* 図鑑の所持状態を今回だけリセット */
+if(localStorage.getItem("neuroKreppelinCollectionResetV1") !== "done"){
+  localStorage.removeItem("neuroKreppelinGachaOwned");
+  localStorage.removeItem("neuroKreppelinGachaEquip");
+  localStorage.removeItem("neuroKreppelinTemariQuote");
+  localStorage.setItem("neuroKreppelinCollectionResetV1","done");
+}
   
 let NG_owned =
   JSON.parse(localStorage.getItem("neuroKreppelinGachaOwned") || "{}");
