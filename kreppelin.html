@@ -5217,6 +5217,9 @@ function NG_showDeveloperPanel(){
         );
       }else if(result.id === "pleasure"){
         NG_showPleasureOffer();
+      }else if(result.id === "god" || result.id === "god2"){
+        /* 高レアガチャでも社長・二人目の特殊演出を再生 */
+        NG_showGodOffer(result.id);
       }else{
         NG_reveal(result);
 
