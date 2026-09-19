@@ -878,7 +878,49 @@ body.master-mode .questionArea{
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:10px;
 }
-  
+
+/* =========================
+   DEVELOPER MODE
+   ========================= */
+
+.ng-dev-panel{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%);
+  z-index:99999;
+  width:min(320px,90%);
+  padding:16px;
+  border-radius:20px;
+  background:rgba(10,5,25,.96);
+  border:2px solid #ff00ff;
+  box-shadow:
+    0 0 15px #ff00ff,
+    0 0 40px rgba(0,255,255,.4);
+  text-align:center;
+}
+
+.ng-dev-title{
+  font-size:18px;
+  font-weight:1000;
+  color:#ff6cff;
+  margin-bottom:10px;
+}
+
+.ng-dev-button{
+  width:100%;
+  min-height:50px;
+  margin-top:8px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#ff00aa,#6a00ff);
+  border:2px solid #fff;
+  font-weight:1000;
+}
+
+.ng-dev-close{
+  background:#211a43;
+}  
+
 </style>
 </head>
 
@@ -4289,7 +4331,151 @@ if(typeof answer === "function"){
 
 }
 
+/* =========================
+   DEVELOPER MODE
+   ========================= */
 
+let NG_devMode = false;
+let NG_devTapCount = 0;
+let NG_devTapTimer = null;
+
+
+/* タイトル7回タップで起動 */
+
+const NG_title =
+  document.querySelector(".title");
+
+if(NG_title){
+
+  NG_title.addEventListener("click",()=>{
+
+    NG_devTapCount++;
+
+    clearTimeout(NG_devTapTimer);
+
+    NG_devTapTimer =
+      setTimeout(()=>{
+        NG_devTapCount = 0;
+      },2000);
+
+    if(NG_devTapCount >= 7){
+
+      NG_devTapCount = 0;
+
+      NG_devMode = true;
+
+      NG_showDeveloperPanel();
+
+    }
+
+  });
+
+}
+
+
+/* 開発者パネル */
+
+function NG_showDeveloperPanel(){
+
+  let old =
+    document.getElementById("ngDeveloperPanel");
+
+  if(old){
+    old.remove();
+  }
+
+  const panel =
+    document.createElement("div");
+
+  panel.id =
+    "ngDeveloperPanel";
+
+  panel.className =
+    "ng-dev-panel";
+
+  panel.innerHTML = `
+
+    <div class="ng-dev-title">
+      🛠 DEVELOPER MODE
+    </div>
+
+    <button
+      class="ng-dev-button"
+      id="ngDevAdd1000">
+      💰 +1000 P
+    </button>
+
+    <button
+      class="ng-dev-button"
+      id="ngDevAdd10000">
+      💰 +10000 P
+    </button>
+
+    <button
+      class="ng-dev-button ng-dev-close"
+      id="ngDevClose">
+      閉じる
+    </button>
+
+  `;
+
+  document.body.appendChild(panel);
+
+
+  /* +1000P */
+
+  document
+    .getElementById("ngDevAdd1000")
+    .addEventListener("click",()=>{
+
+      NG_setPoints(
+        NG_getPoints() + 1000
+      );
+
+      NG_updateGachaUI();
+
+      NG_showToast(
+        "🛠 DEV",
+        "+1000 P"
+      );
+
+    });
+
+
+  /* +10000P */
+
+  document
+    .getElementById("ngDevAdd10000")
+    .addEventListener("click",()=>{
+
+      NG_setPoints(
+        NG_getPoints() + 10000
+      );
+
+      NG_updateGachaUI();
+
+      NG_showToast(
+        "🛠 DEV",
+        "+10000 P"
+      );
+
+    });
+
+
+  /* 閉じる */
+
+  document
+    .getElementById("ngDevClose")
+    .addEventListener("click",()=>{
+
+      panel.remove();
+
+      NG_devMode = false;
+
+    });
+
+}
+  
 /* =========================
    INIT
    ========================= */
