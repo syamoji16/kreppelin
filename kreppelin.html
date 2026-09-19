@@ -2680,27 +2680,6 @@ function NG_pickItem(rarity){
 
 
 /* =========================
-   DUPLICATE BONUS
-   ========================= */
-
-function NG_duplicatePoint(rarity){
-
-  const bonus = {
-    NORMAL:20,
-    RARE:40,
-    EPIC:80,
-    LEGEND:150,
-    SECRET:300,
-    快楽:500,
-    月村手毬:400,
-    "???":1000
-  };
-
-  return bonus[rarity] || 20;
-}
-
-
-/* =========================
    POINT CONTROL
    ========================= */
 
@@ -3907,10 +3886,16 @@ async function NG_draw(ten=false){
   }
 
 
-  let duplicateBonus = 0;
+  let NG_drawCounts =
+  JSON.parse(
+    localStorage.getItem("neuroKreppelinDrawCounts") || "{}"
+  );
 
   for(const result of results){
 
+    NG_drawCounts[result.id] =
+　　  (NG_drawCounts[result.id] || 0) + 1;
+    
     NG_count++;
 
     if(result.id === "temari"){
