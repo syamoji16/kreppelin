@@ -3558,6 +3558,72 @@ card.className =
    TEMARI COLLECTION
    ========================= */
 
+function NG_openTemariCollection(){
+
+  NG_ensureTemariStorage();
+
+  const overlay =
+    document.getElementById("ngTemariCollection");
+
+  if(!overlay) return;
+
+  const list =
+    document.getElementById("ngTemariQuoteList");
+
+  if(!list) return;
+
+  list.innerHTML = "";
+
+  for(let i=0;i<NG_TEMARI_QUOTES.length;i++){
+
+    const owned =
+      NG_owned.temariQuotes.includes(
+        NG_TEMARI_QUOTES[i]
+      );
+
+    const row =
+      document.createElement("div");
+
+    row.style.padding = "12px 14px";
+    row.style.marginBottom = "8px";
+    row.style.borderRadius = "14px";
+    row.style.background =
+      owned
+      ? "rgba(52,74,82,.28)"
+      : "rgba(255,255,255,.05)";
+    row.style.border =
+      owned
+      ? "1px solid #344A52"
+      : "1px solid rgba(255,255,255,.1)";
+    row.style.fontWeight = "800";
+    row.textContent =
+      owned
+      ? \`\${i+1}. 「\${NG_TEMARI_QUOTES[i]}」\`
+      : \`\${i+1}. 🔒 未獲得\`;
+
+    list.appendChild(row);
+
+  }
+
+  overlay.style.display = "flex";
+
+}
+
+function NG_closeTemariCollection(){
+
+  const overlay =
+    document.getElementById("ngTemariCollection");
+
+  if(overlay){
+    overlay.style.display = "none";
+  }
+
+}
+
+/* =========================
+   TEMARI COLLECTION
+   ========================= */
+
 function NG_ensureTemariStorage(){
 
   if(!Array.isArray(NG_owned.temariQuotes)){
