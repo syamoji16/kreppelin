@@ -3744,7 +3744,7 @@ function NG_reveal(result){
     html = `
       <div class="ng-result">
         <div class="icon">🟪</div>
-        <div class="rarity">月村手毬 ★★★★★★★</div>
+        <div class="rarity ng-rarity-temari">月村手毬 ★★★★★★★</div>
         <div style="font-size:20px;font-weight:1000">
           月村手毬
         </div>
@@ -3759,7 +3759,7 @@ function NG_reveal(result){
     html = `
       <div class="ng-result">
         <div class="icon">💼</div>
-        <div class="rarity">???</div>
+        <div class="rarity ng-rarity-unknown">???</div>
         <div style="font-size:24px;font-weight:1000">
           内定
         </div>
@@ -3771,7 +3771,7 @@ function NG_reveal(result){
     html = `
       <div class="ng-result">
         <div class="icon">${result.icon}</div>
-        <div class="rarity">${result.rarity}</div>
+        <div class="rarity ${getNGRarityClass(result.rarity)}">${result.rarity}</div>
         <div style="font-size:19px;font-weight:1000">
           ${result.name}
         </div>
