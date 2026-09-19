@@ -793,6 +793,72 @@ body.master-mode .questionArea{
     grid-template-columns:1fr 1fr;
   }
 }
+/* =========================
+   RARITY COLORS
+========================= */
+
+.ng-rarity-normal {
+  color: inherit;
+}
+
+.ng-rarity-rare {
+  color: #2196F3;
+  text-shadow: 0 0 10px #2196F3;
+}
+
+.ng-rarity-epic {
+  color: #9C27B0;
+  text-shadow: 0 0 10px #9C27B0;
+}
+
+.ng-rarity-legend {
+  color: #FFD700;
+  text-shadow: 0 0 10px #FFD700;
+}
+
+.ng-rarity-secret {
+  color: #F44336;
+  text-shadow: 0 0 10px #F44336;
+}
+
+.ng-rarity-pleasure {
+  color: #000000;
+  text-shadow: 0 0 8px #ffffff;
+}
+
+.ng-rarity-temari {
+  color: #344A52;
+  text-shadow: 0 0 10px #344A52;
+}
+
+.ng-rarity-unknown {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff8c00,
+    #ffff00,
+    #00c853,
+    #00bfff,
+    #7c4dff,
+    #ff00aa,
+    #000000
+  );
+  background-size: 400% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: ngUnknownRainbow 2s linear infinite;
+}
+
+@keyframes ngUnknownRainbow {
+  from {
+    background-position: 0% 50%;
+  }
+
+  to {
+    background-position: 400% 50%;
+  }
+}
 </style>
 </head>
 
