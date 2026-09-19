@@ -3284,6 +3284,10 @@ function NG_renderCollection(){
 
   }
 
+  list.sort((a, b) => {
+  return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
+});
+  
   for(const item of list){
 
     const owned =
