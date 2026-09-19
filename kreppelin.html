@@ -3378,6 +3378,7 @@ function getNGRarityClass(rarity){
     SECRET:"ng-rarity-secret",
     "快楽":"ng-rarity-pleasure",
     "月村手毬":"ng-rarity-temari",
+    "企業":"ng-rarity-unknown",
     "???":"ng-rarity-unknown"
   };
 
@@ -3394,6 +3395,7 @@ function NG_renderCollection(){
     "SECRET",
     "快楽",
     "月村手毬",
+    "企業",
     "???"
   ];
 
@@ -3429,9 +3431,9 @@ function NG_renderCollection(){
 
     list.push({
       id:"job",
-      rarity:"???",
+      rarity:NG_owned.job ? "企業" : "???",
       icon:"💼",
-      name:"内定",
+      name:NG_owned.job ? "企業" : "内定",
       source:"SPECIAL",
       effect:"専用内定演出"
     });
@@ -3878,12 +3880,15 @@ function NG_reveal(result){
 
   }else if(result.id === "job"){
 
+    const jobRarity = NG_owned.job ? "企業" : "???";
+    const jobName = NG_owned.job ? "企業" : "内定";
+
     html = `
       <div class="ng-result">
         <div class="icon">💼</div>
-        <div class="rarity ng-rarity-unknown">???</div>
+        <div class="rarity ng-rarity-unknown">${jobRarity}</div>
         <div style="font-size:24px;font-weight:1000">
-          内定
+          ${jobName}
         </div>
       </div>
     `;
@@ -4096,6 +4101,7 @@ async function NG_draw(ten=false, startIndex=0){
       result.rarity === "SECRET" ||
       result.rarity === "快楽" ||
       result.rarity === "月村手毬" ||
+      result.rarity === "企業" ||
       result.rarity === "???";
 
     if(result.id === "temari"){
@@ -4701,9 +4707,9 @@ function NG_showDeveloperPanel(){
 
           pool.push({
             id:"job",
-            rarity:"???",
+            rarity:NG_owned.job ? "企業" : "???",
             icon:"💼",
-            name:"内定",
+            name:NG_owned.job ? "企業" : "内定",
             source:"SECRET",
             effect:"専用内定演出"
           });
