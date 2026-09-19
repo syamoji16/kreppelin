@@ -3518,7 +3518,7 @@ function NG_renderCollection(){
 
   const totalPossible =
     NG_GACHA_ITEMS.length +
-    2;
+    4;
 
   info.textContent =
     `収集：${NG_totalOwned()} / ${totalPossible}`;
@@ -3545,6 +3545,24 @@ function NG_renderCollection(){
       name:NG_owned.job ? "内定" : "???",
       source:"SPECIAL",
       effect:"専用内定演出"
+    });
+
+    list.push({
+      id:"god",
+      rarity:"GOD",
+      icon:"👑",
+      name:"GOD",
+      source:"SPECIAL",
+      effect:"超高確率演出"
+    });
+
+    list.push({
+      id:"god2",
+      rarity:"GOD2",
+      icon:"🌌",
+      name:"GOD2",
+      source:"SPECIAL",
+      effect:"超高確率演出"
     });
 
   }
@@ -4882,7 +4900,7 @@ function NG_showDeveloperPanel(){
        * SECRET / 快楽だけ。
        *
        * コンプ後は
-       * SECRET / 快楽 / 月村手毬 / ???
+       * SECRET / 快楽 / 月村手毬 / ??? / GOD / GOD2
        * が排出対象になる。
        */
       const allowedRarities = [
@@ -4894,7 +4912,9 @@ function NG_showDeveloperPanel(){
 
         allowedRarities.push(
           "月村手毬",
-          "???"
+          "???",
+          "GOD",
+          "GOD2"
         );
 
       }
