@@ -3023,6 +3023,28 @@ NG_style.textContent = `
       rgba(10,0,30,.98) 80%);
 }
 
+#ngJobOverlay.ng-temari-special{
+  background:
+    radial-gradient(circle at center,
+      rgba(255,255,255,.98) 0%,
+      rgba(52,74,82,.95) 18%,
+      rgba(52,74,82,.75) 45%,
+      rgba(10,0,30,.98) 80%);
+}
+
+#ngJobOverlay.ng-temari-special .ng-job{
+  text-shadow:
+    0 0 10px #fff,
+    0 0 30px #344A52,
+    0 0 60px #344A52;
+}
+
+#ngJobOverlay.ng-temari-special .ng-job-q,
+#ngJobOverlay.ng-temari-special .ng-job-card,
+#ngJobOverlay.ng-temari-special .ng-job-text{
+  color:#344A52;
+}
+
 .ng-job{
   text-align:center;
   color:#fff;
@@ -3906,6 +3928,7 @@ function NG_showJobOffer(){
   const text =
     document.getElementById("ngJobText");
 
+  overlay.classList.remove("ng-temari-special");
   overlay.style.display = "flex";
 
   q.textContent = "???";
@@ -3968,6 +3991,7 @@ function NG_showTemariOffer(){
     return;
   }
 
+  overlay.classList.add("ng-temari-special");
   overlay.style.display = "flex";
 
   q.textContent = "月村手毬";
