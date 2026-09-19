@@ -4412,6 +4412,12 @@ function NG_showDeveloperPanel(){
     </button>
 
     <button
+      class="ng-dev-button"
+      id="ngDevHighRare">
+      🔥 高レア限定ガチャ
+    </button>
+
+    <button
       class="ng-dev-button ng-dev-close"
       id="ngDevClose">
       閉じる
@@ -4461,6 +4467,171 @@ function NG_showDeveloperPanel(){
 
     });
 
+
+  /* 高レア限定ガチャ */
+
+  document
+    .getElementById("ngDevHighRare")
+    .addEventListener("click",async()=>{
+
+      const price = 100;
+
+      if(NG_getPoints() < price){
+
+        NG_showToast(
+          "🛠 DEV",
+          `${price}P必要です`
+        );
+
+        return;
+
+      }
+
+      /*
+       * 通常図鑑をコンプするまでは
+       * SECRET / 快楽だけ。
+       *
+       * コンプ後は
+       * SECRET / 快楽 / 月村手毬 / ???
+       * が排出対象になる。
+       */
+      const allowedRarities = [
+        "SECRET",
+        "快楽"
+      ];
+
+      if(NG_baseComplete()){
+
+        allowedRarities.push(
+          "月村手毬",
+          "???"
+        );
+
+      }
+
+      const pool = [];
+
+      for(const rarity of allowedRarities){
+
+        if(rarity === "月村手毬"){
+
+          pool.push({
+            id:"temari",
+            rarity:"月村手毬",
+            icon:"🟪",
+            name:"月村手毬",
+            source:"SPECIAL",
+            effect:"10種のセリフ",
+            quote:
+              NG_TEMARI_QUOTES[
+                Math.floor(
+                  Math.random() *
+                  NG_TEMARI_QUOTES.length
+                )
+              ]
+          });
+
+          continue;
+
+        }
+
+        if(rarity === "???"){
+
+          pool.push({
+            id:"job",
+            rarity:"???",
+            icon:"💼",
+            name:"内定",
+            source:"SECRET",
+            effect:"専用内定演出"
+          });
+
+          continue;
+
+        }
+
+        pool.push(
+          ...NG_GACHA_ITEMS.filter(
+            item => item.rarity === rarity
+          )
+        );
+
+      }
+
+      if(!pool.length) return;
+
+      NG_setPoints(
+        NG_getPoints() - price
+      );
+
+      const result =
+        pool[
+          Math.floor(
+            Math.random() * pool.length
+          )
+        ];
+
+      NG_drawCounts[result.id] =
+        (NG_drawCounts[result.id] || 0) + 1;
+
+      NG_count++;
+
+      if(result.id === "temari"){
+
+        NG_ensureTemariStorage();
+
+        NG_lastTemariQuote =
+          result.quote;
+
+        if(
+          !NG_owned.temariQuotes
+            .includes(result.quote)
+        ){
+
+          NG_owned.temariQuotes.push(
+            result.quote
+          );
+
+          NG_owned.temari = true;
+
+        }
+
+      }else if(result.id === "job"){
+
+        NG_owned.job = true;
+
+      }else{
+
+        NG_owned[result.id] = true;
+
+      }
+
+      NG_save();
+
+      localStorage.setItem(
+        "neuroKreppelinDrawCounts",
+        JSON.stringify(NG_drawCounts)
+      );
+
+      NG_updateGachaUI();
+      NG_renderCollection();
+      NG_reveal(result);
+
+      NG_particles(
+        result.rarity === "SECRET" ||
+        result.rarity === "快楽" ||
+        result.rarity === "月村手毬" ||
+        result.rarity === "???"
+        ? 18
+        : 6
+      );
+
+      NG_showToast(
+        "🔥 DEV 高レアガチャ",
+        result.name
+      );
+
+    });
 
   /* 閉じる */
 
