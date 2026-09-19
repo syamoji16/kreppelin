@@ -4418,6 +4418,12 @@ function NG_showDeveloperPanel(){
     </button>
 
     <button
+      class="ng-dev-button"
+      id="ngDevComplete">
+      📖 初期図鑑完成
+    </button>
+
+    <button
       class="ng-dev-button ng-dev-close"
       id="ngDevClose">
       閉じる
@@ -4632,6 +4638,29 @@ function NG_showDeveloperPanel(){
       );
 
     });
+
+  /* 初期図鑑完成 */
+
+  document
+    .getElementById("ngDevComplete")
+    .addEventListener("click",()=>{
+
+      for(const item of NG_GACHA_ITEMS){
+        NG_owned[item.id] = true;
+      }
+
+      NG_save();
+
+      NG_updateGachaUI();
+      NG_renderCollection();
+
+      NG_showToast(
+        "📖 DEV",
+        "初期図鑑コンプ！"
+      );
+
+    });
+
 
   /* 閉じる */
 
