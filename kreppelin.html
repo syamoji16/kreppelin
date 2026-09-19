@@ -2473,6 +2473,11 @@ if(localStorage.getItem("neuroKreppelinResetV1") !== "done"){
 let NG_owned =
   JSON.parse(localStorage.getItem("neuroKreppelinGachaOwned") || "{}");
 
+  let NG_drawCounts =
+  JSON.parse(
+    localStorage.getItem("neuroKreppelinDrawCounts") || "{}"
+  );
+  
 let NG_count =
   Number(localStorage.getItem("neuroKreppelinGachaCount") || 0);
 
@@ -3891,11 +3896,8 @@ for(let i=0;i<(ten?10:1);i++){
 
 
   let NG_drawCounts =
-  JSON.parse(
-    localStorage.getItem("neuroKreppelinDrawCounts") || "{}"
-  );
-
-  for(const result of results){
+    
+   for(const result of results){
 
     NG_drawCounts[result.id] =
       (NG_drawCounts[result.id] || 0) + 1;
