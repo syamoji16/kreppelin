@@ -4244,7 +4244,7 @@ function NG_showGodOffer(kind="god"){
   if(!overlay||!q||!card||!text)return;
   overlay.classList.remove("ng-temari-special","ng-pleasure-special");overlay.classList.add(kind==="god2"?"ng-god2-special":"ng-god-special");overlay.style.display="flex";
   NG_specialDopamineSound(kind);q.textContent=kind==="god2"?"超・奇跡降臨":"奇跡降臨";card.textContent=kind==="god2"?"🌌":"👑";text.textContent="";NG_particles(kind==="god2"?150:90);
-  setTimeout(()=>{q.textContent=kind==="god2"?"念願の":"社長";NG_particles(kind==="god2"?220:130)},700);
+  setTimeout(()=>{q.textContent=kind==="god2"?"ミートピアいつやるの？":"社長";NG_particles(kind==="god2"?220:130)},700);
   setTimeout(()=>{text.textContent=kind==="god2"?"二人目":"本当ならね😏😏";NG_particles(kind==="god2"?300:180)},1800);
   setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind==="god2"?"念願の":"社長",icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"二人目":"本当ならね😏😏",effect:"超高確率演出"});},5000);
 }
