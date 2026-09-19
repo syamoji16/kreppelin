@@ -2839,12 +2839,7 @@ const NG_DISCOUNTS = [
 ];
 
 function NG_gachaPrice(base){
-
-  return Math.max(
-    1,
-    Math.floor(base * (100-NG_discount) / 100)
-  );
-
+  return base;
 }
 
 
@@ -2990,6 +2985,28 @@ NG_style.textContent = `
   font-size:11px;
   font-weight:1000;
   opacity:.8;
+}
+
+.ng-ten-result{
+  margin:14px 0;
+  padding:14px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+}
+
+.ng-ten-result-title{
+  text-align:center;
+  font-size:22px;
+  font-weight:1000;
+  text-shadow:0 0 12px #ffd54f;
+}
+
+.ng-ten-result-sub{
+  text-align:center;
+  margin:4px 0 12px;
+  font-size:12px;
+  opacity:.7;
 }
 
 .ng-collection-info{
@@ -4376,6 +4393,39 @@ function NG_showGodOffer(kind="god"){
 }
 
 /* =========================
+   10-PULL RESULT
+   ========================= */
+
+function NG_showTenResult(results){
+
+  const box = document.getElementById("ngGachaResult");
+  if(!box) return;
+
+  box.innerHTML = `
+    <div class="ng-ten-result">
+      <div class="ng-ten-result-title">🎉 10連リザルト</div>
+      <div class="ng-ten-result-sub">${results.length}回分の結果</div>
+      <div class="ng-result-list">
+        ${results.map((result,i)=>`
+          <div class="ng-result">
+            <div style="font-size:12px;font-weight:1000;opacity:.65">#${i+1}</div>
+            <div class="icon">${result.icon}</div>
+            <div class="rarity">${result.rarity}</div>
+            <div style="font-weight:1000">${result.name}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  `;
+
+  box.scrollIntoView({
+    behavior:"smooth",
+    block:"nearest"
+  });
+}
+
+
+/* =========================
    GACHA DRAW
    ========================= */
 
@@ -4400,6 +4450,7 @@ async function NG_draw(ten=false, startIndex=0){
 
   NG_busy = true;
   const results = [];
+  const drawnResults = [];
 
   NG_setPoints(NG_getPoints() - price);
 
@@ -4412,6 +4463,8 @@ async function NG_draw(ten=false, startIndex=0){
   for(let i=startIndex;i<results.length;i++){
 
     const result = results[i];
+
+    drawnResults.push(result);
 
     NG_drawCounts[result.id] =
       (NG_drawCounts[result.id] || 0) + 1;
@@ -4462,6 +4515,7 @@ async function NG_draw(ten=false, startIndex=0){
         NG_save();
         NG_renderCollection();
         NG_busy = false;
+        NG_showTenResult(drawnResults);
         return;
       }
 
@@ -4485,6 +4539,7 @@ async function NG_draw(ten=false, startIndex=0){
         NG_save();
         NG_renderCollection();
         NG_busy = false;
+        NG_showTenResult(drawnResults);
         return;
       }
 
@@ -4502,6 +4557,7 @@ async function NG_draw(ten=false, startIndex=0){
 
       if(choice === "stop"){
         NG_busy = false;
+        NG_showTenResult(drawnResults);
         NG_save();
         NG_updateGachaUI();
         NG_renderCollection();
@@ -4511,6 +4567,11 @@ async function NG_draw(ten=false, startIndex=0){
   }
 
   NG_busy = false;
+
+  if(ten){
+    NG_showTenResult(drawnResults);
+  }
+
   NG_save();
   NG_updateGachaUI();
   NG_renderCollection();
@@ -4603,6 +4664,7 @@ function NG_highRareContinueChoice(done,total){
    ========================= */
 
 function NG_renderDiscountShop(){
+  return;
 
   const shopOverlay =
     document.getElementById("shopOverlay");
