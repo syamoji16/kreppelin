@@ -4972,6 +4972,21 @@ function NG_showDeveloperPanel(){
 
         }
 
+        if(rarity === "GOD" || rarity === "GOD2"){
+
+          pool.push({
+            id:rarity === "GOD2" ? "god2" : "god",
+            rarity:rarity === "GOD2" ? "念願の" : "社長",
+            icon:rarity === "GOD2" ? "🌌" : "👑",
+            name:rarity === "GOD2" ? "二人目" : "本当ならね😏😏",
+            source:"SPECIAL",
+            effect:"超高確率演出"
+          });
+
+          continue;
+
+        }
+
         pool.push(
           ...NG_GACHA_ITEMS.filter(
             item => item.rarity === rarity
