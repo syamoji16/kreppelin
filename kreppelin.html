@@ -3894,7 +3894,7 @@ for(let i=0;i<(ten?10:1);i++){
   for(const result of results){
 
     NG_drawCounts[result.id] =
-　　  (NG_drawCounts[result.id] || 0) + 1;
+      (NG_drawCounts[result.id] || 0) + 1;
     
     NG_count++;
 
@@ -3950,6 +3950,11 @@ for(let i=0;i<(ten?10:1);i++){
 
   NG_save();
 
+localStorage.setItem(
+  "neuroKreppelinDrawCounts",
+  JSON.stringity(NG_drawCounts)
+  );
+  
   NG_updateGachaUI();
 
   NG_renderCollection();
