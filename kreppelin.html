@@ -3230,6 +3230,22 @@ function NG_updateGachaUI(){
    COLLECTION RENDER
    ========================= */
 
+function getNGRarityClass(rarity){
+
+  const map = {
+    NORMAL:"ng-rarity-normal",
+    RARE:"ng-rarity-rare",
+    EPIC:"ng-rarity-epic",
+    LEGEND:"ng-rarity-legend",
+    SECRET:"ng-rarity-secret",
+    "快楽":"ng-rarity-pleasure",
+    "月村手毬":"ng-rarity-temari",
+    "???":"ng-rarity-unknown"
+  };
+
+  return map[rarity] || "ng-rarity-normal";
+}
+  
 function NG_renderCollection(){
 
     const rarityOrder = [
