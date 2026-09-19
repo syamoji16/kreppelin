@@ -3053,6 +3053,28 @@ NG_style.textContent = `
   color:#344A52;
 }
 
+#ngJobOverlay.ng-pleasure-special{
+  background:
+    radial-gradient(circle at center,
+      rgba(255,255,255,.98) 0%,
+      rgba(180,70,255,.95) 18%,
+      rgba(100,0,180,.82) 45%,
+      rgba(10,0,30,.98) 80%);
+}
+
+#ngJobOverlay.ng-pleasure-special .ng-job{
+  text-shadow:
+    0 0 10px #fff,
+    0 0 30px #b000ff,
+    0 0 60px #6a00ff;
+}
+
+#ngJobOverlay.ng-pleasure-special .ng-job-q,
+#ngJobOverlay.ng-pleasure-special .ng-job-card,
+#ngJobOverlay.ng-pleasure-special .ng-job-text{
+  color:#c66cff;
+}
+
 .ng-job{
   text-align:center;
   color:#fff;
@@ -3978,6 +4000,67 @@ function NG_showJobOffer(){
 
 
 /* =========================
+   ZETA SPECIAL REVEAL
+   ========================= */
+
+function NG_showPleasureOffer(){
+
+  const overlay = document.getElementById("ngJobOverlay");
+  const q = document.getElementById("ngJobQ");
+  const card = document.getElementById("ngJobCard");
+  const text = document.getElementById("ngJobText");
+
+  if(!overlay || !q || !card || !text){
+    NG_reveal({
+      id:"pleasure",
+      rarity:"快楽",
+      icon:"🟪",
+      name:"ZETA30分券",
+      effect:"快楽パープル演出"
+    });
+    return;
+  }
+
+  overlay.classList.remove("ng-temari-special");
+  overlay.classList.add("ng-pleasure-special");
+  overlay.style.display = "flex";
+
+  q.textContent = "快楽";
+  card.textContent = "🟪";
+  text.textContent = "";
+
+  NG_particles(35);
+
+  setTimeout(()=>{
+    q.textContent = "ZETA";
+    NG_particles(50);
+  },700);
+
+  setTimeout(()=>{
+    card.textContent = "🟪";
+    NG_particles(70);
+  },1400);
+
+  setTimeout(()=>{
+    text.textContent = "ZETA30分券";
+    NG_particles(100);
+  },2300);
+
+  setTimeout(()=>{
+    overlay.style.display = "none";
+    overlay.classList.remove("ng-pleasure-special");
+    NG_reveal({
+      id:"pleasure",
+      rarity:"快楽",
+      icon:"🟪",
+      name:"ZETA30分券",
+      effect:"快楽パープル演出"
+    });
+  },5000);
+}
+
+
+/* =========================
    TEMARI SPECIAL REVEAL
    ========================= */
 
@@ -4155,6 +4238,9 @@ async function NG_draw(ten=false, startIndex=0){
         return;
       }
 
+    }else if(result.id === "pleasure"){
+      NG_showPleasureOffer();
+      await new Promise(resolve=>setTimeout(resolve,5000));
     }else{
       NG_reveal(result);
       NG_particles(isHighRare ? 18 : 6);
