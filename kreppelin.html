@@ -4303,14 +4303,76 @@ function NG_showTemariOffer(){
 }
 
 
+let NG_godOfferRun = 0;
+
 function NG_showGodOffer(kind="god"){
-  const overlay=document.getElementById("ngJobOverlay"),q=document.getElementById("ngJobQ"),card=document.getElementById("ngJobCard"),text=document.getElementById("ngJobText");
-  if(!overlay||!q||!card||!text)return;
-  overlay.classList.remove("ng-temari-special","ng-pleasure-special");overlay.classList.add(kind==="god2"?"ng-god2-special":"ng-god-special");overlay.style.display="flex";
-  NG_specialDopamineSound(kind);q.textContent=kind==="god2"?"超・奇跡降臨":"奇跡降臨";card.textContent=kind==="god2"?"🌌":"👑";text.textContent="";NG_particles(kind==="god2"?150:90);
-  setTimeout(()=>{q.textContent=kind==="god2"?"二人目":"社長";NG_particles(kind==="god2"?220:130)},700);
-  setTimeout(()=>{text.textContent=kind==="god2"?"ミートピアいつやるの？":"本当ならね😏😏";NG_particles(kind==="god2"?300:180)},1800);
-  setTimeout(()=>{overlay.style.display="none";overlay.classList.remove("ng-god-special","ng-god2-special");NG_reveal({id:kind,rarity:kind==="god2"?"念願の":"社長",icon:kind==="god2"?"🌌":"👑",name:kind==="god2"?"二人目":"本当ならね😏😏",effect:"超高確率演出"});},5000);
+  const overlay=document.getElementById("ngJobOverlay");
+  const q=document.getElementById("ngJobQ");
+  const card=document.getElementById("ngJobCard");
+  const text=document.getElementById("ngJobText");
+
+  if(!overlay||!q||!card||!text){
+    NG_reveal({
+      id:kind,
+      rarity:kind==="god2"?"念願の":"社長",
+      icon:kind==="god2"?"🌌":"👑",
+      name:kind==="god2"?"二人目":"本当ならね😏😏",
+      effect:"超高確率演出"
+    });
+    return;
+  }
+
+  const run = ++NG_godOfferRun;
+
+  /* 開発者パネルより前面に出し、前の特殊演出の状態を完全に解除 */
+  overlay.style.zIndex = "200000";
+  overlay.classList.remove(
+    "ng-temari-special",
+    "ng-pleasure-special",
+    "ng-god-special",
+    "ng-god2-special"
+  );
+
+  /* アニメーションを毎回確実に最初から再生 */
+  overlay.style.display = "none";
+  void overlay.offsetWidth;
+  overlay.classList.add(
+    kind==="god2" ? "ng-god2-special" : "ng-god-special"
+  );
+  overlay.style.display = "flex";
+
+  NG_specialDopamineSound(kind);
+
+  q.textContent = kind==="god2" ? "超・奇跡降臨" : "奇跡降臨";
+  card.textContent = kind==="god2" ? "🌌" : "👑";
+  text.textContent = "";
+  NG_particles(kind==="god2" ? 150 : 90);
+
+  setTimeout(()=>{
+    if(run!==NG_godOfferRun)return;
+    q.textContent = kind==="god2" ? "二人目" : "社長";
+    NG_particles(kind==="god2" ? 220 : 130);
+  },700);
+
+  setTimeout(()=>{
+    if(run!==NG_godOfferRun)return;
+    text.textContent =
+      kind==="god2" ? "ミートピアいつやるの？" : "本当ならね😏😏";
+    NG_particles(kind==="god2" ? 300 : 180);
+  },1800);
+
+  setTimeout(()=>{
+    if(run!==NG_godOfferRun)return;
+    overlay.style.display = "none";
+    overlay.classList.remove("ng-god-special","ng-god2-special");
+    NG_reveal({
+      id:kind,
+      rarity:kind==="god2"?"念願の":"社長",
+      icon:kind==="god2"?"🌌":"👑",
+      name:kind==="god2"?"二人目":"本当ならね😏😏",
+      effect:"超高確率演出"
+    });
+  },5000);
 }
 
 /* =========================
