@@ -3939,12 +3939,11 @@ for(let i=0;i<(ten?10:1);i++){
     }
 
 
-    if(NG_owned[result.id])
+    if(!NG_owned[result.id]){
 
-      NG_owned[result.id] = true;
+  NG_owned[result.id] = true;
 
-    }
-
+}
   }
 
 
@@ -3952,7 +3951,7 @@ for(let i=0;i<(ten?10:1);i++){
 
 localStorage.setItem(
   "neuroKreppelinDrawCounts",
-  JSON.stringity(NG_drawCounts)
+  JSON.stringify(NG_drawCounts)
   );
   
   NG_updateGachaUI();
