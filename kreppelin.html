@@ -4026,7 +4026,7 @@ async function NG_draw(ten=false, startIndex=0){
   const price = NG_gachaPrice(base);
 
   if(NG_getPoints() < price){
-    NG_showToast("POINT不足",\`\${price}P必要です\`);
+    NG_showToast("POINT不足",`${price}P必要です`);
     return;
   }
 
@@ -4128,7 +4128,7 @@ function NG_highRareContinueChoice(done,total){
     box.style.justifyContent = "center";
     box.style.padding = "15px";
 
-    box.innerHTML = \`
+    box.innerHTML = `
       <div style="
         width:min(420px,100%);
         padding:22px;
@@ -4143,7 +4143,7 @@ function NG_highRareContinueChoice(done,total){
         </div>
 
         <div style="margin:10px 0 18px;opacity:.8;">
-          \${done} / \${total}個目まで開封
+          ${done} / ${total}個目まで開封
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
@@ -4170,7 +4170,7 @@ function NG_highRareContinueChoice(done,total){
           </button>
         </div>
       </div>
-    \`;
+    `;
 
     document.body.appendChild(box);
 
