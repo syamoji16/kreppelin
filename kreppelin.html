@@ -4556,6 +4556,14 @@ async function NG_draw(ten=false, startIndex=0){
       const choice = await NG_highRareContinueChoice(i + 1,results.length);
 
       if(choice === "stop"){
+        const refund = (results.length - i - 1) * 100;
+        if(refund > 0){
+          NG_setPoints(NG_getPoints() + refund);
+          NG_showToast(
+            "⏹️ 10連終了",
+            "残り" + (results.length - i - 1) + "回分、" + refund + "P返却"
+          );
+        }
         NG_busy = false;
         NG_showTenResult(drawnResults);
         NG_save();
