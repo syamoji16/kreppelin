@@ -3342,6 +3342,40 @@ NG_gachaOverlay.innerHTML = `
 
 document.body.appendChild(NG_gachaOverlay);
 
+/* =========================
+   HIGH RARE GACHA OVERLAY
+   ========================= */
+
+const NG_highRareOverlay = document.createElement("div");
+NG_highRareOverlay.className = "ng-overlay";
+NG_highRareOverlay.id = "ngHighRareOverlay";
+NG_highRareOverlay.innerHTML = `
+<div class="ng-panel">
+  <div class="ng-title">🔥 HIGH RARE GACHA</div>
+  <div class="ng-sub">開発者限定・高レアのみ排出</div>
+  <div class="ng-rate-box" id="ngHighRareRateBox"></div>
+  <div class="ng-gacha-actions">
+    <button class="ng-gacha-btn" id="ngHighRareDraw">
+      1回引く<br><small>100P</small>
+    </button>
+  </div>
+  <div id="ngHighRareResult"></div>
+  <button class="ng-close" id="ngHighRareClose">閉じる</button>
+</div>
+`;
+document.body.appendChild(NG_highRareOverlay);
+
+function NG_openHighRareGacha(){
+  const rate = document.getElementById("ngHighRareRateBox");
+  if(rate){
+    rate.innerHTML = NG_baseComplete()
+      ? "SECRET / 快楽 / 月村手毬 / 企業 / 社長 / 念願の"
+      : "SECRET / 快楽";
+  }
+  NG_highRareOverlay.style.display = "flex";
+}
+
+
 
 /* =========================
    COLLECTION OVERLAY
@@ -4940,9 +4974,7 @@ function NG_showDeveloperPanel(){
 
   /* 高レア限定ガチャ */
 
-  document
-    .getElementById("ngDevHighRare")
-    .addEventListener("click",async()=>{
+  async function NG_drawHighRare(){
 
       const price = 100;
 
@@ -5133,7 +5165,26 @@ function NG_showDeveloperPanel(){
         result.name
       );
 
+    })
+}
+
+  document
+    .getElementById("ngDevHighRare")
+    .addEventListener("click",()=>{
+      NG_openHighRareGacha();
     });
+
+  document
+    .getElementById("ngHighRareDraw")
+    .addEventListener("click",()=>{
+      NG_drawHighRare();
+    });
+
+  document
+    .getElementById("ngHighRareClose")
+    .addEventListener("click",()=>{
+      NG_highRareOverlay.style.display = "none";
+    });;
 
   /* 初期図鑑完成 */
 
